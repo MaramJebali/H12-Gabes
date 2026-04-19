@@ -1,0 +1,6 @@
+Species,Tissue,Site,Metal,Concentration_ug_per_g,SD,WHO_FAO_Status
+Patella_caerulea,whole_soft_body,Gabes,Cd,4.3,0.34,EXCEEDS
+Patella_caerulea,whole_soft_body,Gabes,Cr,2.171,0.139,No limit
+Pinctada_radiata,muscle,Gabes,Cd,1.065,0.086,EXCEEDS
+Pinctada_radiata,muscle,Gabes,Cr,1.605,0.286,No limit
+Pinctada_radiata,hepatopancreas,Gabes,Cd,1.295,0.173,EXCEEDS

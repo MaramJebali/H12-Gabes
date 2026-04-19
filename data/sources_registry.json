@@ -1,0 +1,202 @@
+{
+  "project": "OASIS AI - Smart Tourism Gabès",
+  "version": "1.0",
+  "generated_on": "2026-04-17",
+  "purpose": "Registre des sources utilisées pour construire la base de connaissances touristique et patrimoniale de Gabès.",
+  "reliability_scale": {
+    "0.95-1.00": "Source officielle / institutionnelle primaire",
+    "0.80-0.94": "Source officielle secondaire ou portail touristique institutionnel",
+    "0.60-0.79": "Source locale structurée / documentation projet / base interne à valider",
+    "below_0.60": "Source informative non prioritaire, à vérifier avant intégration"
+  },
+  "sources": [
+    {
+      "source_id": "SRC-UNESCO-GABES-OASIS",
+      "name": "UNESCO World Heritage Centre - Oasis de Gabès",
+      "type": "official_primary",
+      "url": "https://whc.unesco.org/en/tentativelists/5386/",
+      "topics": [
+        "patrimoine",
+        "oasis",
+        "valeur universelle potentielle",
+        "identité territoriale"
+      ],
+      "use_for": [
+        "statut patrimonial",
+        "description institutionnelle de l’oasis",
+        "positionnement différenciant de Gabès"
+      ],
+      "confidence": 0.98,
+      "last_checked": "2026-04-17",
+      "status": "approved"
+    },
+    {
+      "source_id": "SRC-UNESCO-MATMATA-TAMEZRET",
+      "name": "UNESCO World Heritage Centre - Habitat troglodytique et monde des ksour du Sud tunisien",
+      "type": "official_primary",
+      "url": "https://whc.unesco.org/en/tentativelists/6444/",
+      "topics": [
+        "Matmata",
+        "Tamezret",
+        "habitat troglodytique",
+        "patrimoine amazigh"
+      ],
+      "use_for": [
+        "ancrage patrimonial officiel",
+        "description du patrimoine troglodytique",
+        "valorisation culturelle régionale"
+      ],
+      "confidence": 0.98,
+      "last_checked": "2026-04-17",
+      "status": "approved"
+    },
+    {
+      "source_id": "SRC-ONTT-ANNUAL-2023",
+      "name": "Office National du Tourisme Tunisien - Rapport annuel 2023",
+      "type": "official_primary",
+      "url": "https://www.ontt.tn/sites/default/files/inline-files/RAPPORT%20ANNUEL%20ONTT%202023.pdf",
+      "topics": [
+        "tourisme tunisien",
+        "cadre institutionnel",
+        "offre touristique"
+      ],
+      "use_for": [
+        "contexte national tourisme",
+        "justification économique",
+        "positionnement du projet"
+      ],
+      "confidence": 0.96,
+      "last_checked": "2026-04-17",
+      "status": "approved"
+    },
+    {
+      "source_id": "SRC-ONTT-TOURISM-FIGURES-2023",
+      "name": "ONTT - Le tourisme tunisien en chiffres 2023",
+      "type": "official_primary",
+      "url": "https://www.ontt.tn/sites/default/files/inline-files/EXTRAIT%202023%20.pdf",
+      "topics": [
+        "indicateurs tourisme",
+        "arrivées",
+        "recettes"
+      ],
+      "use_for": [
+        "indicateurs économiques",
+        "argumentaire impact à court terme"
+      ],
+      "confidence": 0.96,
+      "last_checked": "2026-04-17",
+      "status": "approved"
+    },
+    {
+      "source_id": "SRC-ONTT-REGIONAL-CONTACT",
+      "name": "ONTT / Discover Tunisia - Commissariat régional du tourisme Gabès-Matmata",
+      "type": "official_secondary",
+      "url": "https://www.discovertunisia.com/en/contact/regional-commissariats-tourism",
+      "topics": [
+        "gouvernance touristique",
+        "contacts officiels",
+        "CRT Gabès-Matmata"
+      ],
+      "use_for": [
+        "ancrage territorial officiel",
+        "référencement institutionnel"
+      ],
+      "confidence": 0.9,
+      "last_checked": "2026-04-17",
+      "status": "approved"
+    },
+    {
+      "source_id": "SRC-DISCOVER-TUNISIA-GABES",
+      "name": "Discover Tunisia - Région de Gabès",
+      "type": "official_secondary",
+      "url": "https://www.discovertunisia.com/en/region/gabes",
+      "topics": [
+        "destination Gabès",
+        "acteurs touristiques",
+        "hébergement / services / agences"
+      ],
+      "use_for": [
+        "repérage services touristiques",
+        "complément services / hébergement / agences"
+      ],
+      "confidence": 0.88,
+      "last_checked": "2026-04-17",
+      "status": "approved_with_verification"
+    },
+    {
+      "source_id": "SRC-DISCOVER-GABES-MATMATA",
+      "name": "Discover Tunisia - From Gabes to Matmata",
+      "type": "official_secondary",
+      "url": "https://www.discovertunisia.com/en/discover/gabes-matmata",
+      "topics": [
+        "itinéraires",
+        "narration destination",
+        "attractivité régionale"
+      ],
+      "use_for": [
+        "storytelling",
+        "liaisons entre sites",
+        "construction de circuits"
+      ],
+      "confidence": 0.87,
+      "last_checked": "2026-04-17",
+      "status": "approved_with_verification"
+    },
+    {
+      "source_id": "SRC-LOCAL-GABES-DETAILS",
+      "name": "Base locale projet - gabes_details.json",
+      "type": "local_structured_internal",
+      "url": "local_file:/mnt/data/gabes_details.json",
+      "topics": [
+        "projets locaux",
+        "oasis",
+        "artisanat",
+        "écotourisme",
+        "biodiversité",
+        "emploi"
+      ],
+      "use_for": [
+        "RAG local",
+        "enrichissement patrimonial et territorial",
+        "liens entre tourisme et économie locale"
+      ],
+      "confidence": 0.78,
+      "last_checked": "2026-04-17",
+      "status": "approved_local"
+    },
+    {
+      "source_id": "SRC-LOCAL-GABES-BULLETS",
+      "name": "Base locale projet - gabes_bullet_points.json",
+      "type": "local_structured_internal",
+      "url": "local_file:/mnt/data/gabes_bullet_points.json",
+      "topics": [
+        "projets locaux",
+        "résultats chiffrés",
+        "infrastructures",
+        "thèmes territoriaux"
+      ],
+      "use_for": [
+        "RAG local",
+        "micro-preuves",
+        "contextualisation des recommandations"
+      ],
+      "confidence": 0.78,
+      "last_checked": "2026-04-17",
+      "status": "approved_local"
+    }
+  ],
+  "usage_policy": {
+    "heritage_master_json": [
+      "Utiliser en priorité les sources UNESCO et ONTT pour les données patrimoniales et de positionnement.",
+      "Utiliser les bases locales pour enrichir l'expérience, les projets, les activités et la valeur économique locale."
+    ],
+    "services_json": [
+      "Marquer les restaurants, hôtels et services avec un champ verification_status.",
+      "Ne pas considérer les données services comme définitivement stables sans revérification."
+    ],
+    "rag_system": [
+      "Prioriser les documents officiels et institutionnels.",
+      "Utiliser les sources locales comme contexte d'enrichissement et de grounding territorial."
+    ]
+  }
+}

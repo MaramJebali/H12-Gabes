@@ -1,0 +1,837 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OasisAI — Gabès Territoire Vivant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;500;600&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gb: #e8c97a;
+      --gp: #f5e9b8;
+      --gd: #7a5c1e;
+      --gx: #3d2a08;
+      --sand: #d4b483;
+      --sm: #a08860;
+      --sf: #5a4a2a;
+      --b1: rgba(200,165,60,0.2);
+      --b2: rgba(200,165,60,0.38);
+      --b3: rgba(200,165,60,0.6);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Cormorant Garamond', Georgia, serif; }
+
+    /* ═══════════════════════════
+       BACKGROUND HERO IMAGE
+    ═══════════════════════════ */
+    .bg {
+      position: fixed; inset: 0; z-index: 0;
+      background: url("{% static 'predictor/images/ETH-BIB-Chenenni,_Gabès,_Stausee-Spiegelung_mit_Kletterbuben-Dia_247-08260.tif.jpg' %}") center/cover no-repeat;
+    }
+    /* Strong dark veil so text is always readable */
+    .bg::after {
+      content: ''; position: absolute; inset: 0; z-index: 1;
+      background:
+        linear-gradient(180deg,
+          rgba(4,2,1,0.80) 0%,
+          rgba(4,2,1,0.50) 30%,
+          rgba(4,2,1,0.55) 65%,
+          rgba(4,2,1,0.88) 100%),
+        radial-gradient(ellipse 100% 80% at 50% 50%, rgba(4,2,1,0.25) 0%, rgba(4,2,1,0.6) 100%);
+    }
+
+    /* Animated oasis color scene — removes when you swap in real photo */
+    .bg-art {
+      position: absolute; inset: 0; z-index: 0;
+      overflow: hidden;
+    }
+    /* Simulate warm oasis light */
+    .bg-art::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 30% 30%, rgba(180,140,40,0.22) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 70% 60%, rgba(40,90,30,0.28) 0%, transparent 50%),
+        radial-gradient(ellipse 80% 50% at 50% 80%, rgba(20,50,15,0.35) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 60% at 15% 70%, rgba(100,70,10,0.2) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 40% at 85% 20%, rgba(180,120,20,0.15) 0%, transparent 50%);
+      animation: shift 20s ease-in-out infinite alternate;
+    }
+    @keyframes shift {
+      from { transform: scale(1) translate(0,0); }
+      to   { transform: scale(1.05) translate(-10px,10px); }
+    }
+    /* Palm silhouettes SVG pattern */
+    .bg-art::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 45%;
+      background:
+        radial-gradient(ellipse 100% 100% at 50% 100%, rgba(5,12,3,0.9) 0%, rgba(5,12,3,0.4) 50%, transparent 70%);
+    }
+
+    /* Grain */
+    .grain {
+      position: fixed; inset: 0; z-index: 2; pointer-events: none; opacity: 0.065;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* Floating light orbs */
+    .orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 1; filter: blur(70px); }
+    .o1 { width: 500px; height: 280px; top: -80px; left: 10%; background: rgba(180,130,15,0.14); animation: da 16s ease-in-out infinite; }
+    .o2 { width: 350px; height: 350px; bottom: 5%; right: -5%; background: rgba(40,90,20,0.12); animation: db 22s ease-in-out infinite; }
+    .o3 { width: 280px; height: 200px; top: 40%; left: -6%; background: rgba(130,90,10,0.1); animation: dc 18s ease-in-out infinite; }
+    @keyframes da { 0%,100%{transform:translate(0,0)} 50%{transform:translate(35px,20px)} }
+    @keyframes db { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-25px,-30px)} }
+    @keyframes dc { 0%,100%{transform:translate(0,0)} 50%{transform:translate(20px,28px)} }
+
+    /* ═══════════════════════════
+       LANDING VIEW
+    ═══════════════════════════ */
+    #landing {
+      position: fixed; inset: 0; z-index: 10;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    #landing.out {
+      opacity: 0;
+      transform: scale(1.04);
+      pointer-events: none;
+    }
+
+    /* Brand header on landing */
+    .land-brand {
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 68px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 4vw;
+      background: linear-gradient(180deg, rgba(5,3,1,0.8) 0%, transparent 100%);
+    }
+    .brand-wrap { display: flex; align-items: center; gap: 14px; }
+    .b-logo {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1px solid var(--b2);
+      background: radial-gradient(circle at 40% 40%, rgba(200,165,60,0.15), rgba(100,60,5,0.1));
+      display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;
+    }
+    .b-logo::before {
+      content: ''; position: absolute; inset: 0; border-radius: 50%;
+      background: conic-gradient(from 0deg, transparent 65%, rgba(200,165,60,0.4) 100%);
+      animation: spin 9s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .b-logo svg { position: relative; z-index: 1; }
+    .b-logo img { width: 100%; height: 100%; object-fit: cover; position: relative; z-index: 1; }
+    .b-name {
+      font-family: 'Cinzel Decorative', serif; font-size: 19px; font-weight: 700;
+      display: flex; align-items: baseline; gap: 1px;
+    }
+    .bo { color: var(--gp); text-shadow: 0 0 20px rgba(200,160,50,0.5); } .br { color: var(--gb); } .bai { color: var(--gold); font-size: 14px; margin-left: 2px; font-weight:600; }
+    .b-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px; color: var(--sand); letter-spacing: 0.15em; display: block; margin-top: 2px; text-shadow: 0 1px 8px rgba(0,0,0,0.8); }
+    .land-brand-right {
+      font-family: 'Cinzel', serif; font-size: 11px; font-weight: 500; letter-spacing: 0.3em;
+      color: rgba(200,165,60,0.7); text-transform: uppercase; text-shadow: 0 1px 10px rgba(0,0,0,0.8);
+    }
+
+    /* Hero title block */
+    .land-hero {
+      text-align: center; margin-bottom: 4vh;
+      animation: fu 1s 0.2s both;
+    }
+    .land-eyebrow {
+      font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.55em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 12px; text-shadow: 0 0 30px rgba(200,160,50,0.6);
+      display: flex; align-items: center; justify-content: center; gap: 16px;
+    }
+    .land-eyebrow::before, .land-eyebrow::after {
+      content: ''; width: 50px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+    }
+    .land-eyebrow::after { background: linear-gradient(270deg, transparent, var(--gold)); }
+    .land-h1 {
+      font-family: 'Cinzel Decorative', serif; font-weight: 400;
+      font-size: clamp(28px, 4.5vw, 58px); line-height: 1.1;
+      color: var(--gp);
+      text-shadow: 0 0 60px rgba(200,160,50,0.6), 0 0 120px rgba(200,160,50,0.25), 0 2px 40px rgba(0,0,0,0.95);
+      letter-spacing: 0.04em; margin-bottom: 12px;
+    }
+    .land-h1 em { font-style: normal; color: #fff8e8; text-shadow: 0 0 40px rgba(200,160,50,0.5); }
+    .land-sub {
+      font-size: clamp(14px, 1.3vw, 18px); font-style: italic; color: var(--gb);
+      text-shadow: 0 1px 30px rgba(0,0,0,0.95), 0 0 40px rgba(0,0,0,0.8);
+      letter-spacing: 0.1em;
+    }
+
+    /* ═══════════════════════════
+       3 FLOATING CARDS
+    ═══════════════════════════ */
+    .cards {
+      display: flex; gap: 2.5vw;
+      align-items: flex-start;
+      animation: fu 0.9s 0.5s both;
+    }
+
+    .card {
+      width: clamp(220px, 22vw, 300px);
+      position: relative; cursor: pointer;
+      transition: transform 0.4s cubic-bezier(.22,.68,0,1.2), box-shadow 0.4s;
+      animation: float 6s ease-in-out infinite;
+    }
+    .card:nth-child(1) { animation-delay: 0s; transform: translateY(0px); }
+    .card:nth-child(2) { animation-delay: -2s; transform: translateY(8px); }
+    .card:nth-child(3) { animation-delay: -4s; transform: translateY(-5px); }
+    @keyframes float {
+      0%,100% { transform: translateY(0px); }
+      50%      { transform: translateY(-12px); }
+    }
+    .card:hover { transform: translateY(-18px) scale(1.03) !important; animation-play-state: paused; }
+
+    .card-inner {
+      border: 1px solid var(--b1);
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(6,4,1,0.62);
+      backdrop-filter: blur(18px);
+      box-shadow:
+        0 30px 80px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(200,165,60,0.08),
+        inset 0 1px 0 rgba(200,165,60,0.12);
+      transition: border-color 0.4s, box-shadow 0.4s;
+    }
+    .card:hover .card-inner {
+      border-color: var(--b2);
+      box-shadow:
+        0 40px 100px rgba(0,0,0,0.7),
+        0 0 0 1px rgba(200,165,60,0.2),
+        0 0 40px rgba(180,130,20,0.12),
+        inset 0 1px 0 rgba(200,165,60,0.18);
+    }
+
+    /* Card image area */
+    .card-img {
+      height: 170px; position: relative; overflow: hidden;
+    }
+    /* Each card has a different color scene */
+    .card:nth-child(1) .card-img { background: linear-gradient(155deg, #0d1a0a 0%, #1a2a10 40%, #0a1206 100%); }
+    .card:nth-child(2) .card-img { background: linear-gradient(155deg, #1a1208 0%, #2a1c08 40%, #0f0c04 100%); }
+    .card:nth-child(3) .card-img { background: linear-gradient(155deg, #080d12 0%, #0a1520 40%, #050a10 100%); }
+
+    /* SVG illustration inside each card */
+    .card-img svg { width: 100%; height: 100%; }
+
+    .card-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(8,6,2,0.85) 100%);
+    }
+
+    /* Floating badge on image */
+    .card-badge {
+      position: absolute; top: 12px; left: 12px;
+      font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--gold); background: rgba(8,6,2,0.8);
+      border: 1px solid var(--b2); border-radius: 20px;
+      padding: 4px 12px; backdrop-filter: blur(8px);
+    }
+
+    /* Card number */
+    .card-num {
+      position: absolute; top: 12px; right: 14px;
+      font-family: 'Cinzel', serif; font-size: 22px; font-weight: 600;
+      color: rgba(200,165,60,0.12); line-height: 1;
+    }
+
+    /* Card body */
+    .card-body {
+      padding: 16px 18px 20px;
+    }
+    .card-icon {
+      width: 34px; height: 34px; border-radius: 7px;
+      border: 1px solid var(--b1);
+      background: rgba(180,130,30,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; margin-bottom: 10px;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .card:hover .card-icon { border-color: var(--b2); background: rgba(180,130,30,0.18); }
+    .card-title {
+      font-family: 'Cinzel', serif; font-size: clamp(12px, 1.15vw, 15px); font-weight: 500;
+      color: var(--gp); letter-spacing: 0.08em; margin-bottom: 6px;
+      text-shadow: 0 1px 20px rgba(0,0,0,0.95);
+    }
+    .card-divider {
+      width: 24px; height: 1px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      margin-bottom: 8px;
+      transition: width 0.4s;
+    }
+    .card:hover .card-divider { width: 44px; }
+    .card-desc {
+      font-size: clamp(11px, 0.95vw, 13px); line-height: 1.75;
+      color: var(--sand); font-style: italic;
+      text-shadow: 0 1px 16px rgba(0,0,0,0.95);
+    }
+    .card-cta {
+      margin-top: 14px; display: flex; align-items: center; gap: 8px;
+      font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); transition: color 0.3s;
+    }
+    .card:hover .card-cta { color: var(--gp); }
+    .cta-arr { display: inline-block; transition: transform 0.3s; }
+    .card:hover .cta-arr { transform: translateX(6px); }
+
+    /* Corner ornaments on card */
+    .c-tl, .c-br {
+      position: absolute; width: 14px; height: 14px; z-index: 2;
+      border-color: var(--gd); border-style: solid; opacity: 0.6;
+      transition: opacity 0.3s, border-color 0.3s;
+    }
+    .c-tl { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
+    .c-br { bottom: 8px; right: 8px; border-width: 0 1px 1px 0; }
+    .card:hover .c-tl, .card:hover .c-br { opacity: 1; border-color: var(--gold); }
+
+    /* Bottom tagline */
+    .land-footer {
+      position: absolute; bottom: 22px; left: 0; right: 0;
+      text-align: center;
+      font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.4em;
+      color: rgba(180,140,50,0.75); text-transform: uppercase; text-shadow: 0 1px 10px rgba(0,0,0,0.9); font-size: 10px; font-weight: 500;
+      animation: fu 1s 1s both;
+    }
+
+    /* ═══════════════════════════
+       MUSEUM VIEW (hidden initially)
+    ═══════════════════════════ */
+    #museum-view {
+      position: fixed; inset: 0; z-index: 20;
+      display: flex; flex-direction: column;
+      opacity: 0; pointer-events: none;
+      transform: scale(0.97);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    #museum-view.in {
+      opacity: 1; pointer-events: auto;
+      transform: scale(1);
+    }
+
+    /* Museum header */
+    .m-header {
+      height: 64px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 4vw;
+      background: linear-gradient(180deg, rgba(5,3,1,0.97) 0%, rgba(5,3,1,0.9) 100%);
+      border-bottom: 1px solid var(--b1);
+      backdrop-filter: blur(14px);
+      position: relative; z-index: 5;
+    }
+    .m-header::after {
+      content: ''; position: absolute; bottom: -1px; left: 6%; right: 6%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .m-brand { display: flex; align-items: center; gap: 14px; }
+    .m-brand-logo {
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 1px solid var(--b2);
+      background: radial-gradient(circle at 40% 40%, rgba(200,165,60,0.15), rgba(100,60,5,0.1));
+      display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;
+    }
+    .m-brand-logo::before {
+      content: ''; position: absolute; inset: 0; border-radius: 50%;
+      background: conic-gradient(from 0deg, transparent 65%, rgba(200,165,60,0.4) 100%);
+      animation: spin 9s linear infinite;
+    }
+    .m-brand-logo svg { position: relative; z-index: 1; }
+    .m-brand-logo img { width: 100%; height: 100%; object-fit: cover; position: relative; z-index: 1; }
+    .m-brand-name {
+      font-family: 'Cinzel Decorative', serif; font-size: 18px; font-weight: 700;
+      display: flex; align-items: baseline;
+    }
+    .mbo { color: var(--gb); } .mbr { color: var(--sand); } .mbai { color: var(--gold); font-size: 11px; margin-left: 2px; }
+    .m-brand-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px; color: var(--sand); letter-spacing: 0.15em; display: block; margin-top: 1px; }
+
+    .m-header-nav { display: flex; align-items: center; gap: 6px; }
+    .m-nav-link {
+      font-family: 'Cinzel', serif; font-size: 12px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
+      color: #7a6030; text-decoration: none; padding: 6px 16px;
+      border: 1px solid transparent; border-radius: 2px; transition: all 0.3s;
+    }
+    .m-nav-link:hover { color: var(--gb); border-color: var(--b1); background: rgba(180,130,30,0.06); }
+    .m-nav-link.active { color: var(--gold); border-color: var(--b2); background: rgba(180,130,30,0.09); }
+    .m-nsep { width: 1px; height: 18px; background: var(--b1); margin: 0 4px; }
+
+    /* Back button */
+    .btn-back {
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Cinzel', serif; font-size: 11px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--gold); background: none; border: 1px solid var(--b2); border-radius: 2px;
+      padding: 7px 16px; cursor: pointer; transition: all 0.3s;
+    }
+    .btn-back:hover { color: var(--gb); border-color: var(--b2); background: rgba(180,130,30,0.08); }
+    .btn-back-arr { display: inline-block; transition: transform 0.3s; }
+    .btn-back:hover .btn-back-arr { transform: translateX(-4px); }
+
+    /* Museum iframe area */
+    .m-iframe-wrap {
+      flex: 1; position: relative; overflow: hidden; min-height: 0;
+      background: #060402;
+    }
+    .m-iframe-wrap::before {
+      content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      background: repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(0,0,0,0.05) 4px, rgba(0,0,0,0.05) 5px);
+    }
+    .m-iframe-wrap::after {
+      content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+      background: radial-gradient(ellipse 115% 115% at 50% 50%, transparent 42%, rgba(4,3,1,0.75) 100%);
+    }
+    .vr-badge-m {
+      position: absolute; top: 14px; left: 50%; transform: translateX(-50%); z-index: 5;
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold);
+      background: rgba(8,5,2,0.78); border: 1px solid var(--b2); border-radius: 20px;
+      padding: 5px 18px; backdrop-filter: blur(10px);
+    }
+    .vr-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: blip 1.8s ease-in-out infinite; }
+    @keyframes blip { 0%,100%{opacity:0.3;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.2)} }
+    .m-corner { position: absolute; z-index: 4; width: 20px; height: 20px; border-color: var(--gd); border-style: solid; opacity: 0.7; }
+    .m-tl { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
+    .m-br { bottom: 10px; right: 10px; border-width: 0 1px 1px 0; }
+    .m-iframe-wrap iframe { width: 100%; height: 100%; border: none; display: block; position: relative; z-index: 1; }
+
+    /* Museum footer */
+    .m-footer {
+      height: 50px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 4vw;
+      background: linear-gradient(0deg, rgba(5,3,1,0.97) 0%, rgba(5,3,1,0.88) 100%);
+      border-top: 1px solid var(--b1);
+      position: relative;
+    }
+    .m-footer::before {
+      content: ''; position: absolute; top: -1px; left: 6%; right: 6%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .mf-brand { font-family: 'Cinzel', serif; font-size: 11px; font-weight: 500; letter-spacing: 0.25em; color: var(--gd); text-transform: uppercase; }
+    .mf-center { display: flex; align-items: center; gap: 10px; }
+    .mf-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gx); }
+    .mf-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px; font-weight: 400; color: var(--sm); letter-spacing: 0.08em; }
+    .mf-right { font-family: 'Cinzel', serif; font-size: 10px; font-weight: 500; letter-spacing: 0.2em; color: var(--gd); }
+
+    /* ═══════════════════════════
+       TRANSITION RIPPLE
+    ═══════════════════════════ */
+    .ripple-overlay {
+      position: fixed; inset: 0; z-index: 15;
+      background: radial-gradient(ellipse 0% 0% at 50% 50%, rgba(200,165,60,0.3) 0%, rgba(5,3,1,0.95) 100%);
+      opacity: 0; pointer-events: none;
+      transition: none;
+    }
+    .ripple-overlay.flash {
+      animation: rippleFade 0.8s ease-out forwards;
+    }
+    @keyframes rippleFade {
+      0%   { opacity: 0; background: radial-gradient(ellipse 0% 0% at var(--rx,50%) var(--ry,50%), rgba(200,165,60,0.5) 0%, rgba(5,3,1,0.0) 100%); }
+      30%  { opacity: 1; background: radial-gradient(ellipse 200% 200% at var(--rx,50%) var(--ry,50%), rgba(200,165,60,0.2) 0%, rgba(5,3,1,0.9) 60%); }
+      100% { opacity: 0; background: radial-gradient(ellipse 300% 300% at var(--rx,50%) var(--ry,50%), rgba(200,165,60,0.0) 0%, rgba(5,3,1,0.0) 100%); }
+    }
+
+    /* ═══════════════════════════
+       SHARED ANIMATIONS
+    ═══════════════════════════ */
+    @keyframes fu { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  </style>
+</head>
+<body>
+
+<!-- BG LAYERS -->
+<div class="bg">
+  <div class="bg-art"></div>
+</div>
+<div class="grain"></div>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div class="orb o3"></div>
+
+<!-- TRANSITION RIPPLE -->
+<div class="ripple-overlay" id="ripple"></div>
+
+<!-- ═══════════════════════════
+     LANDING PAGE
+═══════════════════════════ -->
+<div id="landing">
+
+  <!-- Top brand bar -->
+  <div class="land-brand">
+    <div class="brand-wrap">
+      <div class="b-logo">
+        <img src="{% static 'predictor/images/logo.png' %}" alt="OasisAI"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <svg style="display:none" width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="6.5" stroke="#c9a84c" stroke-width="0.8"/>
+          <circle cx="9" cy="9" r="2.5" fill="rgba(201,168,76,0.2)" stroke="#c9a84c" stroke-width="0.8"/>
+          <path d="M9 2.5V15.5M2.5 9H15.5" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/>
+        </svg>
+      </div>
+      <div>
+        <div class="b-name"><span class="bo">O</span><span class="br">asis</span><span class="bai">AI</span></div>
+        <span class="b-sub">Gabès · Territoire Vivant</span>
+      </div>
+    </div>
+    <div class="land-brand-right">33°53′N · 10°06′E</div>
+  </div>
+
+  <!-- Hero text -->
+  <div class="land-hero">
+    <div class="land-eyebrow">Plateforme IA · Gabès · Tunisie</div>
+    <h1 class="land-h1"><em>Gabès</em> — L'Oasis<br>Dorée de Tunisie</h1>
+    <p class="land-sub">Explorez, découvrez, analysez le territoire vivant de Gabès</p>
+  </div>
+
+  <!-- 3 FLOATING CARDS -->
+  <div class="cards">
+
+    <!-- Card 1: Musée -->
+    <div class="card" onclick="openMuseum(event)">
+      <div class="c-tl"></div>
+      <div class="c-br"></div>
+      <div class="card-inner">
+        <div class="card-img">
+          <!-- Museum illustration -->
+          <svg viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <radialGradient id="g1" cx="50%" cy="60%" r="60%">
+                <stop offset="0%" stop-color="#1a3a12" stop-opacity="0.8"/>
+                <stop offset="100%" stop-color="#040805" stop-opacity="1"/>
+              </radialGradient>
+              <radialGradient id="gl1" cx="50%" cy="40%" r="50%">
+                <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.25"/>
+                <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="300" height="170" fill="url(#g1)"/>
+            <ellipse cx="150" cy="60" rx="80" ry="40" fill="url(#gl1)"/>
+            <!-- Arch doorway -->
+            <rect x="120" y="80" width="60" height="70" rx="30" ry="30" fill="rgba(200,160,50,0.05)" stroke="rgba(200,160,50,0.3)" stroke-width="1"/>
+            <rect x="130" y="100" width="40" height="50" fill="rgba(200,160,50,0.04)" stroke="rgba(200,160,50,0.2)" stroke-width="0.8"/>
+            <!-- Steps -->
+            <rect x="100" y="148" width="100" height="5" rx="1" fill="rgba(200,160,50,0.12)"/>
+            <rect x="110" y="143" width="80" height="5" rx="1" fill="rgba(200,160,50,0.09)"/>
+            <!-- Stars -->
+            <circle cx="60" cy="25" r="1" fill="rgba(200,160,50,0.5)"/>
+            <circle cx="100" cy="15" r="1.2" fill="rgba(200,160,50,0.6)"/>
+            <circle cx="200" cy="20" r="0.8" fill="rgba(200,160,50,0.4)"/>
+            <circle cx="240" cy="35" r="1.1" fill="rgba(200,160,50,0.5)"/>
+            <circle cx="270" cy="12" r="0.9" fill="rgba(200,160,50,0.35)"/>
+            <!-- Gold line -->
+            <line x1="0" y1="170" x2="300" y2="170" stroke="rgba(200,160,50,0.15)" stroke-width="1"/>
+          </svg>
+          <div class="card-img-overlay"></div>
+          <div class="card-badge">Service 01</div>
+          <div class="card-num">01</div>
+        </div>
+        <div class="card-body">
+          <div class="card-icon">🏛️</div>
+          <div class="card-title">Musée Virtuel</div>
+          <div class="card-divider"></div>
+          <p class="card-desc">Explorez Gabès en immersion 3D à travers notre musée virtuel Artsteps. Une expérience VR unique du patrimoine gabésien.</p>
+          <div class="card-cta">Entrer dans le musée <span class="cta-arr">→</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Parcours -->
+    <div class="card" onclick="window.location.href='{% url 'tourism_home' %}'" style="margin-top: 30px;">
+      <div class="c-tl"></div>
+      <div class="c-br"></div>
+      <div class="card-inner">
+        <div class="card-img">
+          <svg viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <radialGradient id="g2" cx="40%" cy="50%" r="65%">
+                <stop offset="0%" stop-color="#2a1c08" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#060401" stop-opacity="1"/>
+              </radialGradient>
+              <radialGradient id="gl2" cx="40%" cy="50%" r="55%">
+                <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.2"/>
+                <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="300" height="170" fill="url(#g2)"/>
+            <ellipse cx="120" cy="85" rx="70" ry="50" fill="url(#gl2)"/>
+            <!-- Map path -->
+            <path d="M50,130 Q80,80 120,90 Q160,100 190,60 Q220,30 260,50" fill="none" stroke="rgba(200,160,50,0.4)" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <!-- Location pins -->
+            <circle cx="50" cy="130" r="4" fill="rgba(200,160,50,0.6)" stroke="rgba(200,160,50,0.9)" stroke-width="0.8"/>
+            <circle cx="120" cy="90" r="4" fill="rgba(200,160,50,0.4)" stroke="rgba(200,160,50,0.7)" stroke-width="0.8"/>
+            <circle cx="190" cy="60" r="4" fill="rgba(200,160,50,0.4)" stroke="rgba(200,160,50,0.7)" stroke-width="0.8"/>
+            <circle cx="260" cy="50" r="4" fill="rgba(200,160,50,0.6)" stroke="rgba(200,160,50,0.9)" stroke-width="0.8"/>
+            <!-- Pin lines -->
+            <line x1="50" y1="130" x2="50" y2="115" stroke="rgba(200,160,50,0.5)" stroke-width="1"/>
+            <line x1="260" y1="50" x2="260" y2="35" stroke="rgba(200,160,50,0.5)" stroke-width="1"/>
+            <!-- Grid -->
+            <line x1="0" y1="85" x2="300" y2="85" stroke="rgba(200,160,50,0.05)" stroke-width="0.8"/>
+            <line x1="150" y1="0" x2="150" y2="170" stroke="rgba(200,160,50,0.05)" stroke-width="0.8"/>
+            <line x1="0" y1="170" x2="300" y2="170" stroke="rgba(200,160,50,0.15)" stroke-width="1"/>
+          </svg>
+          <div class="card-img-overlay"></div>
+          <div class="card-badge">Service 02</div>
+          <div class="card-num">02</div>
+        </div>
+        <div class="card-body">
+          <div class="card-icon">🧭</div>
+          <div class="card-title">Parcours Personnalisé</div>
+          <div class="card-divider"></div>
+          <p class="card-desc">Définissez vos préférences et laissez l'IA composer votre itinéraire sur mesure à travers Gabès. Guides locaux disponibles.</p>
+          <div class="card-cta">Préparer mon parcours <span class="cta-arr">→</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Environnement -->
+    <div class="card" onclick="window.location.href='{% url 'home' %}'">
+      <div class="c-tl"></div>
+      <div class="c-br"></div>
+      <div class="card-inner">
+        <div class="card-img">
+          <svg viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <radialGradient id="g3" cx="60%" cy="40%" r="65%">
+                <stop offset="0%" stop-color="#081a0a" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#030804" stop-opacity="1"/>
+              </radialGradient>
+              <radialGradient id="gl3" cx="60%" cy="40%" r="55%">
+                <stop offset="0%" stop-color="#4a9a30,0.3" stop-opacity="0.2"/>
+                <stop offset="100%" stop-color="#4a9a30" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="300" height="170" fill="url(#g3)"/>
+            <!-- Data wave -->
+            <path d="M0,120 Q30,100 60,110 Q90,120 120,95 Q150,70 180,85 Q210,100 240,80 Q270,60 300,70" fill="none" stroke="rgba(80,180,80,0.4)" stroke-width="1.5"/>
+            <path d="M0,130 Q40,115 80,125 Q120,135 160,110 Q200,85 250,100 Q275,108 300,95" fill="none" stroke="rgba(200,160,50,0.25)" stroke-width="1"/>
+            <!-- Data points -->
+            <circle cx="120" cy="95" r="3" fill="rgba(80,180,80,0.7)" stroke="rgba(80,180,80,0.9)" stroke-width="0.8"/>
+            <circle cx="240" cy="80" r="3" fill="rgba(200,160,50,0.7)" stroke="rgba(200,160,50,0.9)" stroke-width="0.8"/>
+            <!-- Temp indicator -->
+            <rect x="230" y="30" width="40" height="18" rx="3" fill="rgba(200,160,50,0.08)" stroke="rgba(200,160,50,0.3)" stroke-width="0.8"/>
+            <text x="250" y="43" font-family="monospace" font-size="8" fill="rgba(200,160,50,0.7)" text-anchor="middle">16.7°C</text>
+            <!-- Humidity -->
+            <rect x="30" y="30" width="40" height="18" rx="3" fill="rgba(80,180,80,0.08)" stroke="rgba(80,180,80,0.3)" stroke-width="0.8"/>
+            <text x="50" y="43" font-family="monospace" font-size="8" fill="rgba(80,180,80,0.7)" text-anchor="middle">0.258</text>
+            <!-- Grid -->
+            <line x1="0" y1="170" x2="300" y2="170" stroke="rgba(80,180,80,0.1)" stroke-width="1"/>
+          </svg>
+          <div class="card-img-overlay"></div>
+          <div class="card-badge">Service 03</div>
+          <div class="card-num">03</div>
+        </div>
+        <div class="card-body">
+          <div class="card-icon">🌿</div>
+          <div class="card-title">Lecture Environnementale</div>
+          <div class="card-divider"></div>
+          <p class="card-desc">Analysez la santé de votre oasis par vision par ordinateur et ML. Prévisions climatiques avec recommandations LLM et projets locaux.</p>
+          <div class="card-cta">Lancer une analyse <span class="cta-arr">→</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /cards -->
+
+  <div class="land-footer">OasisAI · Gabès Cultural &amp; Environmental Platform · 2025</div>
+</div>
+
+<!-- ═══════════════════════════
+     MUSEUM VIEW
+═══════════════════════════ -->
+<div id="museum-view">
+
+  <div class="m-header">
+    <div class="m-brand">
+      <div class="m-brand-logo">
+        <img src="{% static 'predictor/images/logo.png' %}" alt="OasisAI"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <svg style="display:none" width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="6.5" stroke="#c9a84c" stroke-width="0.8"/>
+          <circle cx="9" cy="9" r="2.5" fill="rgba(201,168,76,0.2)" stroke="#c9a84c" stroke-width="0.8"/>
+          <path d="M9 2.5V15.5M2.5 9H15.5" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/>
+        </svg>
+      </div>
+      <div>
+        <div class="m-brand-name"><span class="mbo">O</span><span class="mbr">asis</span><span class="mbai">AI</span></div>
+        <span class="m-brand-sub">Gabès · Musée Virtuel</span>
+      </div>
+    </div>
+
+    <div class="m-header-nav">
+      <a href="{% url 'landing_page' %}" class="m-nav-link active">Musée</a>
+      <div class="m-nsep"></div>
+      <a href="{% url 'tourism_home' %}" class="m-nav-link">Parcours</a>
+      <div class="m-nsep"></div>
+      <a href="{% url 'home' %}" class="m-nav-link">Environnement</a>
+    </div>
+
+    <button class="btn-back" onclick="closeMuseum()">
+      <span class="btn-back-arr">←</span> Retour à l'accueil
+    </button>
+  </div>
+
+  <div class="m-iframe-wrap">
+    <div class="vr-badge-m"><div class="vr-dot"></div>Musée Virtuel Immersif — Artsteps</div>
+    <div class="m-corner m-tl"></div>
+    <div class="m-corner m-br"></div>
+    <iframe
+      id="museum-iframe"
+      src="about:blank"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <div class="m-footer">
+    <span class="mf-brand">OasisAI · Gabès Cultural &amp; Environmental Platform</span>
+    <div class="mf-center">
+      <div class="mf-dot"></div>
+      <span class="mf-text">Territoire vivant, mémoire dorée</span>
+      <div class="mf-dot"></div>
+    </div>
+    <span class="mf-right">© 2025 — Tous droits réservés</span>
+  </div>
+
+</div>
+
+<script>
+  const MUSEUM_URL = 'https://www.artsteps.com/embed/69e29530a08fca1ce14f25db/560/31';
+  const landing = document.getElementById('landing');
+  const museumView = document.getElementById('museum-view');
+  const museumIframe = document.getElementById('museum-iframe');
+  const ripple = document.getElementById('ripple');
+
+  function openMuseum(e) {
+    // Position ripple from click point
+    const rx = (e.clientX / window.innerWidth * 100).toFixed(1) + '%';
+    const ry = (e.clientY / window.innerHeight * 100).toFixed(1) + '%';
+    ripple.style.setProperty('--rx', rx);
+    ripple.style.setProperty('--ry', ry);
+
+    // Trigger ripple flash
+    ripple.classList.remove('flash');
+    void ripple.offsetWidth; // reflow
+    ripple.classList.add('flash');
+
+    // Fade out landing
+    landing.classList.add('out');
+
+    // Load iframe & show museum after short delay
+    setTimeout(() => {
+      museumIframe.src = MUSEUM_URL;
+      museumView.classList.add('in');
+    }, 400);
+  }
+
+  function closeMuseum() {
+    // Fade museum out
+    museumView.classList.remove('in');
+
+    // Brief delay then fade landing back
+    setTimeout(() => {
+      landing.classList.remove('out');
+      // Optionally unload iframe to stop audio/video
+      // museumIframe.src = 'about:blank';
+    }, 300);
+  }
+</script>
+
+</body>
+</html>
+
+
+  <script>
+    window.onload = function () {
+      // Vérifier la disponibilité de la reconnaissance vocale
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        document.getElementById("output").innerText = "Votre navigateur ne supporte pas la reconnaissance vocale.";
+        return;
+      }
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US'; // Langue initiale (anglais)
+
+      // Dès qu'un résultat est obtenu de la reconnaissance vocale
+      recognition.onresult = function (event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById("output").innerText = `Texte capturé : "${transcript}"`;
+
+        // Détecter la langue du texte transcrit
+        detectLanguage(transcript);
+      };
+
+      // Dès que la page est chargée, démarrer la reconnaissance vocale
+      recognition.start();
+    };
+
+    // Fonction de détection de la langue
+    function detectLanguage(text) {
+      fetch("http://127.0.0.1:5000/detect_language", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: text })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.language) {
+            // Traduire le texte dans la langue détectée
+            translatePage(data.language);
+          }
+        })
+        .catch(error => console.error("Erreur lors de la détection de la langue :", error));
+    }
+
+
+    function translatePage(language) {
+  // Trouver tous les éléments contenant du texte à traduire
+  const elementsToTranslate = document.querySelectorAll('h1, h2, h3, p, span, a, li, button, .sitename');
+
+  // Créer un tableau pour les traductions
+  let translations = [];
+
+  // Récupérer le texte de chaque élément à traduire
+  elementsToTranslate.forEach(element => {
+    const textNodes = getTextNodes(element); // Extraire les nœuds de texte
+    textNodes.forEach(node => {
+      translations.push({ node, text: node.nodeValue });
+    });
+  });
+
+  // Traduire tout le texte de la page
+  translations.forEach(({ node, text }) => {
+    fetch("http://127.0.0.1:5000/translate_text", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: text, language: language })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.translated_text) {
+          // Mettre à jour le texte du nœud sans toucher aux balises HTML
+          node.nodeValue = data.translated_text;
+        }
+      })
+      .catch(error => console.error("Erreur lors de la traduction de l'élément :", error));
+  });
+}
+
+    // Fonction pour obtenir tous les nœuds de texte d'un élément
+    function getTextNodes(element) {
+    let textNodes = [];
+    for (let node of element.childNodes) {
+        if (node.nodeType === Node.TEXT_NODE) {
+        textNodes.push(node);
+        }
+    }
+    return textNodes;
+    }
+
+
+</script>

@@ -1,0 +1,9 @@
+Site,Mean_ERS,Max_ERS,ERS_Variability,Max_Concentration,Priority,Management_Zone
+Louata,2.74,3.6,0.83,0.68,PRIORITY 3 - MONITORING,YELLOW ZONE - Caution / Regular monitoring
+Mahres,2.52,2.52,,0.39,PRIORITY 3 - MONITORING,YELLOW ZONE - Caution / Regular monitoring
+Gabes,2.34,3.6,0.72,4.3,PRIORITY 3 - MONITORING,YELLOW ZONE - Caution / Regular monitoring
+Djerba_Island,2.15,4.0,0.83,3.0,PRIORITY 3 - MONITORING,YELLOW ZONE - Caution / Regular monitoring
+Zarzis,1.5,2.1,0.85,2.07,PRIORITY 4 - REFERENCE SITE,GREEN ZONE - Safe / Reference site
+Elbibane_lagoon,1.33,2.0,0.45,0.86,PRIORITY 4 - REFERENCE SITE,GREEN ZONE - Safe / Reference site
+Kerkennah_Island,1.25,1.8,0.78,0.34,PRIORITY 4 - REFERENCE SITE,GREEN ZONE - Safe / Reference site
+Chebba,1.11,2.0,0.58,1.12,PRIORITY 4 - REFERENCE SITE,GREEN ZONE - Safe / Reference site

@@ -1,0 +1,996 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>OasisAI — Environmental Intelligence Dashboard</title>
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;500;600;700;800;900&family=Cinzel+Decorative:wght@400;700&family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gb: #e8c97a;
+      --gp: #f5e9b8;
+      --gd: #7a5c1e;
+      --gx: #3d2a08;
+      --sand: #d4b483;
+      --sm: #a08860;
+      --sf: #5a4a2a;
+      --green: rgba(80,200,100,1);
+      --green-dim: rgba(80,200,100,0.18);
+      --blue: rgba(80,150,255,1);
+      --blue-dim: rgba(80,150,255,0.18);
+      --blue-border: rgba(80,150,255,0.45);
+      --gold-border: rgba(200,165,60,0.45);
+      --gold-dim: rgba(200,165,60,0.15);
+      --card-bg: rgba(22,19,14,0.92);
+      --card-border: rgba(255,255,245,0.13);
+      --text-main: rgba(255,255,245,0.92);
+      --text-muted: rgba(255,255,245,0.55);
+      --text-dim: rgba(255,255,245,0.35);
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', Georgia, serif;
+      background: #0d0a06;
+    }
+
+    /* Background layers */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: -2;
+      background:
+        radial-gradient(ellipse 130% 70% at 20% 10%, rgba(80,150,255,0.10) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 80% at 80% 90%, rgba(200,165,60,0.07) 0%, transparent 55%),
+        linear-gradient(160deg, #100e0a 0%, #1a1610 50%, #0d0b08 100%);
+    }
+
+    .orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: -1; filter: blur(90px); }
+    .orb1 { width: 500px; height: 500px; top: -180px; right: -120px; background: rgba(80,150,255,0.13); animation: floatA 22s ease-in-out infinite; }
+    .orb2 { width: 400px; height: 400px; bottom: -130px; left: -100px; background: rgba(200,165,60,0.09); animation: floatB 19s ease-in-out infinite; }
+    .orb3 { width: 320px; height: 320px; top: 35%; left: 30%; background: rgba(80,200,100,0.06); animation: floatC 25s ease-in-out infinite; }
+    @keyframes floatA { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-25px,35px); } }
+    @keyframes floatB { 0%,100% { transform: translate(0,0); } 50% { transform: translate(30px,-25px); } }
+    @keyframes floatC { 0%,100% { transform: scale(1); } 50% { transform: scale(1.12) translate(-15px,-20px); } }
+
+    /* HEADER */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 64px;
+      display: flex; align-items: center; justify-content: space-between; padding: 0 2.5rem;
+      background: linear-gradient(180deg, rgba(14,12,9,0.99), rgba(14,12,9,0.94));
+      border-bottom: 1px solid rgba(255,255,245,0.09);
+      backdrop-filter: blur(24px);
+    }
+    header::after {
+      content: ''; position: absolute; bottom: -1px; left: 6%; right: 6%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .b-logo {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1px solid rgba(80,150,255,0.45);
+      background: radial-gradient(circle at 40% 40%, rgba(80,150,255,0.18), rgba(200,165,60,0.08));
+      display: flex; align-items: center; justify-content: center; position: relative;
+    }
+    .b-logo::before {
+      content: ''; position: absolute; inset: -2px; border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--gold), var(--blue), var(--gold));
+      animation: spin 8s linear infinite; opacity: 0.5;
+    }
+    .b-logo svg { position: relative; z-index: 1; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .b-name { font-family: 'Cinzel Decorative', serif; font-size: 18px; font-weight: 800; display: flex; align-items: baseline; }
+    .bo { color: var(--gb); } .br2 { color: var(--sand); } .bai { color: var(--gold); font-size: 13px; margin-left: 2px; }
+    .b-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 11px; color: var(--text-muted); letter-spacing: 0.15em; display: block; margin-top: 1px; }
+
+    nav { display: flex; align-items: center; gap: 4px; }
+    nav a {
+      font-family: 'Cinzel', serif; font-size: 10.5px; font-weight: 600; letter-spacing: 0.22em;
+      text-transform: uppercase; color: #7a6a44; text-decoration: none; padding: 6px 14px;
+      border: 1px solid transparent; border-radius: 30px; transition: all 0.3s;
+    }
+    nav a:hover { color: var(--gb); border-color: var(--gold-border); background: var(--gold-dim); }
+    nav a.active { color: var(--gold); border-color: var(--gold-border); background: var(--gold-dim); }
+
+    /* PAGE LAYOUT — fixed height, no scroll */
+    .page {
+      position: relative; z-index: 10;
+      width: 100vw; height: 100vh;
+      display: flex; flex-direction: column;
+      padding-top: 64px;
+      overflow: hidden;
+    }
+
+    /* TOP BAR: hero + tabs */
+    .top-bar {
+      flex-shrink: 0;
+      padding: 1rem 2.5rem 0;
+      border-bottom: 1px solid rgba(255,255,245,0.09);
+    }
+    .hero-row {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 0.85rem;
+    }
+    .hero-badge {
+      font-family: 'Cinzel', serif; font-size: 9.5px; font-weight: 700;
+      letter-spacing: 0.45em; text-transform: uppercase; color: var(--blue);
+      margin-bottom: 0.25rem;
+    }
+    .hero-title {
+      font-family: 'Cinzel Decorative', serif; font-size: 1.45rem; font-weight: 700;
+      color: var(--gb); letter-spacing: 0.02em; line-height: 1.25;
+    }
+    .hero-sub {
+      font-size: 0.68rem; color: var(--text-muted); margin-top: 0.2rem; letter-spacing: 0.03em;
+    }
+    .status-pills { display: flex; gap: 0.6rem; }
+    .pill {
+      background: var(--blue-dim); border: 1px solid var(--blue-border);
+      border-radius: 30px; padding: 0.22rem 0.85rem;
+      font-family: var(--mono); font-size: 0.6rem; font-weight: 600; color: var(--blue);
+    }
+    .pill.gold { background: var(--gold-dim); border-color: var(--gold-border); color: var(--gb); }
+    .pill.green { background: var(--green-dim); border-color: rgba(80,200,100,0.45); color: var(--green); }
+
+    /* MODULE TABS */
+    .module-tabs { display: flex; gap: 0.6rem; padding-bottom: 0; }
+    .module-tab {
+      padding: 0.5rem 1.4rem;
+      font-family: 'Cinzel', serif; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--text-muted); cursor: pointer; transition: all 0.3s;
+      border-radius: 10px 10px 0 0; background: transparent;
+      border: 1px solid transparent; border-bottom: none;
+      position: relative; bottom: -1px;
+    }
+    .module-tab:hover { color: var(--gb); background: rgba(200,165,60,0.07); }
+    .module-tab.active {
+      color: var(--gold); background: rgba(18,15,10,0.97);
+      border-color: rgba(255,255,245,0.09); border-bottom-color: rgba(18,15,10,0.97);
+    }
+
+    /* MAIN AREA — horizontal layout, no scroll by default */
+    .main-area {
+      flex: 1;
+      overflow: hidden;
+      padding: 1.2rem 2.5rem 1rem;
+    }
+
+    /* ========== ML MODULE LAYOUT ========== */
+    /* Two-column layout: left = form+about, right = results */
+    .ml-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 1rem;
+      height: 100%;
+    }
+
+    /* Left column: stacked cards */
+    .ml-left {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* Right column: results, scrolls horizontally if needed */
+    .ml-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* ---- CARD BASE ---- */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 1.1rem 1.2rem;
+      backdrop-filter: blur(18px);
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .card::before {
+      content: ''; position: absolute; top: 0; left: -100%;
+      width: 100%; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transition: left 0.5s ease;
+    }
+    .card:hover::before { left: 100%; }
+    .card:hover { border-color: rgba(255,255,245,0.22); }
+
+    .card.blue { background: linear-gradient(135deg, rgba(80,150,255,0.12), rgba(80,150,255,0.04)); border-color: var(--blue-border); }
+    .card.gold { background: linear-gradient(135deg, rgba(200,165,60,0.12), rgba(200,165,60,0.03)); border-color: var(--gold-border); }
+    .card.ai {
+      background: linear-gradient(135deg, rgba(80,150,255,0.1), rgba(200,165,60,0.05));
+      border-color: rgba(80,150,255,0.35);
+    }
+    .card.ai::after {
+      content: ''; position: absolute; top: -60%; left: -60%;
+      width: 220%; height: 220%;
+      background: radial-gradient(circle, rgba(80,150,255,0.08) 0%, transparent 65%);
+      animation: aiPulse 5s ease-in-out infinite; pointer-events: none;
+    }
+    @keyframes aiPulse { 0%,100% { opacity: 0.3; } 50% { opacity: 0.9; } }
+
+    /* Card inner elements */
+    .card-icon { font-size: 1.4rem; margin-bottom: 0.45rem; }
+    .card-label {
+      font-family: 'Cinzel', serif; font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+    .card-value {
+      font-family: var(--mono); font-size: 1.65rem; font-weight: 800;
+      color: var(--gb); line-height: 1;
+    }
+    .card-value.lg { font-size: 2rem; }
+    .card-value.sm { font-size: 1rem; }
+    .card-trend { font-size: 0.65rem; font-weight: 600; color: var(--green); margin-top: 0.3rem; }
+    .card-unit { font-size: 0.65rem; color: var(--text-dim); }
+
+    /* About card */
+    .about-desc {
+      font-size: 0.72rem; font-weight: 500; color: rgba(255,255,245,0.72);
+      line-height: 1.55; margin-bottom: 0.7rem;
+    }
+    .tag-row { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .tag {
+      background: var(--gold-dim); border: 1px solid var(--gold-border);
+      border-radius: 20px; padding: 0.18rem 0.65rem;
+      font-size: 0.62rem; font-weight: 500; color: var(--gb);
+    }
+
+    /* Form elements */
+    .form-input {
+      background: rgba(12,10,7,0.85);
+      border: 1px solid rgba(255,255,245,0.15);
+      border-radius: 10px; color: var(--sand);
+      font-family: var(--mono); font-size: 0.82rem; font-weight: 500;
+      padding: 0.55rem 0.9rem; width: 100%; outline: none; transition: all 0.3s;
+    }
+    .form-input:focus { border-color: var(--gold); box-shadow: 0 0 18px rgba(200,165,60,0.18); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(200,165,60,0.22), rgba(200,165,60,0.10));
+      border: 1px solid var(--gold); border-radius: 40px;
+      padding: 0.65rem 1rem;
+      font-family: 'Cinzel', serif; font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.25em; text-transform: uppercase; color: var(--gb);
+      cursor: pointer; transition: all 0.3s; width: 100%; margin-top: 0.7rem;
+    }
+    .btn-primary:hover:not(:disabled) { background: rgba(200,165,60,0.32); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,165,60,0.2); }
+    .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .btn-secondary {
+      background: transparent; border: 1px solid rgba(255,255,245,0.22); border-radius: 40px;
+      padding: 0.45rem 1rem;
+      font-family: 'Cinzel', serif; font-size: 0.62rem; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted);
+      cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block;
+    }
+    .btn-secondary:hover { border-color: var(--gold-border); color: var(--gb); background: var(--gold-dim); }
+
+    /* ---- RESULTS GRID (right column) ---- */
+    /* Row 1: 4 equal metric cards */
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.9rem;
+      flex-shrink: 0;
+    }
+    .metric-card-sm {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px; padding: 1rem 1.1rem;
+      backdrop-filter: blur(12px);
+    }
+    .metric-card-sm.blue { background: linear-gradient(135deg, rgba(80,150,255,0.12), rgba(80,150,255,0.04)); border-color: var(--blue-border); }
+    .metric-card-sm .card-icon { font-size: 1.2rem; margin-bottom: 0.3rem; }
+    .metric-card-sm .card-label { font-family: 'Cinzel', serif; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.25rem; }
+    .metric-card-sm .card-value { font-family: var(--mono); font-size: 1.5rem; font-weight: 800; color: var(--gb); }
+    .metric-card-sm .card-trend { font-size: 0.62rem; font-weight: 600; color: var(--green); margin-top: 0.2rem; }
+
+    /* Row 2: AI Insight */
+    .ai-header { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.65rem; position: relative; z-index: 1; }
+    .ai-badge {
+      background: rgba(80,150,255,0.22); border-radius: 40px;
+      padding: 0.22rem 0.85rem;
+      font-family: 'Cinzel', serif; font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.2em; color: var(--blue); border: 1px solid var(--blue-border);
+    }
+    .ai-badge::before { content: '⚡'; margin-right: 5px; }
+    .ai-title { font-family: 'Cinzel', serif; font-size: 0.88rem; font-weight: 800; color: var(--gb); }
+    .ai-content { position: relative; z-index: 1; font-size: 0.76rem; font-weight: 500; color: rgba(255,255,245,0.75); line-height: 1.6; }
+    .ai-content strong { color: var(--gold); font-weight: 700; }
+
+    /* Row 3: two-column detail */
+    .detail-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    /* Inside detail cards */
+    .detail-card-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 0.7rem; padding-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(255,255,245,0.1);
+    }
+    .detail-card-name { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.12em; color: var(--text-muted); }
+    .detail-card-date { font-family: var(--mono); font-size: 0.8rem; font-weight: 700; color: var(--gb); }
+    .detail-row-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,245,0.05);
+    }
+    .detail-row-item:last-child { border-bottom: none; }
+    .detail-row-item span { font-size: 0.7rem; color: var(--text-muted); }
+    .detail-row-item strong { font-family: var(--mono); font-size: 0.82rem; color: var(--text-main); }
+    .badge-change {
+      font-size: 0.58rem; padding: 0.1rem 0.4rem; border-radius: 20px;
+      display: inline-block; margin-left: 0.4rem;
+    }
+    .badge-up { background: rgba(80,200,100,0.18); color: var(--green); }
+    .badge-down { background: rgba(232,160,96,0.18); color: #e8a060; }
+
+    /* Recommendations */
+    .rec-list { list-style: none; margin-top: 0.4rem; }
+    .rec-item { display: flex; gap: 0.7rem; padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,245,0.06); }
+    .rec-item:last-child { border-bottom: none; }
+    .rec-num { font-family: var(--mono); font-size: 0.7rem; font-weight: 700; color: var(--gold); min-width: 24px; }
+    .rec-text { font-size: 0.72rem; line-height: 1.45; color: rgba(255,255,245,0.72); }
+    .rec-text strong { color: var(--gold); font-weight: 700; }
+
+    /* Projects tags */
+    .tag-wrap { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+    .proj-tag { background: var(--gold-dim); border: 1px solid var(--gold-border); border-radius: 20px; padding: 0.2rem 0.75rem; font-size: 0.62rem; font-weight: 500; color: var(--gb); }
+
+    /* Actions row */
+    .actions-row { display: flex; gap: 0.7rem; justify-content: flex-end; margin-top: 0.8rem; }
+
+    /* ========== PALM MODULE LAYOUT ========== */
+    .palm-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 1rem;
+      height: 100%;
+    }
+    .palm-left { display: flex; flex-direction: column; gap: 1rem; height: 100%; overflow: hidden; }
+    .palm-right { display: flex; flex-direction: column; gap: 0.9rem; height: 100%; overflow: hidden; }
+
+    .upload-zone {
+      border: 1.5px dashed rgba(80,150,255,0.5);
+      border-radius: 14px; padding: 1.1rem;
+      text-align: center; cursor: pointer; transition: all 0.3s;
+      background: rgba(80,150,255,0.06); margin-bottom: 0.5rem;
+    }
+    .upload-zone:hover { border-color: var(--gold-border); background: var(--gold-dim); }
+    .upload-icon { font-size: 1.8rem; margin-bottom: 0.3rem; opacity: 0.8; }
+    .upload-text { font-family: 'Cinzel', serif; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue); }
+    .upload-sub { font-size: 0.58rem; color: var(--text-dim); margin-top: 0.2rem; }
+    .image-preview { display: none; width: 100%; max-height: 110px; object-fit: cover; border-radius: 10px; margin-bottom: 0.5rem; border: 1px solid var(--card-border); }
+
+    /* Palm results */
+    .palm-metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.9rem;
+      flex-shrink: 0;
+    }
+    .image-pair-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+      flex: 1;
+      min-height: 0;
+    }
+    .image-card {
+      background: rgba(18,15,10,0.85); border: 1px solid var(--card-border);
+      border-radius: 14px; padding: 0.8rem; display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .image-card img { width: 100%; flex: 1; object-fit: cover; border-radius: 10px; margin-top: 0.5rem; min-height: 0; }
+    .prob-bar-container { height: 3px; background: rgba(255,255,245,0.1); margin-bottom: 5px; border-radius: 2px; overflow: hidden; }
+    .prob-bar { height: 100%; background: linear-gradient(90deg, var(--gx), var(--gold)); border-radius: 2px; }
+
+    /* No-results placeholder */
+    .placeholder-state {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      border: 1px dashed rgba(255,255,245,0.1);
+      border-radius: 18px; gap: 0.6rem;
+    }
+    .placeholder-icon { font-size: 2.5rem; opacity: 0.3; }
+    .placeholder-text { font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.2em; color: var(--text-dim); text-align: center; }
+
+    /* FOOTER */
+    footer {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; height: 48px;
+      display: flex; align-items: center; justify-content: space-between; padding: 0 2.5rem;
+      background: linear-gradient(0deg, rgba(12,10,7,0.99), rgba(12,10,7,0.93));
+      border-top: 1px solid rgba(255,255,245,0.09); backdrop-filter: blur(20px);
+    }
+    footer::before {
+      content: ''; position: absolute; top: -1px; left: 6%; right: 6%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .f-brand { font-family: 'Cinzel', serif; font-size: 8.5px; font-weight: 600; letter-spacing: 0.3em; color: var(--text-dim); text-transform: uppercase; }
+    .f-center { display: flex; align-items: center; gap: 8px; }
+    .f-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,245,0.28); }
+    .f-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 11px; color: var(--text-muted); }
+    .f-right { font-family: 'Cinzel', serif; font-size: 8.5px; font-weight: 600; letter-spacing: 0.2em; color: var(--text-dim); }
+
+    /* UTILITIES */
+    .hidden { display: none !important; }
+    .loading-spinner {
+      display: inline-block; width: 13px; height: 13px;
+      border: 2px solid rgba(200,165,60,0.3); border-top-color: var(--gold);
+      border-radius: 50%; animation: spin 0.8s linear infinite;
+      margin-right: 7px; vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .fade-in { animation: fadeUp 0.4s ease-out forwards; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* AI THINKING OVERLAY */
+    .ai-thinking-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(8,7,4,0.97); backdrop-filter: blur(24px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden; transition: opacity 0.4s ease;
+    }
+    .ai-thinking-overlay.active { opacity: 1; visibility: visible; }
+    .thinking-content { text-align: center; }
+    .thinking-icon { font-size: 56px; margin-bottom: 18px; animation: iconFloat 3s ease-in-out infinite; }
+    .thinking-text { font-family: 'Cinzel', serif; font-size: 18px; font-weight: 800; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+    .thinking-dots { display: flex; gap: 10px; justify-content: center; }
+    .thinking-dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); animation: dotPulse 1.4s ease-in-out infinite; }
+    .thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes iconFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes dotPulse { 0%,60%,100% { transform: scale(1); opacity: 0.4; } 30% { transform: scale(1.5); opacity: 1; } }
+/* HEADER (style landing) */
+header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 4vw;
+  background: linear-gradient(180deg, rgba(5,3,1,0.97) 0%, rgba(5,3,1,0.9) 100%);
+  border-bottom: 1px solid rgba(200,165,60,0.15);
+  backdrop-filter: blur(14px);
+}
+header::after {
+  content: ''; position: absolute; bottom: -1px; left: 6%; right: 6%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.brand {
+  display: flex; align-items: center; gap: 14px;
+  text-decoration: none;
+}
+.b-logo {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid rgba(200,165,60,0.4);
+  background: radial-gradient(circle at 40% 40%, rgba(200,165,60,0.15), rgba(100,60,5,0.1));
+  display: flex; align-items: center; justify-content: center; position: relative;
+}
+.b-logo::before {
+  content: ''; position: absolute; inset: -1px; border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 65%, rgba(200,165,60,0.4) 100%);
+  animation: spin 9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.b-logo svg { position: relative; z-index: 1; }
+
+.b-name {
+  font-family: 'Cinzel Decorative', serif; font-size: 19px; font-weight: 700;
+  display: flex; align-items: baseline; gap: 1px;
+}
+.bo { color: #f5e9b8; }
+.br2 { color: #e8c97a; }
+.bai { color: #c9a84c; font-size: 14px; margin-left: 2px; font-weight: 600; }
+.b-sub {
+  font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px;
+  color: #d4b483; letter-spacing: 0.15em; display: block; margin-top: 2px;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.8);
+}
+
+.header-nav {
+  display: flex; align-items: center; gap: 6px;
+}
+.nav-link {
+  font-family: 'Cinzel', serif; font-size: 12px; font-weight: 500;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: #7a6030; text-decoration: none; padding: 6px 16px;
+  border: 1px solid transparent; border-radius: 2px;
+  transition: all 0.3s;
+}
+.nav-link:hover { color: #e8c97a; border-color: rgba(200,165,60,0.25); background: rgba(180,130,30,0.06); }
+.nav-link.active { color: #c9a84c; border-color: rgba(200,165,60,0.35); background: rgba(180,130,30,0.09); }
+.nav-sep { width: 1px; height: 18px; background: rgba(200,165,60,0.25); margin: 0 2px; }
+
+.header-badge {
+  font-family: 'Cinzel', serif; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.3em; color: rgba(200,165,60,0.7);
+  text-transform: uppercase; text-shadow: 0 1px 10px rgba(0,0,0,0.8);
+}
+    /* Alert level colors */
+    .alert-stable { color: #6ed46e; }
+    .alert-watch  { color: #e8c860; }
+    .alert-crit   { color: #e8a060; }
+  </style>
+</head>
+<body>
+
+<div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
+
+<!-- AI Thinking Overlay -->
+<div class="ai-thinking-overlay" id="aiThinking">
+  <div class="thinking-content">
+    <div class="thinking-icon">🧠✨</div>
+    <div class="thinking-text">AI ANALYSIS IN PROGRESS</div>
+    <div class="thinking-dots"><span></span><span></span><span></span></div>
+    <p style="margin-top:14px; font-family:var(--mono); font-size:10.5px; font-weight:500; color:var(--text-dim);">Processing environmental data • Analyzing patterns • Generating insights</p>
+  </div>
+</div>
+
+<div class="page">
+
+<header>
+  <a class="brand" href="{% url 'landing_page' %}">
+    <div class="b-logo">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <circle cx="9" cy="9" r="6.5" stroke="#c9a84c" stroke-width="0.8"/>
+        <circle cx="9" cy="9" r="2.5" fill="rgba(201,168,76,0.2)" stroke="#c9a84c" stroke-width="0.8"/>
+        <path d="M9 2.5V15.5M2.5 9H15.5" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/>
+      </svg>
+    </div>
+    <div>
+      <div class="b-name"><span class="bo">O</span><span class="br2">asis</span><span class="bai">AI</span></div>
+      <span class="b-sub">Gabès · Territoire Vivant</span>
+    </div>
+  </a>
+
+  <div class="header-nav">
+    <a href="{% url 'landing_page' %}" class="nav-link">Accueil</a>
+    <div class="nav-sep"></div>
+    <a href="{% url 'tourism_home' %}" class="nav-link">Parcours</a>
+    <div class="nav-sep"></div>
+    <a href="{% url 'home' %}" class="nav-link active">Environnement</a>
+  </div>
+
+  <div class="header-badge">33°53′N · 10°06′E</div>
+</header>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="hero-row">
+      <div class="hero-left">
+        <div class="hero-badge">ENVIRONMENTAL DASHBOARD</div>
+      </div>
+    </div>
+
+    <div class="module-tabs">
+      <div class="module-tab active" data-module="ml" onclick="selectModule('ml')">📡 Lecture Territoriale</div>
+      <div class="module-tab" data-module="palm" onclick="selectModule('palm')">🌴 Palm Health</div>
+    </div>
+  </div>
+
+  <!-- MAIN AREA -->
+  <div class="main-area">
+
+    <!-- ====== MODULE: ML (Lecture Territoriale) ====== -->
+    <div id="module-ml" style="height:100%;">
+      <div class="ml-layout">
+
+        <!-- LEFT: About + Form -->
+        <div class="ml-left">
+          <!-- About card -->
+          <div class="card blue">
+            <div class="card-icon">🎯</div>
+            <div class="card-label">About This Module</div>
+            <p class="about-desc">
+              Forecasting model trained on 5 years of Gabès climate data. 
+              Predicts soil moisture and temperature at J+7 with RAG-enhanced LLM recommendations.
+            </p>
+            <div class="tag-row">
+              <span class="tag">🌡️ Temperature</span>
+              <span class="tag">💧 Soil Moisture</span>
+              <span class="tag">🔮 7-Day Forecast</span>
+            </div>
+          </div>
+
+          <!-- Date + Form card -->
+          <div class="card" style="flex:1;">
+            <div class="card-icon">📅</div>
+            <div class="card-label">Analysis Date</div>
+            <div style="font-size:0.65rem; color:var(--text-dim); margin:0.3rem 0 0.7rem; font-family:var(--mono);">
+              {{ bounds.min_date|default:"2020-01-01" }} → {{ bounds.max_date|default:"2024-12-24" }}
+            </div>
+            <form method="post" action="{% url 'analyze' %}" id="analysis-form">
+              {% csrf_token %}
+              <input type="date" name="selected_date" id="selected_date" class="form-input"
+                     min="{{ bounds.min_date|default:'2020-01-01' }}"
+                     max="{{ bounds.max_date|default:'2024-12-24' }}"
+                     value="{{ selected_date|default:bounds.max_date|default:'2024-12-24' }}">
+              <button type="submit" class="btn-primary" id="submit-btn">✦ RUN ANALYSIS</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- RIGHT: Results or Placeholder -->
+        <div class="ml-right">
+
+          {% if analysis_result %}
+          <!-- ---- Row 1: 4 metric cards ---- -->
+          <div class="metrics-row fade-in">
+            <div class="metric-card-sm blue">
+              <div class="card-icon">⚠️</div>
+              <div class="card-label">Alert Level</div>
+              <div class="card-value {% if analysis_result.prediction.alert_level == 'Critique' %}alert-crit{% elif analysis_result.prediction.alert_level == 'Surveillance' %}alert-watch{% else %}alert-stable{% endif %}">
+                {{ analysis_result.prediction.alert_level|upper|default:"STABLE" }}
+              </div>
+              <div class="card-trend">Status: Active Monitoring</div>
+            </div>
+            <div class="metric-card-sm">
+              <div class="card-icon">💧</div>
+              <div class="card-label">Soil Moisture</div>
+              <div class="card-value">{{ analysis_result.prediction.current_gwetroot|floatformat:3|default:"0.250" }}</div>
+              <div class="card-trend">→ {{ analysis_result.prediction.predicted_gwetroot_tplus7|floatformat:3|default:"0.258" }} (J+7)</div>
+            </div>
+            <div class="metric-card-sm">
+              <div class="card-icon">🌡️</div>
+              <div class="card-label">Temperature</div>
+              <div class="card-value">{{ analysis_result.prediction.current_t2m_max|floatformat:1|default:"15.4" }}°C</div>
+              <div class="card-trend">→ {{ analysis_result.prediction.predicted_t2m_max_tplus7|floatformat:1|default:"16.7" }}°C (J+7)</div>
+            </div>
+            <div class="metric-card-sm">
+              <div class="card-icon">📊</div>
+              <div class="card-label">Dominant Factors</div>
+              <div class="card-value" style="font-size:0.8rem; line-height:1.3;">
+                {% for factor in analysis_result.prediction.dominant_factors %}{{ factor }}{% if not forloop.last %} • {% endif %}{% empty %}Conditions relativement stables{% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <!-- ---- Row 2: AI Insight ---- -->
+          <div class="card ai fade-in" style="flex-shrink:0;">
+            <div class="ai-header">
+              <div class="ai-badge">AI INSIGHT</div>
+              <div class="ai-title">Intelligent Environmental Analysis</div>
+            </div>
+            <div class="ai-content">
+              <p><strong>📍 Situation Analysis:</strong> {{ analysis_result.recommendation.synthesis|default:analysis_result.recommendation|truncatechars:280 }}</p>
+            </div>
+          </div>
+
+          <!-- ---- Row 3: Detail metrics + Recommendations ---- -->
+          <div class="detail-row fade-in" style="flex:1; min-height:0;">
+
+            <!-- Current + Forecast card -->
+            <div class="card" style="overflow:auto;">
+              <div class="detail-card-header">
+                <span class="detail-card-name">CURRENT METRICS</span>
+                <span class="detail-card-date">{{ analysis_result.prediction.selected_date|default:"2024-12-24" }}</span>
+              </div>
+              <div class="detail-row-item"><span>Soil Moisture</span><strong>{{ analysis_result.prediction.current_gwetroot|floatformat:3|default:"0.250" }}</strong></div>
+              <div class="detail-row-item"><span>Max Temperature</span><strong>{{ analysis_result.prediction.current_t2m_max|floatformat:1|default:"15.4" }}°C</strong></div>
+              <div class="detail-row-item"><span>Environmental Profile</span><strong>{{ analysis_result.cluster_result.cluster_name|default:"Balanced" }}</strong></div>
+
+              <div class="detail-card-header" style="margin-top:0.9rem;">
+                <span class="detail-card-name">FORECAST (J+7)</span>
+                <span class="detail-card-date">7-Day Outlook</span>
+              </div>
+              <div class="detail-row-item"><span>Soil Moisture</span><strong>{{ analysis_result.prediction.predicted_gwetroot_tplus7|floatformat:3|default:"0.258" }} <span class="badge-change badge-up">↑</span></strong></div>
+              <div class="detail-row-item"><span>Max Temperature</span><strong>{{ analysis_result.prediction.predicted_t2m_max_tplus7|floatformat:1|default:"16.7" }}°C <span class="badge-change badge-up">↑</span></strong></div>
+              <div class="detail-row-item"><span>Trend Direction</span><strong style="color:var(--green);">Gradual Warming</strong></div>
+
+              {% if analysis_result.context_rag %}
+              <div style="margin-top:0.8rem;">
+                <div class="card-label">🏗️ Local Projects (RAG)</div>
+                <div class="tag-wrap">
+                  {% for project in analysis_result.context_rag.projects|default:""|slice:":6" %}
+                    <span class="proj-tag">{{ project }}</span>
+                  {% empty %}
+                    <span class="proj-tag">Poumon Vert</span>
+                    <span class="proj-tag">Emplois Verts</span>
+                    <span class="proj-tag">OASIS AQUATIQUE</span>
+                    <span class="proj-tag">Agro-écologie Oasienne</span>
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
+            </div>
+
+            <!-- Recommendations card -->
+            <div class="card gold" style="overflow:auto;">
+              <div class="card-icon">📋</div>
+              <div class="card-label">Strategic Recommendations</div>
+              <ul class="rec-list">
+                <li class="rec-item"><span class="rec-num">01</span><p class="rec-text"><strong>Water Management</strong> — Optimize irrigation scheduling based on forecasted conditions.</p></li>
+                <li class="rec-item"><span class="rec-num">02</span><p class="rec-text"><strong>Agricultural Adaptation</strong> — Adjust planting cycles to align with temperature trends.</p></li>
+                <li class="rec-item"><span class="rec-num">03</span><p class="rec-text"><strong>Ecosystem Resilience</strong> — Support local initiatives like "Poumon Vert" for long-term sustainability.</p></li>
+              </ul>
+              <div style="margin-top:0.9rem;" class="card ai" style="padding:0.8rem;">
+                <div class="ai-header">
+                  <div class="ai-badge">PRIORITY ACTION</div>
+                  <div class="ai-title" style="font-size:0.8rem;">Next Steps</div>
+                </div>
+                <div class="ai-content">
+                  <p><strong>🎯 Action:</strong> {{ analysis_result.recommendation.priority|default:"Implement water conservation measures and monitor soil moisture closely." }}</p>
+                </div>
+              </div>
+              <div class="actions-row">
+                <a href="{% url 'home' %}" class="btn-secondary">⟳ New Analysis</a>
+              </div>
+            </div>
+
+          </div>
+
+          {% else %}
+          <!-- PLACEHOLDER — no analysis yet -->
+          <div class="placeholder-state">
+            <div class="placeholder-icon">🌍</div>
+            <p class="placeholder-text">Select a date on the left<br>and run analysis to view results</p>
+          </div>
+          {% endif %}
+
+        </div><!-- /.ml-right -->
+      </div><!-- /.ml-layout -->
+    </div><!-- /#module-ml -->
+
+
+    <!-- ====== MODULE: PALM HEALTH ====== -->
+    <div id="module-palm" class="hidden" style="height:100%;">
+      <div class="palm-layout">
+
+        <!-- LEFT: Upload form -->
+        <div class="palm-left">
+          <div class="card" style="flex:1;">
+            <div class="card-icon">🌴</div>
+            <div class="card-label">Palm Health — Diagnostic sanitaire</div>
+
+            <div class="upload-zone" id="palm-upload-zone" onclick="document.getElementById('palm-file-input').click()">
+              <div class="upload-icon">🌴⬆️</div>
+              <div class="upload-text">Déposer une image de feuille</div>
+              <div class="upload-sub">JPG, PNG · Feuille de palmier</div>
+              <input type="file" id="palm-file-input" accept="image/*" style="display:none" onchange="previewPalmImage(this)">
+            </div>
+
+            <img id="palm-preview" class="image-preview" src="" alt="Preview">
+            <button class="btn-primary" id="palm-analyze-btn" onclick="runPalmAnalysis()">✦ ANALYSER LA FEUILLE →</button>
+          </div>
+        </div>
+
+        <!-- RIGHT: Palm results -->
+        <div class="palm-right">
+          <div id="palm-results" class="hidden" style="display:flex; flex-direction:column; gap:0.9rem; height:100%;">
+
+            <!-- Row 1: 3 metric cards -->
+            <div class="palm-metric-row fade-in">
+              <div class="metric-card-sm blue">
+                <div class="card-icon">🌴</div>
+                <div class="card-label">Classification</div>
+                <div class="card-value" id="palm-class" style="font-size:1rem;">--</div>
+              </div>
+              <div class="metric-card-sm">
+                <div class="card-icon">🎯</div>
+                <div class="card-label">Confiance IA</div>
+                <div class="card-value" id="palm-confidence">--<span class="card-unit">%</span></div>
+              </div>
+              <div class="metric-card-sm">
+                <div class="card-icon">🔬</div>
+                <div class="card-label">Méthode</div>
+                <div class="card-value" style="font-size:0.9rem;">CNN + Grad-CAM</div>
+              </div>
+            </div>
+
+            <!-- Row 2: Image pair -->
+            <div class="image-pair-row fade-in">
+              <div class="image-card">
+                <div class="card-label">🖼️ Image Originale</div>
+                <img id="palm-original-img" src="" alt="">
+              </div>
+              <div class="image-card">
+                <div class="card-label">🔥 Grad-CAM (Zones d'attention)</div>
+                <img id="palm-heatmap-img" src="" alt="">
+              </div>
+            </div>
+
+            <!-- Row 3: Probabilities + Diagnostic -->
+            <div class="detail-row fade-in" style="flex-shrink:0;">
+              <div class="card" style="overflow:auto;">
+                <div class="card-label">📊 Probabilités par classe</div>
+                <div id="palm-probabilities" style="margin-top:0.5rem;"></div>
+              </div>
+              <div class="card ai" style="overflow:auto;">
+                <div class="ai-header">
+                  <div class="ai-badge">DIAGNOSTIC</div>
+                  <div class="ai-title">Interprétation</div>
+                </div>
+                <div class="ai-content"><p id="palm-diagnostic"><em>En attente d'analyse...</em></p></div>
+
+                <div style="margin-top:0.8rem;">
+                  <div class="ai-header">
+                    <div class="ai-badge" style="background:rgba(200,165,60,0.18); border-color:var(--gold-border); color:var(--gb);">RECOMMANDATION</div>
+                    <div class="ai-title" style="font-size:0.8rem;">Actions culturales</div>
+                  </div>
+                  <div class="ai-content"><p id="palm-recommendation"><em>Lancez une analyse pour obtenir des recommandations.</em></p></div>
+                </div>
+
+                <div class="actions-row">
+                  <button class="btn-secondary" onclick="resetPalmAnalysis()">⟳ Nouvelle analyse</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Placeholder when no palm analysis -->
+          <div id="palm-placeholder" class="placeholder-state" style="height:100%;">
+            <div class="placeholder-icon">🌴</div>
+            <p class="placeholder-text">Upload a palm leaf image<br>on the left to begin diagnosis</p>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /#module-palm -->
+
+  </div><!-- /.main-area -->
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="f-brand">OasisAI </span>
+    <div class="f-center"><div class="f-dot"></div><span class="f-text">AI-Powered Environmental Monitoring</span><div class="f-dot"></div></div>
+    <span class="f-right">© 2025 — OasisAI Intelligence</span>
+  </footer>
+
+</div><!-- /.page -->
+
+<script>
+  let currentModule = 'ml';
+  let palmAnalysisInProgress = false;
+
+  function selectModule(module) {
+    currentModule = module;
+    document.querySelectorAll('.module-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector(`.module-tab[data-module="${module}"]`).classList.add('active');
+    document.getElementById('module-ml').classList.toggle('hidden', module !== 'ml');
+    document.getElementById('module-palm').classList.toggle('hidden', module !== 'palm');
+    if (module === 'palm') {
+      document.getElementById('palm-results').classList.add('hidden');
+      document.getElementById('palm-placeholder').style.display = 'flex';
+      document.getElementById('palm-preview').style.display = 'none';
+      document.getElementById('palm-file-input').value = '';
+    }
+  }
+
+  function previewPalmImage(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      const preview = document.getElementById('palm-preview');
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function getCookie(name) {
+    let value = null;
+    if (document.cookie && document.cookie !== '') {
+      for (let c of document.cookie.split(';')) {
+        const t = c.trim();
+        if (t.startsWith(name + '=')) { value = decodeURIComponent(t.substring(name.length + 1)); break; }
+      }
+    }
+    return value;
+  }
+
+  async function runPalmAnalysis() {
+    const fileInput = document.getElementById('palm-file-input');
+    if (!fileInput.files[0]) { alert('Veuillez sélectionner une image.'); return; }
+    palmAnalysisInProgress = true;
+    const btn = document.getElementById('palm-analyze-btn');
+    const overlay = document.getElementById('aiThinking');
+    btn.innerHTML = '<span class="loading-spinner"></span> ANALYSE EN COURS...';
+    btn.disabled = true;
+    overlay.classList.add('active');
+
+    const reader = new FileReader();
+    reader.onload = e => { document.getElementById('palm-original-img').src = e.target.result; };
+    reader.readAsDataURL(fileInput.files[0]);
+
+    const formData = new FormData();
+    formData.append('image', fileInput.files[0]);
+
+    try {
+      const response = await fetch('/environment/palm-analyze/', {
+        method: 'POST', body: formData,
+        headers: { 'X-Requested-With': 'XMLHttpRequest', 'X-CSRFToken': getCookie('csrftoken') }
+      });
+      const data = await response.json();
+      if (data.success) {
+        document.getElementById('palm-class').textContent = data.predicted_class || 'Non classifié';
+        const conf = data.confidence ? (data.confidence * 100).toFixed(1) : '--';
+        document.getElementById('palm-confidence').innerHTML = conf + '<span class="card-unit">%</span>';
+        document.getElementById('palm-heatmap-img').src = data.heatmap_url;
+
+        let probsHtml = '';
+        for (const [cls, prob] of Object.entries(data.probabilities)) {
+          const pct = (prob * 100).toFixed(1);
+          probsHtml += `<div style="display:flex;justify-content:space-between;padding:0.35rem 0;font-size:0.72rem;">
+                          <span style="font-weight:600;">${cls}</span><span style="font-family:var(--mono);font-weight:600;">${pct}%</span>
+                        </div>
+                        <div class="prob-bar-container"><div class="prob-bar" style="width:${pct}%"></div></div>`;
+        }
+        document.getElementById('palm-probabilities').innerHTML = probsHtml;
+
+        const isHealthy = data.predicted_class && (data.predicted_class.toLowerCase().includes('sain') || data.predicted_class.toLowerCase() === 'healthy');
+        document.getElementById('palm-diagnostic').innerHTML = isHealthy
+          ? '<strong>✅ État sanitaire : Sain</strong> — Aucun signe majeur de maladie détecté par le modèle CNN.'
+          : '<strong>⚠️ Attention requise</strong> — Des anomalies visuelles ont été détectées sur la feuille analysée.';
+        document.getElementById('palm-recommendation').innerHTML = isHealthy
+          ? 'Continuer la surveillance régulière. Maintenir les bonnes pratiques culturales.'
+          : 'Consulter un spécialiste pour un diagnostic précis. Envisager un traitement approprié.';
+
+        document.getElementById('palm-placeholder').style.display = 'none';
+        document.getElementById('palm-results').classList.remove('hidden');
+        document.getElementById('palm-results').style.display = 'flex';
+      } else {
+        alert('Erreur: ' + (data.error || 'Analyse échouée'));
+      }
+    } catch (error) {
+      alert('Erreur lors de l\'analyse: ' + error.message);
+    } finally {
+      palmAnalysisInProgress = false;
+      btn.innerHTML = '✦ ANALYSER LA FEUILLE →';
+      btn.disabled = false;
+      overlay.classList.remove('active');
+    }
+  }
+
+  function resetPalmAnalysis() {
+    document.getElementById('palm-results').classList.add('hidden');
+    document.getElementById('palm-placeholder').style.display = 'flex';
+    document.getElementById('palm-preview').style.display = 'none';
+    document.getElementById('palm-preview').src = '';
+    document.getElementById('palm-file-input').value = '';
+    document.getElementById('palm-class').textContent = '--';
+    document.getElementById('palm-confidence').innerHTML = '--<span class="card-unit">%</span>';
+    document.getElementById('palm-probabilities').innerHTML = '';
+    document.getElementById('palm-diagnostic').innerHTML = '<em>En attente d\'analyse...</em>';
+    document.getElementById('palm-recommendation').innerHTML = '<em>Lancez une analyse pour obtenir des recommandations.</em>';
+  }
+
+  // ML Form
+  const form = document.getElementById('analysis-form');
+  const overlay = document.getElementById('aiThinking');
+  if (form) {
+    form.addEventListener('submit', function() {
+      if (overlay) overlay.classList.add('active');
+      const btn = document.getElementById('submit-btn');
+      if (btn) { btn.innerHTML = '<span class="loading-spinner"></span> PROCESSING...'; btn.disabled = true; }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (overlay) setTimeout(() => overlay.classList.remove('active'), 400);
+  });
+</script>
+</body>
+</html>

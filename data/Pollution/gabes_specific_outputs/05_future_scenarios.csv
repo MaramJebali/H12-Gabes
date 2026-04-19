@@ -1,0 +1,5 @@
+Scenario,Predicted_Cd_μg_per_g
+Best Case (Pollution stops),1.121
+Current (2011 baseline),4.3
+Worst Case (Pollution worsens),4.3
+Catastrophic (2x worst observed),8.6

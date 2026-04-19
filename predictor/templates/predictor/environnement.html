@@ -1,0 +1,1216 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OasisAI — Environmental Intelligence Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;500;600&family=Cinzel+Decorative:wght@400;700&family=JetBrains+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --gold:#c9a84c;
+      --gb:#e8c97a;
+      --gp:#f5e9b8;
+      --gd:#7a5c1e;
+      --gx:#3d2a08;
+      --sand:#d4b483;
+      --sm:#a08860;
+      --sf:#5a4a2a;
+      --b1:rgba(200,165,60,0.2);
+      --b2:rgba(200,165,60,0.38);
+      --b3:rgba(200,165,60,0.6);
+      --gl:rgba(8,6,2,0.55);
+      --gr:rgba(80,180,100,0.85);
+      --grb:rgba(40,100,50,0.12);
+      --grbd:rgba(80,180,100,0.28);
+      --am:rgba(220,170,60,0.9);
+      --amb:rgba(180,120,20,0.12);
+      --ambd:rgba(220,170,60,0.3);
+      --mono:'JetBrains Mono',monospace;
+      --ai-glow: rgba(80,180,255,0.15);
+      --ai-glow-strong: rgba(80,180,255,0.3);
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html,body{width:100%;height:100%;overflow-x:hidden;font-family:'Cormorant Garamond',Georgia,serif;color:var(--sand);background:#0a0704;scroll-behavior:smooth}
+
+    /* BACKGROUND */
+    .bg{position:fixed;inset:0;z-index:0;
+      background:
+        radial-gradient(ellipse 100% 70% at 50% 0%,rgba(10,7,2,0.3) 0%,transparent 50%),
+        radial-gradient(ellipse 100% 60% at 50% 100%,rgba(5,3,1,0.85) 0%,transparent 60%),
+        linear-gradient(180deg,rgba(10,7,2,0.5) 0%,rgba(5,3,1,0.25) 40%,rgba(5,3,1,0.7) 100%);
+      background-attachment:fixed}
+    .bg-art{position:absolute;inset:0;z-index:0}
+    .bg-art::before{content:'';position:absolute;inset:0;
+      background:
+        radial-gradient(ellipse 60% 40% at 65% 20%,rgba(40,100,30,0.18) 0%,transparent 55%),
+        radial-gradient(ellipse 50% 50% at 15% 70%,rgba(120,80,10,0.15) 0%,transparent 50%),
+        radial-gradient(ellipse 70% 40% at 50% 90%,rgba(20,50,15,0.25) 0%,transparent 55%);
+      animation:shift 20s ease-in-out infinite alternate}
+    @keyframes shift{from{transform:scale(1) translate(0,0)}to{transform:scale(1.04) translate(-8px,8px)}}
+    .grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.065;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size:200px 200px}
+    .orb{position:fixed;border-radius:50%;pointer-events:none;z-index:1;filter:blur(70px)}
+    .o1{width:500px;height:280px;top:-80px;left:10%;background:rgba(180,130,15,0.12);animation:da 16s ease-in-out infinite}
+    .o2{width:350px;height:350px;bottom:5%;right:-5%;background:rgba(40,90,20,0.1);animation:db 22s ease-in-out infinite}
+    .o3{width:280px;height:200px;top:40%;left:-6%;background:rgba(130,90,10,0.09);animation:dc 18s ease-in-out infinite}
+    @keyframes da{0%,100%{transform:translate(0,0)}50%{transform:translate(35px,20px)}}
+    @keyframes db{0%,100%{transform:translate(0,0)}50%{transform:translate(-25px,-30px)}}
+    @keyframes dc{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,28px)}}
+
+    /* AI Thinking Overlay */
+    .ai-thinking-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(5,3,1,0.92);
+      backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .ai-thinking-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .thinking-content {
+      text-align: center;
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+    .thinking-icon {
+      font-size: 80px;
+      margin-bottom: 30px;
+      animation: iconFloat 3s ease-in-out infinite;
+    }
+    .thinking-text {
+      font-family: 'Cinzel', serif;
+      font-size: 24px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .thinking-dots {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+    .thinking-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: dotPulse 1.4s ease-in-out infinite;
+    }
+    .thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes pulseGlow {
+      0%,100% { text-shadow: 0 0 20px rgba(200,165,60,0.3); }
+      50% { text-shadow: 0 0 50px rgba(200,165,60,0.8); }
+    }
+    @keyframes iconFloat {
+      0%,100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+    }
+    @keyframes dotPulse {
+      0%,60%,100% { transform: scale(1); opacity: 0.4; }
+      30% { transform: scale(1.5); opacity: 1; }
+    }
+
+    /* HEADER */
+    header{position:fixed;top:0;left:0;right:0;z-index:100;height:68px;
+      display:flex;align-items:center;justify-content:space-between;padding:0 4vw;
+      background:linear-gradient(180deg,rgba(5,3,1,0.95),rgba(5,3,1,0.82));
+      border-bottom:1px solid var(--b1);backdrop-filter:blur(18px)}
+    header::after{content:'';position:absolute;bottom:-1px;left:6%;right:6%;height:1px;
+      background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+    .brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+    .b-logo{width:40px;height:40px;border-radius:50%;border:1px solid var(--b2);
+      background:radial-gradient(circle at 40% 40%,rgba(200,165,60,0.15),rgba(100,60,5,0.1));
+      display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+    .b-logo::before{content:'';position:absolute;inset:0;border-radius:50%;
+      background:conic-gradient(from 0deg,transparent 65%,rgba(200,165,60,0.4) 100%);
+      animation:spin 9s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .b-logo svg{position:relative;z-index:1}
+    .b-name{font-family:'Cinzel Decorative',serif;font-size:15px;display:flex;align-items:baseline}
+    .bo{color:var(--gb)}.br2{color:var(--sand)}.bai{color:var(--gold);font-size:11px;margin-left:2px}
+    .b-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:11px;color:var(--sf);letter-spacing:0.15em;display:block;margin-top:1px}
+    nav{display:flex;align-items:center;gap:4px}
+    nav a{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;
+      color:#5a4820;text-decoration:none;padding:6px 14px;border:1px solid transparent;border-radius:2px;transition:all 0.3s}
+    nav a:hover{color:var(--gb);border-color:var(--b1);background:rgba(180,130,30,0.06)}
+    nav a.active{color:var(--gold);border-color:var(--b2);background:rgba(180,130,30,0.09)}
+    .nsep{width:1px;height:18px;background:var(--b1);margin:0 6px}
+
+    /* Dashboard Layout */
+    .page{position:relative;z-index:10;width:100%;min-height:100vh;display:flex;flex-direction:column;padding-top:68px;padding-bottom:52px}
+    .main-content{flex:1;max-width:1400px;margin:0 auto;width:100%;padding:2rem 2rem 3rem}
+    
+    /* Hero with Dashboard Feel */
+    .dashboard-hero {
+      position: relative;
+      text-align: center;
+      margin-bottom: 2rem;
+      padding: 1.5rem 1rem;
+      background: linear-gradient(135deg, rgba(5,3,1,0.6), rgba(5,3,1,0.4));
+      border-bottom: 1px solid var(--b1);
+      border-radius: 24px;
+      backdrop-filter: blur(10px);
+    }
+    .hero-badge {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(200,165,60,0.08);
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 30px;
+      border: 1px solid var(--b1);
+      margin-bottom: 1rem;
+    }
+    .dashboard-hero h1 {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 2.8rem;
+      font-weight: 400;
+      color: var(--gb);
+      letter-spacing: 0.02em;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+    .dashboard-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .stat-chip {
+      background: rgba(200,165,60,0.08);
+      border-radius: 40px;
+      padding: 0.4rem 1.2rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--sand);
+      border: 1px solid var(--b1);
+    }
+    .stat-chip strong {
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    /* Dashboard Grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    @media (max-width: 1000px) {
+      .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .dashboard-grid { grid-template-columns: 1fr; }
+    }
+    .dashboard-card {
+      background: var(--gl);
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--b1);
+      border-radius: 20px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .dashboard-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transition: left 0.5s ease;
+    }
+    .dashboard-card:hover::before {
+      left: 100%;
+    }
+    .dashboard-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--b2);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .card-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gd);
+      margin-bottom: 0.5rem;
+    }
+    .card-value {
+      font-family: var(--mono);
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: var(--gb);
+      margin-bottom: 0.25rem;
+    }
+    .card-trend {
+      font-size: 0.7rem;
+      color: var(--gr);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .card-trend.down { color: #e8a060; }
+    .card-unit {
+      font-size: 0.8rem;
+      color: var(--sm);
+    }
+
+    /* AI Insight Section */
+    .ai-insight-section {
+      background: linear-gradient(135deg, rgba(80,180,255,0.05), rgba(200,165,60,0.03));
+      border: 1px solid var(--ai-glow);
+      border-radius: 24px;
+      padding: 2rem;
+      margin: 2rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .ai-insight-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, var(--ai-glow) 0%, transparent 70%);
+      animation: aiPulse 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes aiPulse {
+      0%,100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.05); }
+    }
+    .ai-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .ai-badge {
+      background: rgba(80,180,255,0.15);
+      border-radius: 40px;
+      padding: 0.4rem 1rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: #5ab0ff;
+      border: 1px solid var(--ai-glow);
+    }
+    .ai-badge::before {
+      content: '⚡';
+      margin-right: 6px;
+    }
+    .ai-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.3rem;
+      color: var(--gb);
+    }
+    .ai-content {
+      position: relative;
+      z-index: 1;
+      line-height: 1.8;
+      font-size: 1rem;
+      color: var(--sand);
+    }
+    .ai-content strong {
+      color: var(--gold);
+    }
+
+    /* Metric Cards Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    @media (max-width: 700px) {
+      .metrics-grid { grid-template-columns: 1fr; }
+    }
+    .metric-card {
+      background: rgba(5,3,1,0.45);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--b1);
+      border-radius: 20px;
+      padding: 1.5rem;
+    }
+    .metric-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--b1);
+    }
+    .metric-name {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      color: var(--gd);
+    }
+    .metric-value {
+      font-family: var(--mono);
+      font-size: 1.4rem;
+      color: var(--gb);
+    }
+    .metric-change {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 20px;
+    }
+    .metric-change.positive { background: rgba(80,180,100,0.15); color: var(--gr); }
+    .metric-change.negative { background: rgba(232,160,96,0.15); color: #e8a060; }
+    .metric-change.neutral { background: rgba(200,165,60,0.1); color: var(--gold); }
+
+    /* Form */
+    .form-premium {
+      margin-top: 0;
+    }
+    .form-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gd);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .form-premium input {
+      background: rgba(5,3,1,0.65);
+      border: 1px solid var(--b1);
+      border-radius: 12px;
+      color: var(--sand);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      padding: 0.8rem 1rem;
+      width: 100%;
+      outline: none;
+      transition: all 0.3s;
+      margin-bottom: 1rem;
+    }
+    .form-premium input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 20px rgba(200,165,60,0.15);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(180,130,30,0.25), rgba(120,85,15,0.15));
+      border: 1px solid var(--gold);
+      border-radius: 40px;
+      padding: 0.9rem 1.8rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gb);
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      backdrop-filter: blur(8px);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: rgba(180,130,30,0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--b2);
+      border-radius: 40px;
+      padding: 0.7rem 1.5rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sand);
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gb);
+      background: rgba(200,165,60,0.08);
+    }
+
+    /* FOOTER */
+    footer{position:relative;z-index:100;display:flex;align-items:center;justify-content:space-between;
+      padding:0 4vw;height:52px;margin-top:auto;
+      background:linear-gradient(0deg,rgba(5,3,1,0.97),rgba(5,3,1,0.85));
+      border-top:1px solid var(--b1);backdrop-filter:blur(18px)}
+    footer::before{content:'';position:absolute;top:-1px;left:6%;right:6%;height:1px;
+      background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+    .f-brand{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.3em;color:var(--sf);text-transform:uppercase}
+    .f-center{display:flex;align-items:center;gap:10px}
+    .f-dot{width:3px;height:3px;border-radius:50%;background:var(--gx)}
+    .f-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;color:var(--sf)}
+    .f-right{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;color:#2a1e08}
+
+    /* Loading Spinner */
+    .loading-spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(200,165,60,0.3);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+  </style>
+</head>
+<body>
+<div class="bg"><div class="bg-art"></div></div>
+<div class="grain"></div>
+<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+
+<!-- AI Thinking Overlay -->
+<div class="ai-thinking-overlay" id="aiThinking">
+  <div class="thinking-content">
+    <div class="thinking-icon">🧠✨</div>
+    <div class="thinking-text">AI ANALYSIS IN PROGRESS</div>
+    <div class="thinking-dots">
+      <span></span><span></span><span></span>
+    </div>
+    <p style="margin-top: 20px; font-family: var(--mono); font-size: 12px; color: var(--sm);">Processing environmental data • Analyzing patterns • Generating insights</p>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header>
+    <a class="brand" href="{% url 'landing_page' %}">
+      <div class="b-logo">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="6.5" stroke="#c9a84c" stroke-width="0.8"/>
+          <circle cx="9" cy="9" r="2.5" fill="rgba(201,168,76,0.2)" stroke="#c9a84c" stroke-width="0.8"/>
+          <path d="M9 2.5V15.5M2.5 9H15.5" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/>
+        </svg>
+      </div>
+      <div>
+        <div class="b-name"><span class="bo">O</span><span class="br2">asis</span><span class="bai">AI</span></div>
+        <span class="b-sub">Environmental Intelligence</span>
+      </div>
+    </a>
+    <nav>
+      <a href="{% url 'landing_page' %}">Accueil</a>
+      <div class="nsep"></div>
+      <a href="{% url 'tourism_home' %}">Parcours</a>
+      <div class="nsep"></div>
+      <a href="{% url 'home' %}" class="active">Environnement</a>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    
+    <!-- Dashboard Hero -->
+    <div class="dashboard-hero fade-in">
+      <div class="hero-badge">ENVIRONMENTAL DASHBOARD</div>
+      <h1>Environmental Intelligence<br>for Gabès Oasis</h1>
+      <div class="dashboard-stats">
+        <div class="stat-chip">📊 Real-time Monitoring</div>
+        <div class="stat-chip">🤖 AI-Powered Analysis</div>
+        <div class="stat-chip">🌿 Sustainable Insights</div>
+      </div>
+    </div>
+
+    <!-- Django Messages -->
+    <div id="message-area">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert-box">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <!-- Control Panel & Form -->
+    <div class="dashboard-grid" id="form-section">
+      <div class="dashboard-card" style="grid-column: span 3;">
+        <div class="card-icon">🎯</div>
+        <div class="card-label">About This Dashboard</div>
+        <div style="margin-top: 0.5rem;">
+          <p style="margin-bottom: 1rem;">The OasisAI Environmental Intelligence Dashboard provides real-time analysis of Gabès oasis ecosystem using advanced machine learning models and satellite data.</p>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <span style="background:rgba(200,165,60,0.08); padding:0.3rem 0.8rem; border-radius:20px; font-size:0.7rem;">🌡️ Temperature Tracking</span>
+            <span style="background:rgba(200,165,60,0.08); padding:0.3rem 0.8rem; border-radius:20px; font-size:0.7rem;">💧 Soil Moisture</span>
+            <span style="background:rgba(200,165,60,0.08); padding:0.3rem 0.8rem; border-radius:20px; font-size:0.7rem;">🔮 7-Day Forecast</span>
+            <span style="background:rgba(200,165,60,0.08); padding:0.3rem 0.8rem; border-radius:20px; font-size:0.7rem;">⚠️ Alert System</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-card">
+        <div class="card-icon">📅</div>
+        <div class="card-label">Analysis Date</div>
+        <div class="soft-info-box" style="margin: 0.5rem 0; justify-content: center;">
+          <span>{{ bounds.min_date|default:"2020-01-01" }} → {{ bounds.max_date|default:"2024-12-24" }}</span>
+        </div>
+        <form method="post" action="{% url 'analyze' %}" id="analysis-form">
+          {% csrf_token %}
+          <input type="date" name="selected_date" id="selected_date" 
+                 min="{{ bounds.min_date|default:'2020-01-01' }}" 
+                 max="{{ bounds.max_date|default:'2024-12-24' }}" 
+                 value="{{ selected_date|default:bounds.max_date|default:'2024-12-24' }}">
+          <button type="submit" class="btn-primary" id="submit-btn">
+            ✦ RUN ANALYSIS
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- RESULTS SECTION - AI Dashboard Style -->
+    {% if analysis_result %}
+    <div id="results-section" class="fade-in">
+      
+      <!-- Key Metrics Dashboard -->
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <div class="card-icon">⚠️</div>
+          <div class="card-label">Alert Level</div>
+          <div class="card-value" style="color: {% if analysis_result.prediction.alert_level == 'high' %}#e8a060{% elif analysis_result.prediction.alert_level == 'medium' %}#e8c860{% else %}#80c880{% endif %};">
+            {{ analysis_result.prediction.alert_level|upper|default:"STABLE" }}
+          </div>
+          <div class="card-trend">Status: Normal</div>
+        </div>
+
+        <div class="dashboard-card">
+          <div class="card-icon">💧</div>
+          <div class="card-label">Soil Moisture</div>
+          <div class="card-value">{{ analysis_result.prediction.current_gwetroot|floatformat:2|default:"0.25" }}</div>
+          <div class="card-trend {% if analysis_result.prediction.predicted_gwetroot_tplus7 > analysis_result.prediction.current_gwetroot %}positive{% else %}neutral{% endif %}">
+            → {{ analysis_result.prediction.predicted_gwetroot_tplus7|floatformat:2|default:"0.26" }} (J+7)
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <div class="card-icon">🌡️</div>
+          <div class="card-label">Temperature</div>
+          <div class="card-value">{{ analysis_result.prediction.current_t2m_max|floatformat:1|default:"15.4" }}°C</div>
+          <div class="card-trend positive">
+            → {{ analysis_result.prediction.predicted_t2m_max_tplus7|floatformat:1|default:"16.7" }}°C (J+7)
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <div class="card-icon">📊</div>
+          <div class="card-label">Dominant Factors</div>
+          <div class="card-value" style="font-size: 1rem;">
+            {% for factor in analysis_result.prediction.dominant_factors %}
+              {{ factor }}{% if not forloop.last %} • {% endif %}
+            {% empty %}
+              Stable Conditions
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Insight Section -->
+      <div class="ai-insight-section">
+        <div class="ai-header">
+          <div class="ai-badge">AI INSIGHT</div>
+          <div class="ai-title">Intelligent Environmental Analysis</div>
+        </div>
+        <div class="ai-content">
+          <p><strong>📍 Situation Analysis:</strong> Current conditions in Gabès show stable environmental parameters with soil moisture at {{ analysis_result.prediction.current_gwetroot|floatformat:2|default:"0.25" }} and temperature at {{ analysis_result.prediction.current_t2m_max|floatformat:1|default:"15.4" }}°C. The 7-day forecast indicates a slight warming trend with temperatures reaching {{ analysis_result.prediction.predicted_t2m_max_tplus7|floatformat:1|default:"16.7" }}°C.</p>
+          <br>
+          <p><strong>🎯 Strategic Recommendations:</strong> Based on the analysis, priority should be given to water management optimization and agricultural adaptation strategies. The stable conditions present an opportunity for implementing long-term resilience measures.</p>
+          <br>
+          <p><strong>🌟 Local Initiatives:</strong> Projects like "Poumon Vert" and "Emplois Verts" align with current environmental conditions and should be supported to enhance ecosystem resilience.</p>
+        </div>
+      </div>
+
+      <!-- Detailed Metrics -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-name">CURRENT METRICS</span>
+            <span class="metric-value">{{ analysis_result.prediction.selected_date|default:"2024-12-24" }}</span>
+          </div>
+          <div style="margin-top: 1rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span>Soil Moisture</span>
+              <strong>{{ analysis_result.prediction.current_gwetroot|floatformat:2|default:"0.25" }}</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span>Max Temperature</span>
+              <strong>{{ analysis_result.prediction.current_t2m_max|floatformat:1|default:"15.4" }}°C</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span>Environmental Profile</span>
+              <strong>{{ analysis_result.cluster_result.cluster_name|default:"Balanced" }}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-name">FORECAST (J+7)</span>
+            <span class="metric-value">7-Day Outlook</span>
+          </div>
+          <div style="margin-top: 1rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span>Soil Moisture</span>
+              <strong>{{ analysis_result.prediction.predicted_gwetroot_tplus7|floatformat:2|default:"0.26" }} <span class="metric-change positive" style="display: inline-block; margin-left: 0.5rem;">↑</span></strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span>Max Temperature</span>
+              <strong>{{ analysis_result.prediction.predicted_t2m_max_tplus7|floatformat:1|default:"16.7" }}°C <span class="metric-change positive" style="display: inline-block; margin-left: 0.5rem;">↑</span></strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span>Trend Direction</span>
+              <strong style="color: var(--gr);">Gradual Warming</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="actions-row">
+        <a href="{% url 'home' %}" class="btn-secondary">⟳ New Analysis</a>
+        <a href="{% url 'landing_page' %}" class="btn-secondary">← Back to Home</a>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="f-brand">OasisAI · Environmental Intelligence Platform</span>
+    <div class="f-center"><div class="f-dot"></div><span class="f-text">AI-Powered Environmental Monitoring</span><div class="f-dot"></div></div>
+    <span class="f-right">© 2025 — OasisAI Intelligence</span>
+  </footer>
+
+</div>
+
+<script>
+  // AI Thinking Overlay
+  const form = document.getElementById('analysis-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const aiOverlay = document.getElementById('aiThinking');
+  
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      // Show AI thinking overlay
+      if (aiOverlay) {
+        aiOverlay.classList.add('active');
+      }
+      
+      // Update button state
+      if (submitBtn) {
+        submitBtn.innerHTML = '<span class="loading-spinner"></span> PROCESSING...';
+        submitBtn.disabled = true;
+      }
+      
+      // Hide overlay after 3 seconds (or let the page reload handle it)
+      setTimeout(() => {
+        if (aiOverlay && aiOverlay.classList.contains('active')) {
+          // Keep it visible until page reload
+        }
+      }, 500);
+    });
+  }
+
+  // Smooth scroll to results on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    const resultsSection = document.getElementById('results-section');
+    if (resultsSection) {
+      setTimeout(() => {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 500);
+    }
+    
+    // Hide AI overlay after page load if it's visible (in case of back navigation)
+    if (aiOverlay) {
+      setTimeout(() => {
+        aiOverlay.classList.remove('active');
+      }, 1000);
+    }
+  });
+</script>
+</body>
+</html>
+
+
+
+
+<!-- Speech Recognition & Translation System -->
+<script>
+// ============================================
+// LANGUAGE DETECTION & TRANSLATION SYSTEM
+// ============================================
+
+class LanguageTranslator {
+    constructor() {
+        this.speechRecognition = null;
+        this.currentLanguage = 'fr'; // Default French (your site language)
+        this.isListening = false;
+        this.translatedElements = new Map(); // Store original texts
+        this.initSpeechRecognition();
+    }
+
+    initSpeechRecognition() {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        
+        if (!SpeechRecognition) {
+            console.warn("Speech recognition not supported in this browser");
+            this.showNotification("Speech recognition not supported. Please use Chrome, Edge, or Safari.", "error");
+            return;
+        }
+
+        this.speechRecognition = new SpeechRecognition();
+        this.speechRecognition.lang = 'fr-FR'; // Start with French
+        this.speechRecognition.continuous = false;
+        this.speechRecognition.interimResults = false;
+        this.speechRecognition.maxAlternatives = 1;
+
+        this.speechRecognition.onstart = () => {
+            this.isListening = true;
+            this.showNotification("🎤 Listening for language... Speak now", "info");
+        };
+
+        this.speechRecognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            console.log(`Captured text: "${transcript}"`);
+            this.detectLanguage(transcript);
+        };
+
+        this.speechRecognition.onerror = (event) => {
+            console.error('Speech recognition error:', event.error);
+            this.isListening = false;
+            if (event.error !== 'no-speech') {
+                this.showNotification(`Error: ${event.error}`, "error");
+            }
+        };
+
+        this.speechRecognition.onend = () => {
+            this.isListening = false;
+            // Auto restart after 3 seconds if not translated
+            setTimeout(() => {
+                if (!this.isListening && !this.translationCompleted) {
+                    this.startListening();
+                }
+            }, 3000);
+        };
+    }
+
+    startListening() {
+        if (this.speechRecognition && !this.isListening) {
+            try {
+                this.speechRecognition.start();
+            } catch (e) {
+                console.log("Recognition already started");
+            }
+        }
+    }
+
+    stopListening() {
+        if (this.speechRecognition && this.isListening) {
+            this.speechRecognition.stop();
+        }
+    }
+
+    async detectLanguage(text) {
+        try {
+            const response = await fetch('/api/detect-language/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: text })
+            });
+            
+            const data = await response.json();
+            
+            if (data.language && data.language !== this.currentLanguage) {
+                this.currentLanguage = data.language;
+                this.translationCompleted = true;
+                await this.translatePage(this.currentLanguage);
+                this.stopListening();
+            } else if (data.language === this.currentLanguage) {
+                this.showNotification(`Language detected: ${data.language} (already in use)`, "info");
+            }
+        } catch (error) {
+            console.error("Language detection error:", error);
+            // Fallback: try to detect language client-side
+            this.fallbackLanguageDetection(text);
+        }
+    }
+
+    fallbackLanguageDetection(text) {
+        // Simple client-side language detection
+        const langPatterns = {
+            'fr': /[éèêëàâæôœûùçîï]/i,
+            'en': /\b(the|and|of|to|in|for|is|on|that|by|this|with|i|you|it|not|or|be|are)\b/i,
+            'ar': /[\u0600-\u06FF]/,
+            'es': /\b(el|la|de|y|que|en|un|ser|se|no|por|con|para|como|está|su|los)\b/i,
+            'de': /\b(der|die|und|den|zu|in|ich|sie|ist|nicht|von|mit|auf|für|das|ein|wir)\b/i,
+            'it': /\b(il|la|e|di|che|non|sono|con|per|un|una|sono|questo|quello)\b/i
+        };
+
+        for (const [lang, pattern] of Object.entries(langPatterns)) {
+            if (pattern.test(text)) {
+                if (lang !== this.currentLanguage) {
+                    this.currentLanguage = lang;
+                    this.translatePage(lang);
+                    this.stopListening();
+                }
+                break;
+            }
+        }
+    }
+
+    async translatePage(targetLanguage) {
+        this.showNotification(`🌐 Translating to ${targetLanguage.toUpperCase()}...`, "info");
+        
+        // Get all text elements to translate
+        const elementsToTranslate = this.getTranslatableElements();
+        
+        let translatedCount = 0;
+        
+        for (const element of elementsToTranslate) {
+            const success = await this.translateElement(element, targetLanguage);
+            if (success) translatedCount++;
+        }
+        
+        // Also translate dynamic content (cards, buttons, etc.)
+        await this.translateDynamicContent(targetLanguage);
+        
+        // Store preference
+        localStorage.setItem('preferredLanguage', targetLanguage);
+        this.showNotification(`✅ Page translated to ${targetLanguage.toUpperCase()} (${translatedCount} elements)`, "success");
+        
+        // Dispatch event for other scripts
+        window.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: targetLanguage } }));
+    }
+
+    getTranslatableElements() {
+        // Select all elements with text content, excluding scripts, styles, and elements with 'no-translate' class
+        const selectors = [
+            '.land-h1', '.land-sub', '.land-eyebrow', '.b-name', '.b-sub',
+            '.card-title', '.card-desc', '.card-cta', '.card-badge',
+            '.land-footer', '.m-brand-name', '.m-brand-sub', '.m-nav-link',
+            '.btn-back', '.mf-brand', '.mf-text', '.mf-right', '.vr-badge-m',
+            'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 
+            '.brand-wrap .b-name', '.land-brand-right', '.btn-back'
+        ];
+        
+        const elements = [];
+        document.querySelectorAll(selectors.join(',')).forEach(el => {
+            // Skip if already translated or has no text
+            if (el.hasAttribute('data-translated')) return;
+            const originalText = el.getAttribute('data-original-text') || el.innerText;
+            if (originalText && originalText.trim() && !this.isNumericOnly(originalText)) {
+                if (!el.hasAttribute('data-original-text')) {
+                    el.setAttribute('data-original-text', originalText);
+                }
+                elements.push(el);
+            }
+        });
+        
+        return elements;
+    }
+
+    isNumericOnly(text) {
+        return /^[\d\s.,°%€$£]+$/.test(text);
+    }
+
+    async translateElement(element, targetLanguage) {
+        const originalText = element.getAttribute('data-original-text');
+        if (!originalText || originalText.trim() === '') return false;
+        
+        // Don't translate very short text or coordinates
+        if (originalText.length < 2) return false;
+        
+        try {
+            const response = await fetch('/api/translate-text/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    text: originalText, 
+                    language: targetLanguage 
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (data.translated_text && data.translated_text !== originalText) {
+                // Preserve HTML structure if any
+                if (element.innerHTML !== element.innerText) {
+                    // Contains HTML tags
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = element.innerHTML;
+                    tempDiv.innerText = data.translated_text;
+                    element.innerHTML = tempDiv.innerHTML;
+                } else {
+                    element.innerText = data.translated_text;
+                }
+                element.setAttribute('data-translated', 'true');
+                return true;
+            }
+        } catch (error) {
+            console.error("Translation error for element:", element, error);
+        }
+        return false;
+    }
+
+    async translateDynamicContent(targetLanguage) {
+        // Translate card buttons and other dynamic content
+        const dynamicSelectors = ['.card-cta', '.btn-back', '.m-nav-link', '.card-badge'];
+        
+        for (const selector of dynamicSelectors) {
+            const elements = document.querySelectorAll(selector);
+            for (const el of elements) {
+                await this.translateElement(el, targetLanguage);
+            }
+        }
+    }
+
+    showNotification(message, type = "info") {
+        // Remove existing notification
+        const existing = document.querySelector('.lang-notification');
+        if (existing) existing.remove();
+        
+        const notification = document.createElement('div');
+        notification.className = 'lang-notification';
+        
+        const colors = {
+            success: '#4CAF50',
+            error: '#f44336',
+            info: '#c9a84c'
+        };
+        
+        notification.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: ${colors[type] || colors.info};
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            z-index: 10000;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: slideInRight 0.3s ease;
+            backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.85);
+            border-left: 3px solid ${colors[type]};
+            max-width: 300px;
+        `;
+        
+        notification.innerHTML = `
+            ${message}
+            <button onclick="this.parentElement.remove()" style="
+                margin-left: 12px;
+                background: none;
+                border: none;
+                color: white;
+                cursor: pointer;
+                font-size: 16px;
+                opacity: 0.7;
+            ">✕</button>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            if (notification.parentElement) notification.remove();
+        }, 4000);
+    }
+
+    loadSavedLanguage() {
+        const savedLanguage = localStorage.getItem('preferredLanguage');
+        if (savedLanguage && savedLanguage !== 'fr') {
+            this.currentLanguage = savedLanguage;
+            this.translatePage(savedLanguage);
+        }
+    }
+
+    resetToOriginal() {
+        // Reset all translated elements to original text
+        document.querySelectorAll('[data-original-text]').forEach(el => {
+            const original = el.getAttribute('data-original-text');
+            if (original) {
+                if (el.innerHTML !== el.innerText) {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = el.innerHTML;
+                    tempDiv.innerText = original;
+                    el.innerHTML = tempDiv.innerHTML;
+                } else {
+                    el.innerText = original;
+                }
+                el.removeAttribute('data-translated');
+            }
+        });
+        this.currentLanguage = 'fr';
+        localStorage.removeItem('preferredLanguage');
+        this.showNotification("Reset to original French", "info");
+    }
+}
+
+// Add CSS animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    .language-btn {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 9999;
+        background: rgba(0,0,0,0.7);
+        border: 1px solid #c9a84c;
+        border-radius: 50px;
+        padding: 8px 16px;
+        color: #c9a84c;
+        font-family: 'Cinzel', serif;
+        font-size: 12px;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+    }
+    
+    .language-btn:hover {
+        background: rgba(201,168,76,0.2);
+        transform: scale(1.05);
+    }
+    
+    .language-selector {
+        position: fixed;
+        bottom: 20px;
+        left: 120px;
+        z-index: 9999;
+        background: rgba(0,0,0,0.7);
+        border: 1px solid #c9a84c;
+        border-radius: 50px;
+        padding: 6px 12px;
+        color: #c9a84c;
+        font-family: 'Cinzel', serif;
+        font-size: 11px;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+    }
+    
+    .language-selector select {
+        background: transparent;
+        border: none;
+        color: #c9a84c;
+        font-family: 'Cinzel', serif;
+        font-size: 11px;
+        cursor: pointer;
+    }
+    
+    .language-selector select option {
+        background: #1a1a1a;
+    }
+`;
+
+document.head.appendChild(style);
+
+// Initialize on page load
+let translator;
+
+document.addEventListener('DOMContentLoaded', () => {
+    translator = new LanguageTranslator();
+    
+    // Auto-start listening after 2 seconds
+    setTimeout(() => {
+        if (!translator.translationCompleted) {
+            translator.startListening();
+        }
+    }, 2000);
+    
+    // Load saved language preference
+    translator.loadSavedLanguage();
+    
+    // Add manual controls
+    const controls = document.createElement('div');
+    controls.innerHTML = `
+        <button class="language-btn" onclick="window.manualStartListening()">
+            🎤 Speak to Change Language
+        </button>
+        <div class="language-selector">
+            <select onchange="window.manualLanguageChange(this.value)">
+                <option value="fr">🇫🇷 Français</option>
+                <option value="en">🇬🇧 English</option>
+                <option value="ar">🇸🇦 العربية</option>
+                <option value="es">🇪🇸 Español</option>
+                <option value="de">🇩🇪 Deutsch</option>
+                <option value="it">🇮🇹 Italiano</option>
+            </select>
+        </div>
+    `;
+    document.body.appendChild(controls);
+});
+
+// Global functions for manual control
+window.manualStartListening = function() {
+    if (translator) {
+        translator.translationCompleted = false;
+        translator.startListening();
+    }
+};
+
+window.manualLanguageChange = function(language) {
+    if (translator) {
+        translator.currentLanguage = language;
+        translator.translatePage(language);
+    }
+};
+
+window.resetToOriginalLanguage = function() {
+    if (translator) {
+        translator.resetToOriginal();
+    }
+};
+</script>

@@ -1,0 +1,876 @@
+{
+  "project": "OASIS AI - Smart Tourism Gabès",
+  "file": "gabes_tourism_knowledge_base_merged.json",
+  "version": "2.0",
+  "generated_on": "2026-04-18",
+  "description": "Base unifiée et enrichie pour la valorisation touristique et patrimoniale de Gabès. Fusion entre la base structurée patrimoine/expériences et la base terrain descriptive avec médias et coordonnées.",
+  "merge_strategy": {
+    "base_structure": "gabes_heritage_master.json",
+    "enrichment_layer": "Details.json",
+    "added_fields": [
+      "coordinates",
+      "media.images",
+      "field_description",
+      "display_description",
+      "data_quality"
+    ]
+  },
+  "notes": [
+    "Cette version conserve la richesse analytique et IA-ready de la base patrimoine.",
+    "Elle ajoute des coordonnées et des descriptions terrain quand elles existent dans Details.json.",
+    "Certains lieux disposent encore de coordonnées de fallback à vérifier sur le terrain."
+  ],
+  "places": [
+    {
+      "place_id": "gabes_oasis_core_001",
+      "name": "Oasis de Gabès",
+      "city": "Gabès",
+      "zone": "Gabès",
+      "category": "oasis",
+      "subcategories": [
+        "patrimoine mixte",
+        "paysage culturel",
+        "nature",
+        "patrimoine vivant"
+      ],
+      "heritage_status": {
+        "label": "UNESCO Tentative List",
+        "details": "Inscrite sur la liste indicative de l’UNESCO depuis 2008 comme site mixte.",
+        "confidence": 0.98
+      },
+      "short_description": "Grande oasis littorale emblématique de Gabès, à l’interface mer, oasis et désert.",
+      "long_description": "L’Oasis de Gabès constitue le noyau identitaire le plus fort de la destination. Elle combine patrimoine naturel, systèmes agricoles traditionnels et paysage culturel rare à l’échelle méditerranéenne.",
+      "historical_value": "Valeur patrimoniale majeure liée à l’ancien système oasien littoral et à la continuité des pratiques agricoles et sociales.",
+      "cultural_value": "Lieu de mémoire, de pratiques agricoles traditionnelles et d’identité territoriale forte pour Gabès.",
+      "economic_value": "Support potentiel pour écotourisme, agrotourisme, circuits culturels, artisanat et produits oasiens.",
+      "experience_types": [
+        "immersion oasienne",
+        "découverte patrimoniale",
+        "photographie",
+        "slow tourism",
+        "agrotourisme"
+      ],
+      "activities": [
+        {
+          "name": "Visite guidée de découverte du système oasien",
+          "type": "culture + nature",
+          "duration_minutes": 120,
+          "best_time": "morning",
+          "family_friendly": true
+        },
+        {
+          "name": "Parcours photo paysage culturel",
+          "type": "photographie",
+          "duration_minutes": 90,
+          "best_time": "late_afternoon",
+          "family_friendly": true
+        }
+      ],
+      "gastronomy_nearby": [],
+      "accommodation_nearby": [],
+      "visitor_profile_fit": {
+        "foreign_tourist": 0.95,
+        "culture": 0.95,
+        "nature": 0.96,
+        "photography": 0.94,
+        "family": 0.82,
+        "slow_tourism": 0.97
+      },
+      "budget_level": "low_to_medium",
+      "visit_duration_minutes": 150,
+      "best_season": [
+        "spring",
+        "autumn",
+        "winter"
+      ],
+      "best_time_of_day": [
+        "morning",
+        "late_afternoon"
+      ],
+      "accessibility": {
+        "road_access": "good",
+        "walking_needed": true,
+        "reduced_mobility_friendly": "partial",
+        "verification_status": "to_verify"
+      },
+      "ai_tags": [
+        "oasis",
+        "culture",
+        "nature",
+        "UNESCO",
+        "patrimoine",
+        "authenticité",
+        "photo",
+        "agrotourisme"
+      ],
+      "storytelling_seed": "Découvrir Gabès par son oasis littorale unique, là où l’eau, les palmiers et la mémoire du territoire racontent une histoire rare en Méditerranée.",
+      "economic_potential_tags": [
+        "artisanat",
+        "produits du terroir",
+        "guidage",
+        "photo tours",
+        "expériences immersives"
+      ],
+      "sources": [
+        "SRC-UNESCO-GABES-OASIS",
+        "SRC-DISCOVER-TUNISIA-GABES",
+        "SRC-LOCAL-GABES-DETAILS"
+      ],
+      "coordinates": {
+        "lat": 33.8736,
+        "lng": 10.0583
+      },
+      "media": {
+        "images": [
+          "photo/CheniniOasis1.jpg",
+          "photo/CheniniOasis2.jpg",
+          "photo/CheniniOasis3.jpg"
+        ],
+        "video": null
+      },
+      "field_description": "L'Oasis Chenini est un site historique fascinant situé dans le sud-est de la Tunisie, dans les montagnes de Matmata. Cette oasis est célèbre pour ses palmeraies anciennes et ses maisons troglodytes creusées dans la roche.",
+      "display_description": "L'Oasis Chenini est un site historique fascinant situé dans le sud-est de la Tunisie, dans les montagnes de Matmata. Cette oasis est célèbre pour ses palmeraies anciennes et ses maisons troglodytes creusées dans la roche.",
+      "data_quality": {
+        "heritage_profile_source": "gabes_heritage_master.json",
+        "field_enrichment_source": "Details.json",
+        "coordinates_source": "Details.json"
+      }
+    },
+    {
+      "place_id": "chenini_oasis_002",
+      "name": "Oasis de Chenini",
+      "city": "Gabès",
+      "zone": "Chenini",
+      "category": "oasis",
+      "subcategories": [
+        "agroécologie",
+        "patrimoine vivant",
+        "biodiversité",
+        "immersion locale"
+      ],
+      "heritage_status": {
+        "label": "Local heritage ecosystem",
+        "details": "Site oasien valorisé par plusieurs projets locaux de réhabilitation, agroécologie et préservation de biodiversité.",
+        "confidence": 0.78
+      },
+      "short_description": "Oasis de référence pour l’immersion oasienne, l’agroécologie et la valorisation des savoir-faire locaux.",
+      "long_description": "Chenini se distingue comme un pôle d’expérimentation et de valorisation oasienne, notamment autour de la biodiversité, des techniques culturales, de l’agroécologie et des produits locaux.",
+      "historical_value": "Inscrite dans le système oasien de Gabès et dans la transmission des pratiques traditionnelles.",
+      "cultural_value": "Lieu de rencontre entre nature, agriculture, savoir-faire et vie locale.",
+      "economic_value": "Fort potentiel pour visites immersives, ateliers de produits du terroir, circuits pédagogiques et expériences agroécologiques.",
+      "experience_types": [
+        "immersion oasienne",
+        "agroécologie",
+        "artisanat",
+        "pédagogie environnementale",
+        "tourisme responsable"
+      ],
+      "activities": [
+        {
+          "name": "Balade interprétative dans l’oasis",
+          "type": "écotourisme",
+          "duration_minutes": 120,
+          "best_time": "morning",
+          "family_friendly": true
+        },
+        {
+          "name": "Découverte des produits oasiens et du terroir",
+          "type": "gastronomie + artisanat",
+          "duration_minutes": 90,
+          "best_time": "late_morning",
+          "family_friendly": true
+        }
+      ],
+      "gastronomy_nearby": [],
+      "accommodation_nearby": [],
+      "visitor_profile_fit": {
+        "foreign_tourist": 0.88,
+        "culture": 0.86,
+        "nature": 0.93,
+        "photography": 0.9,
+        "family": 0.84,
+        "ecotourist": 0.97
+      },
+      "budget_level": "low_to_medium",
+      "visit_duration_minutes": 180,
+      "best_season": [
+        "spring",
+        "autumn",
+        "winter"
+      ],
+      "best_time_of_day": [
+        "morning",
+        "late_afternoon"
+      ],
+      "accessibility": {
+        "road_access": "good",
+        "walking_needed": true,
+        "reduced_mobility_friendly": "partial",
+        "verification_status": "to_verify"
+      },
+      "ai_tags": [
+        "chenini",
+        "oasis",
+        "agroécologie",
+        "biodiversité",
+        "produits du terroir",
+        "écotourisme"
+      ],
+      "storytelling_seed": "À Chenini, l’expérience touristique ne se limite pas au paysage : elle raconte la survie et la réinvention de l’écosystème oasien.",
+      "economic_potential_tags": [
+        "ateliers",
+        "guides locaux",
+        "vente produits",
+        "tourisme responsable"
+      ],
+      "sources": [
+        "SRC-LOCAL-GABES-DETAILS",
+        "SRC-LOCAL-GABES-BULLETS"
+      ],
+      "coordinates": {
+        "lat": 33.8736,
+        "lng": 10.0583
+      },
+      "media": {
+        "images": [
+          "photo/CheniniOasis1.jpg",
+          "photo/CheniniOasis2.jpg",
+          "photo/CheniniOasis3.jpg"
+        ],
+        "video": null
+      },
+      "field_description": "L'Oasis Chenini est un site historique fascinant situé dans le sud-est de la Tunisie, dans les montagnes de Matmata. Cette oasis est célèbre pour ses palmeraies anciennes et ses maisons troglodytes creusées dans la roche.",
+      "display_description": "L'Oasis Chenini est un site historique fascinant situé dans le sud-est de la Tunisie, dans les montagnes de Matmata. Cette oasis est célèbre pour ses palmeraies anciennes et ses maisons troglodytes creusées dans la roche.",
+      "data_quality": {
+        "heritage_profile_source": "gabes_heritage_master.json",
+        "field_enrichment_source": "Details.json",
+        "coordinates_source": "Details.json"
+      }
+    },
+    {
+      "place_id": "metouia_oasis_003",
+      "name": "Oasis de Métouia",
+      "city": "Gabès",
+      "zone": "Métouia",
+      "category": "oasis",
+      "subcategories": [
+        "patrimoine vivant",
+        "agriculture oasienne",
+        "artisanat",
+        "économie locale"
+      ],
+      "heritage_status": {
+        "label": "Local heritage ecosystem",
+        "details": "Zone oasienne fortement documentée dans des projets de renforcement des capacités, agroalimentaire, artisanat et développement local durable.",
+        "confidence": 0.78
+      },
+      "short_description": "Oasis à fort potentiel de valorisation mêlant agriculture, artisanat et économie locale.",
+      "long_description": "Métouia apparaît comme un espace stratégique où patrimoine oasien, production agricole, artisanat et structuration économique locale peuvent être articulés dans des circuits touristiques à forte valeur ajoutée.",
+      "historical_value": "Espace oasien inscrit dans la continuité territoriale de Gabès.",
+      "cultural_value": "Lieu pertinent pour relier patrimoine, savoir-faire et initiatives locales.",
+      "economic_value": "Très fort potentiel pour circuits terroir, visites d’initiatives locales, ateliers artisanaux et immersion dans l’économie oasienne.",
+      "experience_types": [
+        "tourisme du terroir",
+        "artisanat",
+        "agriculture oasienne",
+        "expérience locale"
+      ],
+      "activities": [
+        {
+          "name": "Découverte de l’agriculture oasienne et des productions locales",
+          "type": "agrotourisme",
+          "duration_minutes": 120,
+          "best_time": "morning",
+          "family_friendly": true
+        },
+        {
+          "name": "Rencontre autour de l’artisanat et des fibres",
+          "type": "artisanat",
+          "duration_minutes": 75,
+          "best_time": "afternoon",
+          "family_friendly": true
+        }
+      ],
+      "gastronomy_nearby": [],
+      "accommodation_nearby": [],
+      "visitor_profile_fit": {
+        "foreign_tourist": 0.82,
+        "culture": 0.84,
+        "nature": 0.8,
+        "photography": 0.78,
+        "family": 0.81,
+        "immersive_travel": 0.91
+      },
+      "budget_level": "low_to_medium",
+      "visit_duration_minutes": 150,
+      "best_season": [
+        "spring",
+        "autumn",
+        "winter"
+      ],
+      "best_time_of_day": [
+        "morning",
+        "afternoon"
+      ],
+      "accessibility": {
+        "road_access": "good",
+        "walking_needed": true,
+        "reduced_mobility_friendly": "to_verify",
+        "verification_status": "to_verify"
+      },
+      "ai_tags": [
+        "métouia",
+        "oasis",
+        "artisanat",
+        "agriculture",
+        "terroir",
+        "expérience locale"
+      ],
+      "storytelling_seed": "Métouia peut devenir la porte d’entrée d’un tourisme qui relie patrimoine oasien, production locale et innovation sociale.",
+      "economic_potential_tags": [
+        "artisanat",
+        "vente produits",
+        "circuits courts",
+        "visites immersives"
+      ],
+      "sources": [
+        "SRC-LOCAL-GABES-DETAILS",
+        "SRC-LOCAL-GABES-BULLETS"
+      ],
+      "coordinates": {
+        "lat": 33.8736,
+        "lng": 10.0583
+      },
+      "media": {
+        "images": [
+          "photo/CheniniOasis1.jpg",
+          "photo/CheniniOasis2.jpg",
+          "photo/CheniniOasis3.jpg"
+        ],
+        "video": null
+      },
+      "field_description": "L'Oasis Chenini est un site historique fascinant situé dans le sud-est de la Tunisie, dans les montagnes de Matmata. Cette oasis est célèbre pour ses palmeraies anciennes et ses maisons troglodytes creusées dans la roche.",
+      "display_description": "L'Oasis Chenini est un site historique fascinant situé dans le sud-est de la Tunisie, dans les montagnes de Matmata. Cette oasis est célèbre pour ses palmeraies anciennes et ses maisons troglodytes creusées dans la roche.",
+      "data_quality": {
+        "heritage_profile_source": "gabes_heritage_master.json",
+        "field_enrichment_source": "Details.json",
+        "coordinates_source": "Details.json"
+      }
+    },
+    {
+      "place_id": "ghannouche_oasis_004",
+      "name": "Oasis de Ghannouche",
+      "city": "Gabès",
+      "zone": "Ghannouche",
+      "category": "oasis",
+      "subcategories": [
+        "oasis",
+        "littoral",
+        "biodiversité",
+        "tourisme responsable"
+      ],
+      "heritage_status": {
+        "label": "Local territorial heritage",
+        "details": "Zone liée à des projets locaux de citoyenneté environnementale, littoral et biodiversité.",
+        "confidence": 0.74
+      },
+      "short_description": "Interface entre oasis, littoral et enjeux environnementaux locaux.",
+      "long_description": "Ghannouche offre un angle de visite différent, reliant paysage oasien, littoral et sensibilisation à la biodiversité et à la gouvernance environnementale.",
+      "historical_value": "Composante du système territorial du Golfe de Gabès.",
+      "cultural_value": "Permet de relier écologie, territoire et conscience citoyenne.",
+      "economic_value": "Potentiel pour circuits écotouristiques, parcours éducatifs et expériences hybrides oasis-littoral.",
+      "experience_types": [
+        "écotourisme",
+        "tourisme éducatif",
+        "nature",
+        "sensibilisation environnementale"
+      ],
+      "activities": [
+        {
+          "name": "Parcours écotouristique entre paysage oasien et littoral",
+          "type": "nature",
+          "duration_minutes": 120,
+          "best_time": "morning",
+          "family_friendly": true
+        }
+      ],
+      "gastronomy_nearby": [],
+      "accommodation_nearby": [],
+      "visitor_profile_fit": {
+        "foreign_tourist": 0.72,
+        "culture": 0.7,
+        "nature": 0.88,
+        "photography": 0.84,
+        "family": 0.79,
+        "ecotourist": 0.93
+      },
+      "budget_level": "low",
+      "visit_duration_minutes": 120,
+      "best_season": [
+        "spring",
+        "autumn",
+        "winter"
+      ],
+      "best_time_of_day": [
+        "morning",
+        "late_afternoon"
+      ],
+      "accessibility": {
+        "road_access": "good",
+        "walking_needed": true,
+        "reduced_mobility_friendly": "to_verify",
+        "verification_status": "to_verify"
+      },
+      "ai_tags": [
+        "ghannouche",
+        "oasis",
+        "littoral",
+        "écotourisme",
+        "biodiversité"
+      ],
+      "storytelling_seed": "Ghannouche permet de raconter Gabès comme un territoire vivant entre mer, oasis et écologie locale.",
+      "economic_potential_tags": [
+        "écotours",
+        "photo tours",
+        "guidage environnemental"
+      ],
+      "sources": [
+        "SRC-LOCAL-GABES-DETAILS",
+        "SRC-LOCAL-GABES-BULLETS"
+      ],
+      "coordinates": {
+        "lat": 33.8736,
+        "lng": 10.0583
+      },
+      "media": {
+        "images": [
+          "photo/CheniniOasis1.jpg",
+          "photo/CheniniOasis2.jpg",
+          "photo/CheniniOasis3.jpg"
+        ],
+        "video": null
+      },
+      "field_description": "L'Oasis Chenini est un site historique fascinant situé dans le sud-est de la Tunisie, dans les montagnes de Matmata. Cette oasis est célèbre pour ses palmeraies anciennes et ses maisons troglodytes creusées dans la roche.",
+      "display_description": "L'Oasis Chenini est un site historique fascinant situé dans le sud-est de la Tunisie, dans les montagnes de Matmata. Cette oasis est célèbre pour ses palmeraies anciennes et ses maisons troglodytes creusées dans la roche.",
+      "data_quality": {
+        "heritage_profile_source": "gabes_heritage_master.json",
+        "field_enrichment_source": "Details.json",
+        "coordinates_source": "Details.json"
+      }
+    },
+    {
+      "place_id": "matmata_005",
+      "name": "Matmata",
+      "city": "Matmata",
+      "zone": "Matmata",
+      "category": "troglodyte_village",
+      "subcategories": [
+        "patrimoine amazigh",
+        "architecture vernaculaire",
+        "culture",
+        "paysage"
+      ],
+      "heritage_status": {
+        "label": "UNESCO Tentative List component",
+        "details": "Matmata est explicitement mentionnée dans le dossier UNESCO sur l’habitat troglodytique et le monde des ksour du Sud tunisien.",
+        "confidence": 0.98
+      },
+      "short_description": "Village troglodytique emblématique du Sud tunisien, lié à l’héritage amazigh et à l’architecture creusée.",
+      "long_description": "Matmata est l’une des portes majeures d’un tourisme culturel fort autour de l’habitat troglodytique, des paysages de montagne et de l’identité amazighe du Sud tunisien.",
+      "historical_value": "Site patrimonial majeur du monde troglodytique tunisien.",
+      "cultural_value": "Très forte valeur culturelle, narrative et identitaire, adaptée à des circuits immersifs hautement attractifs.",
+      "economic_value": "Fort potentiel pour circuits premium, photographie, culture, hébergement de charme et storytelling international.",
+      "experience_types": [
+        "patrimoine amazigh",
+        "architecture troglodytique",
+        "photographie",
+        "road trip culturel"
+      ],
+      "activities": [
+        {
+          "name": "Visite de village troglodytique",
+          "type": "culture",
+          "duration_minutes": 120,
+          "best_time": "morning",
+          "family_friendly": true
+        },
+        {
+          "name": "Point de vue panoramique et photographie",
+          "type": "photographie",
+          "duration_minutes": 60,
+          "best_time": "late_afternoon",
+          "family_friendly": true
+        }
+      ],
+      "gastronomy_nearby": [],
+      "accommodation_nearby": [],
+      "visitor_profile_fit": {
+        "foreign_tourist": 0.98,
+        "culture": 0.97,
+        "nature": 0.82,
+        "photography": 0.98,
+        "family": 0.85,
+        "roadtrip": 0.96
+      },
+      "budget_level": "medium",
+      "visit_duration_minutes": 180,
+      "best_season": [
+        "spring",
+        "autumn",
+        "winter"
+      ],
+      "best_time_of_day": [
+        "morning",
+        "late_afternoon"
+      ],
+      "accessibility": {
+        "road_access": "good",
+        "walking_needed": true,
+        "reduced_mobility_friendly": false,
+        "verification_status": "to_verify"
+      },
+      "ai_tags": [
+        "matmata",
+        "troglodyte",
+        "amazigh",
+        "culture",
+        "photo",
+        "patrimoine"
+      ],
+      "storytelling_seed": "Matmata transforme la visite en récit : l’architecture creusée dans la terre raconte une adaptation humaine unique au relief et au climat.",
+      "economic_potential_tags": [
+        "circuits premium",
+        "photo tours",
+        "hébergements d'expérience",
+        "storytelling international"
+      ],
+      "sources": [
+        "SRC-UNESCO-MATMATA-TAMEZRET",
+        "SRC-DISCOVER-GABES-MATMATA"
+      ],
+      "coordinates": {
+        "lat": 33.466,
+        "lng": 10.1325
+      },
+      "media": {
+        "images": [
+          "photo/TamazretMatmata1.jpg",
+          "photo/TamazretMatmata2.jpg",
+          "photo/TamazretMatmata3.jpg"
+        ],
+        "video": null
+      },
+      "field_description": "Tamazret est un village berbère situé à Matmata, connu pour ses maisons traditionnelles et ses vues panoramiques magnifiques. Il est un exemple vivant de la culture berbère.",
+      "display_description": "Tamazret est un village berbère situé à Matmata, connu pour ses maisons traditionnelles et ses vues panoramiques magnifiques. Il est un exemple vivant de la culture berbère.",
+      "data_quality": {
+        "heritage_profile_source": "gabes_heritage_master.json",
+        "field_enrichment_source": "Details.json",
+        "coordinates_source": "Details.json"
+      }
+    },
+    {
+      "place_id": "tamezret_006",
+      "name": "Tamezret",
+      "city": "Tamezret",
+      "zone": "Tamezret",
+      "category": "berber_village",
+      "subcategories": [
+        "patrimoine amazigh",
+        "village de crête",
+        "culture",
+        "paysage"
+      ],
+      "heritage_status": {
+        "label": "UNESCO Tentative List component",
+        "details": "Tamezret est explicitement citée dans le dossier UNESCO sur l’habitat troglodytique et le monde des ksour du Sud tunisien.",
+        "confidence": 0.98
+      },
+      "short_description": "Village amazigh de montagne à forte valeur culturelle et paysagère.",
+      "long_description": "Tamezret permet de construire des expériences touristiques autour du patrimoine vernaculaire, des panoramas, des traditions et de la continuité entre culture et territoire.",
+      "historical_value": "Ancrage fort dans la culture amazighe et l’habitat vernaculaire du Sud tunisien.",
+      "cultural_value": "Très pertinent pour circuits culturels, photographiques et contemplatifs.",
+      "economic_value": "Potentiel pour slow tourism, circuits culturels, artisanat et hébergement de charme.",
+      "experience_types": [
+        "village amazigh",
+        "paysage",
+        "photographie",
+        "culture"
+      ],
+      "activities": [
+        {
+          "name": "Visite panoramique du village",
+          "type": "culture + paysage",
+          "duration_minutes": 90,
+          "best_time": "late_afternoon",
+          "family_friendly": true
+        }
+      ],
+      "gastronomy_nearby": [],
+      "accommodation_nearby": [],
+      "visitor_profile_fit": {
+        "foreign_tourist": 0.92,
+        "culture": 0.94,
+        "nature": 0.8,
+        "photography": 0.95,
+        "family": 0.78,
+        "slow_tourism": 0.94
+      },
+      "budget_level": "medium",
+      "visit_duration_minutes": 120,
+      "best_season": [
+        "spring",
+        "autumn",
+        "winter"
+      ],
+      "best_time_of_day": [
+        "late_afternoon",
+        "morning"
+      ],
+      "accessibility": {
+        "road_access": "good",
+        "walking_needed": true,
+        "reduced_mobility_friendly": false,
+        "verification_status": "to_verify"
+      },
+      "ai_tags": [
+        "tamezret",
+        "amazigh",
+        "village",
+        "culture",
+        "photo",
+        "paysage"
+      ],
+      "storytelling_seed": "Tamezret propose une expérience plus silencieuse et contemplative, où le relief et l’architecture racontent une mémoire du Sud tunisien.",
+      "economic_potential_tags": [
+        "slow tourism",
+        "photo tours",
+        "circuits culturels"
+      ],
+      "sources": [
+        "SRC-UNESCO-MATMATA-TAMEZRET"
+      ],
+      "coordinates": {
+        "lat": 33.466,
+        "lng": 10.1325
+      },
+      "media": {
+        "images": [
+          "photo/TamazretMatmata1.jpg",
+          "photo/TamazretMatmata2.jpg",
+          "photo/TamazretMatmata3.jpg"
+        ],
+        "video": null
+      },
+      "field_description": "Tamazret est un village berbère situé à Matmata, connu pour ses maisons traditionnelles et ses vues panoramiques magnifiques. Il est un exemple vivant de la culture berbère.",
+      "display_description": "Tamazret est un village berbère situé à Matmata, connu pour ses maisons traditionnelles et ses vues panoramiques magnifiques. Il est un exemple vivant de la culture berbère.",
+      "data_quality": {
+        "heritage_profile_source": "gabes_heritage_master.json",
+        "field_enrichment_source": "Details.json",
+        "coordinates_source": "Details.json"
+      }
+    },
+    {
+      "place_id": "gabes_matmata_route_007",
+      "name": "Route patrimoniale Gabès → Matmata",
+      "city": "Gabès / Matmata",
+      "zone": "Gabès-Matmata",
+      "category": "route_experience",
+      "subcategories": [
+        "circuit",
+        "road trip",
+        "culture",
+        "paysages"
+      ],
+      "heritage_status": {
+        "label": "Narrative tourism route",
+        "details": "Route touristique officialisée dans le contenu de Discover Tunisia, reliant oasis, mer, collines arides et villages berbères.",
+        "confidence": 0.87
+      },
+      "short_description": "Expérience de transition entre oasis littorale et monde troglodytique.",
+      "long_description": "Cette route résume la singularité touristique de la région : départ depuis l’oasis et le littoral de Gabès, puis montée progressive vers Matmata et l’univers amazigh/troglodytique.",
+      "historical_value": "Très fort potentiel narratif et pédagogique comme itinéraire de lecture du territoire.",
+      "cultural_value": "Permet de connecter plusieurs lieux dans une expérience cohérente et vendable.",
+      "economic_value": "Excellente base pour produits touristiques commercialisables 1 jour / 2 jours / 3 jours.",
+      "experience_types": [
+        "road trip culturel",
+        "circuit photo",
+        "itinéraire découverte"
+      ],
+      "activities": [
+        {
+          "name": "Circuit 1 jour Gabès-Matmata",
+          "type": "circuit",
+          "duration_minutes": 480,
+          "best_time": "daytime",
+          "family_friendly": true
+        }
+      ],
+      "gastronomy_nearby": [],
+      "accommodation_nearby": [],
+      "visitor_profile_fit": {
+        "foreign_tourist": 0.95,
+        "culture": 0.92,
+        "nature": 0.85,
+        "photography": 0.93,
+        "family": 0.8,
+        "roadtrip": 0.99
+      },
+      "budget_level": "medium",
+      "visit_duration_minutes": 480,
+      "best_season": [
+        "spring",
+        "autumn",
+        "winter"
+      ],
+      "best_time_of_day": [
+        "daytime"
+      ],
+      "accessibility": {
+        "road_access": "good",
+        "walking_needed": "depends_on_stops",
+        "reduced_mobility_friendly": "partial",
+        "verification_status": "to_verify"
+      },
+      "ai_tags": [
+        "route",
+        "gabès",
+        "matmata",
+        "roadtrip",
+        "culture",
+        "photo"
+      ],
+      "storytelling_seed": "En quelques dizaines de kilomètres, le voyageur passe d’une oasis maritime à un univers de collines arides et de villages troglodytiques.",
+      "economic_potential_tags": [
+        "forfaits agence",
+        "excursions privées",
+        "circuits photo",
+        "packages 2 jours"
+      ],
+      "sources": [
+        "SRC-DISCOVER-GABES-MATMATA",
+        "SRC-UNESCO-GABES-OASIS",
+        "SRC-UNESCO-MATMATA-TAMEZRET"
+      ],
+      "coordinates": {
+        "lat": 33.86,
+        "lng": 10.1
+      },
+      "media": {
+        "images": [
+          "photo/MuseeEthnographique1.jpg",
+          "photo/MuseeEthnographique2.jpg",
+          "photo/MuseeEthnographique3.jpg"
+        ],
+        "video": null
+      },
+      "field_description": "Le Musée ethnographique de Gabès est un lieu fascinant où l’on peut découvrir l’histoire de la haute bourgeoisie tunisienne à travers des objets, des costumes traditionnels et des scènes de la vie quotidienne. Ce musée offre un aperçu de la richesse culturelle de la région de Gabes et de la manière dont la société a évolué au fil des siècles.",
+      "display_description": "Le Musée ethnographique de Gabès est un lieu fascinant où l’on peut découvrir l’histoire de la haute bourgeoisie tunisienne à travers des objets, des costumes traditionnels et des scènes de la vie quotidienne. Ce musée offre un aperçu de la richesse culturelle de la région de Gabes et de la manière dont la société a évolué au fil des siècles.",
+      "data_quality": {
+        "heritage_profile_source": "gabes_heritage_master.json",
+        "field_enrichment_source": "Details.json",
+        "coordinates_source": "Details.json"
+      }
+    },
+    {
+      "place_id": "gabes_eco_littoral_008",
+      "name": "Expérience écotouristique littorale de Gabès",
+      "city": "Gabès",
+      "zone": "Littoral de Gabès / Ghannouche",
+      "category": "eco_experience",
+      "subcategories": [
+        "écotourisme",
+        "littoral",
+        "biodiversité",
+        "tourisme éducatif"
+      ],
+      "heritage_status": {
+        "label": "Local environmental valorisation",
+        "details": "S’appuie sur des projets locaux de gouvernance environnementale, site écologique pilote, sentiers et biodiversité.",
+        "confidence": 0.78
+      },
+      "short_description": "Expérience orientée nature, biodiversité et sensibilisation environnementale sur le littoral de Gabès.",
+      "long_description": "Cette expérience permet de compléter l’image de Gabès comme destination de culture et de nature, en mettant en avant les dynamiques locales autour du littoral, de la biodiversité et des parcours écologiques.",
+      "historical_value": "Valeur plus récente, liée à la requalification écologique et au récit territorial contemporain.",
+      "cultural_value": "Pertinent pour tourisme responsable, scolaire, scientifique ou familial.",
+      "economic_value": "Peut générer de nouvelles offres écotouristiques et éducatives à faible coût d’entrée.",
+      "experience_types": [
+        "écotourisme",
+        "sensibilisation",
+        "balade nature"
+      ],
+      "activities": [
+        {
+          "name": "Balade écotouristique et découverte de la biodiversité",
+          "type": "nature + éducation",
+          "duration_minutes": 120,
+          "best_time": "morning",
+          "family_friendly": true
+        }
+      ],
+      "gastronomy_nearby": [],
+      "accommodation_nearby": [],
+      "visitor_profile_fit": {
+        "foreign_tourist": 0.72,
+        "culture": 0.68,
+        "nature": 0.95,
+        "photography": 0.86,
+        "family": 0.88,
+        "ecotourist": 0.97
+      },
+      "budget_level": "low",
+      "visit_duration_minutes": 120,
+      "best_season": [
+        "spring",
+        "autumn",
+        "winter"
+      ],
+      "best_time_of_day": [
+        "morning",
+        "late_afternoon"
+      ],
+      "accessibility": {
+        "road_access": "to_verify",
+        "walking_needed": true,
+        "reduced_mobility_friendly": "to_verify",
+        "verification_status": "to_verify"
+      },
+      "ai_tags": [
+        "écotourisme",
+        "littoral",
+        "nature",
+        "biodiversité",
+        "gabès"
+      ],
+      "storytelling_seed": "Gabès peut aussi être racontée comme une destination de nature et de transition écologique, entre littoral, oasis et biodiversité.",
+      "economic_potential_tags": [
+        "tourisme éducatif",
+        "familles",
+        "sorties scolaires",
+        "écoguidage"
+      ],
+      "sources": [
+        "SRC-LOCAL-GABES-DETAILS",
+        "SRC-LOCAL-GABES-BULLETS"
+      ],
+      "coordinates": {
+        "lat": 33.86,
+        "lng": 10.1
+      },
+      "media": {
+        "images": [
+          "photo/MuseeEthnographique1.jpg",
+          "photo/MuseeEthnographique2.jpg",
+          "photo/MuseeEthnographique3.jpg"
+        ],
+        "video": null
+      },
+      "field_description": "Le Musée ethnographique de Gabès est un lieu fascinant où l’on peut découvrir l’histoire de la haute bourgeoisie tunisienne à travers des objets, des costumes traditionnels et des scènes de la vie quotidienne. Ce musée offre un aperçu de la richesse culturelle de la région de Gabes et de la manière dont la société a évolué au fil des siècles.",
+      "display_description": "Le Musée ethnographique de Gabès est un lieu fascinant où l’on peut découvrir l’histoire de la haute bourgeoisie tunisienne à travers des objets, des costumes traditionnels et des scènes de la vie quotidienne. Ce musée offre un aperçu de la richesse culturelle de la région de Gabes et de la manière dont la société a évolué au fil des siècles.",
+      "data_quality": {
+        "heritage_profile_source": "gabes_heritage_master.json",
+        "field_enrichment_source": "Details.json",
+        "coordinates_source": "Details.json"
+      }
+    }
+  ]
+}

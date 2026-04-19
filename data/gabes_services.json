@@ -1,0 +1,99 @@
+{
+  "project": "OASIS AI - Smart Tourism Gabès",
+  "file": "gabes_services.json",
+  "version": "1.0",
+  "generated_on": "2026-04-17",
+  "description": "Base des services touristiques (restauration, hébergement, cafés) pour enrichir l’expérience utilisateur.",
+  "note": "Les données sont indicatives et doivent être vérifiées régulièrement.",
+  "services": [
+    {
+      "service_id": "resto_001",
+      "name": "Restaurant El Houch",
+      "type": "restaurant",
+      "city": "Gabès",
+      "zone": "Centre",
+      "cuisine": [
+        "traditionnelle tunisienne"
+      ],
+      "price_level": "medium",
+      "suitable_for": [
+        "touristes",
+        "famille"
+      ],
+      "nearby_place_ids": [
+        "gabes_oasis_core_001"
+      ],
+      "verification_status": "to_verify"
+    },
+    {
+      "service_id": "resto_002",
+      "name": "Restaurant Oasis Chenini",
+      "type": "restaurant",
+      "city": "Chenini",
+      "zone": "Oasis",
+      "cuisine": [
+        "locale",
+        "produits du terroir"
+      ],
+      "price_level": "low_to_medium",
+      "suitable_for": [
+        "écotouristes",
+        "groupes"
+      ],
+      "nearby_place_ids": [
+        "chenini_oasis_002"
+      ],
+      "verification_status": "to_verify"
+    },
+    {
+      "service_id": "hotel_001",
+      "name": "Hôtel Oasis Gabès",
+      "type": "hotel",
+      "city": "Gabès",
+      "zone": "Centre",
+      "category": "3_star",
+      "price_level": "medium",
+      "suitable_for": [
+        "touristes",
+        "business"
+      ],
+      "nearby_place_ids": [
+        "gabes_oasis_core_001"
+      ],
+      "verification_status": "to_verify"
+    },
+    {
+      "service_id": "hotel_002",
+      "name": "Maison d’hôtes Matmata Experience",
+      "type": "guesthouse",
+      "city": "Matmata",
+      "zone": "Matmata",
+      "category": "authentic",
+      "price_level": "medium",
+      "suitable_for": [
+        "culture",
+        "immersion"
+      ],
+      "nearby_place_ids": [
+        "matmata_005"
+      ],
+      "verification_status": "to_verify"
+    },
+    {
+      "service_id": "cafe_001",
+      "name": "Café Littoral Gabès",
+      "type": "cafe",
+      "city": "Gabès",
+      "zone": "Littoral",
+      "price_level": "low",
+      "suitable_for": [
+        "famille",
+        "jeunes"
+      ],
+      "nearby_place_ids": [
+        "gabes_eco_littoral_008"
+      ],
+      "verification_status": "to_verify"
+    }
+  ]
+}

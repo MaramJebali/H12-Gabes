@@ -1,0 +1,1190 @@
+{
+  "projets": [
+    {
+      "titre": "Projet d’appui au développement durable et à la création d’activités génératrices de revenu dans la zone de Zarat",
+      "sous_titre": null,
+      "periode": {
+        "debut": "27/9/2016",
+        "fin": "31/12/2018"
+      },
+      "finances": {
+        "budget_total_eur": 239122.24,
+        "subvention_eur": 198280.24
+      },
+      "acteurs": {
+        "coordinateur": "Union Tunisienne de Solidarité Sociale",
+        "autres_beneficiaires": [
+          "Association de développement de Zarat"
+        ],
+        "associes": [],
+        "contact": {
+          "nom": "Mme Fatma Ben Mahmoud",
+          "email": "meyadad@gmail.com"
+        }
+      },
+      "objectif": "Le projet a pour ambition de réduire la pauvreté auprès des populations vulnérables dans la zone d’intervention en leur permettant d’accéder à la création d’entreprises, diversifier leurs activités à travers une approche de développement durable à travers : - Le soutien de l’auto-emploi responsable par le renforcement de l'agriculture, l'élevage, la pêche, avec une attention particulière aux jeunes et aux femmes; - L’amélioration des conditions de vie de la population locale à traves l'expansion des revenues; - Le développement, la mobilisation des ressources humaines, financières et naturelles du territoire pour soutenir et créer l’entreprise; - La création d’une dynamique socioéconomique avec implication et participation des acteurs du monde économique.",
+      "contexte": null,
+      "realisations": [
+        "Identification des créneaux porteurs d’emploi, de création d’activités génératrices de revenu et de micro entreprises",
+        "Réalisation d’une étude sur les créneaux porteurs de la région",
+        "Un séminaire de diffusion des résultats de l’étude sur les créneaux porteurs a vu la participation de 104 personnes",
+        "45 personnes ont bénéficié de séance de coaching pour l’élaboration de plans d’affaire",
+        "Renforcement des capacités techniques et financières des jeunes et des femmes pour accéder et diversifier leurs activités génératrices de revenu",
+        "39 des participants au séminaire ont déposé des idées de projets identifiés par l’étude",
+        "18 projets ont été retenus (8 femmes et 10 hommes) et ont bénéficié d’un accompagnement personnalisé ainsi que d’un financement allant de 4000 à 10 000DT",
+        "150 personnes (98 femmes et 52 jeunes) ont bénéficié d’une formation en gestion des micro-entreprises, en éducation financière et en coaching",
+        "Les techniques de production des exploitations agricoles sont maitrisées et adoptées par les exploitants et les capacités de gestion des exploitations agricoles sont renforcées",
+        "22 femmes et 2 jeunes entrepreneurs ont bénéficié de formations en élevage (mode de conduite de cheptel), en risques sanitaires et environnementaux de ramassage des palourdes durant la saison fermé",
+        "22 femmes ont bénéficié de don en cheptel (08 brebis suitées + un bélier)",
+        "Les capacités du partenaire et des groupements de développement agricole locaux sont renforcées",
+        "22 membres et salariés des groupements de développement agricoles ont participé aux sessions de formation de renforcement de capacités des partenaires (gestion administrative et financière des organisations communautaires de base)"
+      ],
+      "resultats_chiffres": [
+        "104 personnes ont participé au séminaire de diffusion des résultats de l’étude sur les créneaux porteurs",
+        "45 personnes ont bénéficié de séance de coaching pour l’élaboration de plans d’affaire",
+        "39 des participants au séminaire ont déposé des idées de projets identifiés par l’étude",
+        "18 projets ont été retenus (8 femmes et 10 hommes) et ont bénéficié d’un accompagnement personnalisé ainsi que d’un financement allant de 4000 à 10 000DT",
+        "150 personnes (98 femmes et 52 jeunes) ont bénéficié d’une formation en gestion des micro-entreprises, en éducation financière et en coaching",
+        "22 femmes et 2 jeunes entrepreneurs ont bénéficié de formations en élevage (mode de conduite de cheptel), en risques sanitaires et environnementaux de ramassage des palourdes durant la saison fermé",
+        "22 femmes ont bénéficié de don en cheptel (08 brebis suitées + un bélier)",
+        "22 membres et salariés des groupements de développement agricoles ont participé aux sessions de formation de renforcement de capacités des partenaires (gestion administrative et financière des organisations communautaires de base)"
+      ],
+      "infrastructure_disponible": [],
+      "metriques": [
+        {
+          "valeur": 104,
+          "unite": "personnes",
+          "description": "Nombre de participants au séminaire de diffusion des résultats de l’étude sur les créneaux porteurs"
+        },
+        {
+          "valeur": 45,
+          "unite": "personnes",
+          "description": "Nombre de personnes ayant bénéficié de séance de coaching pour l’élaboration de plans d’affaire"
+        },
+        {
+          "valeur": 39,
+          "unite": "projets",
+          "description": "Nombre de projets déposés par les participants au séminaire"
+        },
+        {
+          "valeur": 18,
+          "unite": "projets",
+          "description": "Nombre de projets retenus et bénéficiant d’un accompagnement personnalisé et d’un financement"
+        },
+        {
+          "valeur": 150,
+          "unite": "personnes",
+          "description": "Nombre de personnes ayant bénéficié d’une formation en gestion des micro-entreprises, en éducation financière et en coaching"
+        },
+        {
+          "valeur": 22,
+          "unite": "femmes",
+          "description": "Nombre de femmes ayant bénéficié de formations en élevage et de don en cheptel"
+        },
+        {
+          "valeur": 2,
+          "unite": "jeunes",
+          "description": "Nombre de jeunes ayant bénéficié de formations en élevage"
+        },
+        {
+          "valeur": 22,
+          "unite": "membres et salariés",
+          "description": "Nombre de membres et salariés des groupements de développement agricoles ayant participé aux sessions de formation de renforcement de capacités des partenaires"
+        }
+      ],
+      "zones_geographiques": [
+        "Zarat",
+        "Gabès"
+      ],
+      "themes": [
+        "agriculture_oasienne",
+        "pêche",
+        "emploi",
+        "société_civile"
+      ],
+      "mots_cles": [
+        "développement durable",
+        "création d’entreprises",
+        "pauvreté",
+        "jeunes",
+        "femmes",
+        "agriculture",
+        "élevage",
+        "pêche",
+        "formation",
+        "accompagnement"
+      ]
+    },
+    {
+      "titre": "PREOS",
+      "sous_titre": "Réhabilitation et préservation de la biodiversité végétale de l’écosystème oasien de Gabès",
+      "periode": {
+        "debut": "4/10/2016",
+        "fin": "31/12/2018"
+      },
+      "finances": {
+        "budget_total_eur": 271553.04,
+        "subvention_eur": 256553.04
+      },
+      "acteurs": {
+        "coordinateur": "Association de Sauvegarde de l’Oasis et de la Médina de Gabès",
+        "autres_beneficiaires": [
+          "Institut des Régions Arides (IRA)"
+        ],
+        "associes": [],
+        "contact": {
+          "nom": "Mr Mohammed ABDELRAHIM",
+          "email": "cab_ace@yahoo.fr"
+        }
+      },
+      "objectif": "Contribuer à la sauvegarde de la biodiversité oasienne et le changement de milieu oasien en un milieu sain, prospère, accueillant où les habitants sont les créateurs de leur richesse par : - La valorisation des produits oasiens et la consolidation d’activités génératrices des revenus - La préservation de la biodiversité végétale de de l’écosystème oasien - L’amélioration de la participation et l’implication de la population oasienne dans la protection et le développement durable de l’oasis",
+      "contexte": null,
+      "realisations": [
+        "Renforcement des capacités et des compétences de la société civile pour participer pleinement au développement local à travers les actions suivantes :",
+        "- 38 personnes émanant de 17 OSC ont bénéficié d’une formation en renforcement des capacités organisationnelles et institutionnelles, en techniques de communication, information, gestion des conflits et plaidoyer, en montage, gestion, suivi et évaluation de projets et en partenariat et réseautage",
+        "- Renforcement des capacités des GDA par des formations en capacités organisationnelles et institutionnelles, planification, conception et élaboration des projets de développement, bonnes pratiques de gouvernance communautaires et outils de communication, sensibilisation, enquête (une trentaine de participants issu de 14 associations)",
+        "- Formation de formateurs en techniques culturales des palmiers dattiers",
+        "- Echange d’expériences à travers des voyages d’étude avec les GDA du nord-est et du nord-ouest de la Tunisie",
+        "- Un réseau associatif a été créé pour capitaliser les expériences associatives regroupant 20 OSC et 14 GDA",
+        "- Création d’un espace de concertation « conseil oasien de Gabès » regroupant 7 GDA et 4 OSC",
+        "- Organisation d’un atelier participatif sur la Préservation du Système Oasien : « l’oasis de gabés revient, quelles solutions, quel avenir ? » qui a débouché sur l’élaboration d’un guide de citoyenneté oasienne",
+        "Ce projet est financé par l’Union européenne Un projet mis en place par Expertise France",
+        "- Participation active à la journée mondiale de la biodiversité",
+        "La biodiversité variétale du palmier dattier a été préservée de façon durable et la productivité a été réhabilitée pour 62 parcelles en préservant 5 cultivars et en plantant 680 rejets",
+        "- Construction, équipement et mise en œuvre d’un laboratoire de culture in vitro à l’IRA Nahel Gabès",
+        "- Collaboration avec le laboratoire de culture in vitro de Déguech",
+        "- La visite du laboratoire de culture in vitro de l’università degli Studi di Palermo",
+        "- 5 visites d’échanges entre agriculteurs oasiens",
+        "- Multiplication et plantation de 680 cultivars rares du palmier dattier dans les oasis",
+        "- Aménagement d’un jardin de la biodiversité avec plantation de 33 rejets du palmier et 11 arbres fruitiers",
+        "- 25 jeunes agriculteurs ont été formés aux techniques culturales des palmiers",
+        "- Capitalisation des techniques culturales des palmiers dattiers à travers 500 éléments publiés",
+        "Identification et promotion des bonnes pratiques de valorisation des produits oasiens",
+        "- 20 artisanes ont été formées à l’aspect technologique des dattes communes de Gabès et à l’aspect artisanal des palmiers",
+        "- 25 femmes de Mareth, Gabès, hamma, chenini, medou ont créé une association féminine de production des produits du terroir",
+        "- 17 jeunes promotrices ont bénéficié d’une formation en gestion technique, managériale et financière",
+        "- 11 microprojets ont vu le jour pour la transformation des dattes et la vannerie"
+      ],
+      "resultats_chiffres": [
+        "38 personnes émanant de 17 OSC ont bénéficié d’une formation",
+        "une trentaine de participants issu de 14 associations",
+        "20 OSC et 14 GDA",
+        "7 GDA et 4 OSC",
+        "62 parcelles",
+        "5 cultivars",
+        "680 rejets",
+        "5 visites d’échanges entre agriculteurs oasiens",
+        "680 cultivars rares du palmier dattier",
+        "33 rejets du palmier et 11 arbres fruitiers",
+        "25 jeunes agriculteurs",
+        "500 éléments publiés",
+        "20 artisanes",
+        "25 femmes",
+        "17 jeunes promotrices",
+        "11 microprojets"
+      ],
+      "infrastructure_disponible": [
+        {
+          "nom": "Laboratoire de culture in vitro",
+          "type": "Laboratoire",
+          "statut": "Construit et équipé",
+          "localisation": "IRA Nahel Gabès",
+          "description": "Laboratoire de culture in vitro pour la multiplication et la plantation de palmiers dattiers"
+        },
+        {
+          "nom": "Jardin de la biodiversité",
+          "type": "Jardin",
+          "statut": "Aménagé",
+          "localisation": null,
+          "description": "Jardin de la biodiversité avec plantation de palmiers et arbres fruitiers"
+        }
+      ],
+      "metriques": [
+        {
+          "valeur": 271553.04,
+          "unite": "EUR",
+          "description": "Budget total"
+        },
+        {
+          "valeur": 256553.04,
+          "unite": "EUR",
+          "description": "Subvention"
+        },
+        {
+          "valeur": 62,
+          "unite": "Parcelles",
+          "description": "Parcelles réhabilitées"
+        },
+        {
+          "valeur": 5,
+          "unite": "Cultivars",
+          "description": "Cultivars préservés"
+        },
+        {
+          "valeur": 680,
+          "unite": "Rejets",
+          "description": "Rejets plantés"
+        }
+      ],
+      "zones_geographiques": [
+        "Gabès",
+        "Tunisie",
+        "Nord-est de la Tunisie",
+        "Nord-ouest de la Tunisie",
+        "Mareth",
+        "Hamma",
+        "Chenini",
+        "Medou"
+      ],
+      "themes": [
+        "biodiversité",
+        "agriculture_oasienne",
+        "société_civile",
+        "emploi",
+        "énergie"
+      ],
+      "mots_cles": [
+        "Biodiversité",
+        "Oasis",
+        "Gabès",
+        "Tunisie",
+        "Agriculture",
+        "Développement durable",
+        "Société civile",
+        "Emploi",
+        "Énergie"
+      ]
+    },
+    {
+      "titre": "Poumon Vert, L’agro écologie pour une renaissance de l'écosystème oasien, « poumon vert » du Gouvernorat de Gabes",
+      "sous_titre": null,
+      "periode": {
+        "debut": "24/09/2016",
+        "fin": "31/12/2018"
+      },
+      "finances": {
+        "budget_total_eur": 360015.04,
+        "subvention_eur": 300000.0
+      },
+      "acteurs": {
+        "coordinateur": "Association de Sauvegarde de l’Oasis de Chenini",
+        "autres_beneficiaires": [
+          "Terre et Humanisme Tunisie"
+        ],
+        "associes": [
+          "Association NAKHWA pour la femme et la famille",
+          "Groupement de Développement Agricole Bouchemma",
+          "Groupement de Développement Agricole Chenini",
+          "CRDA de Gabès",
+          "Institut des Régions Arides",
+          "Groupement de Développement Agricole Métouia"
+        ],
+        "contact": {
+          "nom": "Mr Elyes Ben Aoun",
+          "email": "benounelyess@gmail.com"
+        }
+      },
+      "objectif": "Contribuer au renforcement des opportunités de développement local et protection environnementale dans le Gouvernorat de Gabés Promouvoir l’amélioration des conditions socio-économiques et de durabilité environnementale oasienne à travers l’implication de la société civile organisée à Chenini, Metouia et Bouchemma, Délégation de Gabés Ouest et El Metouia.",
+      "contexte": null,
+      "realisations": [
+        "Amorçage d’un processus de protection de l’écosystème oasien dans 3 sites",
+        "Etude technique de la situation actuelle dans 3 oasis",
+        "2000 rejets des palmiers de variétés locales plantés",
+        "100 plants mâles polinisateurs sont plantés",
+        "9 variétés des palmiers dattiers disparues ou en voie de distinction sont réintroduites dans les oasis (cultivars)",
+        "28.5 km de drains entretenus",
+        "Amélioration sur une distance de 1000 m du réseau d’irrigation à la parcelle",
+        "Une superficie de 11 ha de parcelles abandonnées est réhabilitée et exploitée",
+        "Promotion et valorisation des produits agro-écologiques et artisanaux de l’oasis",
+        "Réalisation d’une étude technique sur l’analyse de cycle de vie d’un produit agro-écologique en l’occurrence la grenade",
+        "Certification en cours de 20 parcelles de producteurs de produits agro-écologiques",
+        "Formation de 27 artisans dont 24 femmes en emballage dégradable",
+        "Formation en distillation de plantes médicinales et aromatiques pour 31 oasiens dont 24 femmes",
+        "Formation techniques en agriculture biologique et valorisation des sous-produits oasiens est renforcée",
+        "6 OSC ont été formées à l’agriculture biologiques et la conservation des ressources naturelles",
+        "21 femmes et 14 hommes ont bénéficié d’une formation en transformation de produits agricoles",
+        "Introduction de 6 kwc (PV solaire) pour exploiter la plateforme de conditionnement des produits",
+        "Aménagement d’un point de vente de produits agricoles transformés ; distillés et artisanaux",
+        "Une dynamique d’échange d’expériences et des leçons apprises sur la protection du milieu oasien et de sensibilisation du milieu scolaire est lancée",
+        "Réalisation d’un documentaire sur la protection des oasis",
+        "9 journées de sensibilisation scolaire ont eu lieu à chenini, bouchemm, nahal, bdoura",
+        "3 clubs d’environnement au niveau des établissements scolaires de chenini, nahal ,bdoura ont été créés"
+      ],
+      "resultats_chiffres": [
+        "2000 rejets des palmiers de variétés locales plantés",
+        "100 plants mâles polinisateurs sont plantés",
+        "9 variétés des palmiers dattiers disparues ou en voie de distinction sont réintroduites dans les oasis (cultivars)",
+        "28.5 km de drains entretenus",
+        "Amélioration sur une distance de 1000 m du réseau d’irrigation à la parcelle",
+        "Une superficie de 11 ha de parcelles abandonnées est réhabilitée et exploitée",
+        "Certification en cours de 20 parcelles de producteurs de produits agro-écologiques",
+        "Formation de 27 artisans dont 24 femmes en emballage dégradable",
+        "Formation en distillation de plantes médicinales et aromatiques pour 31 oasiens dont 24 femmes",
+        "6 OSC ont été formées à l’agriculture biologiques et la conservation des ressources naturelles",
+        "21 femmes et 14 hommes ont bénéficié d’une formation en transformation de produits agricoles",
+        "Introduction de 6 kwc (PV solaire) pour exploiter la plateforme de conditionnement des produits",
+        "9 journées de sensibilisation scolaire ont eu lieu à chenini, bouchemm, nahal, bdoura",
+        "3 clubs d’environnement au niveau des établissements scolaires de chenini, nahal ,bdoura ont été créés"
+      ],
+      "infrastructure_disponible": [
+        {
+          "nom": "Plateforme de conditionnement des produits",
+          "type": "Infrastructure de transformation",
+          "statut": "Exploitée",
+          "localisation": "Gouvernorat de Gabès",
+          "description": "Plateforme de conditionnement des produits agricoles transformés"
+        },
+        {
+          "nom": "Point de vente de produits agricoles transformés",
+          "type": "Infrastructure commerciale",
+          "statut": "Aménagé",
+          "localisation": "Gouvernorat de Gabès",
+          "description": "Point de vente de produits agricoles transformés ; distillés et artisanaux"
+        }
+      ],
+      "metriques": [
+        {
+          "valeur": 2000,
+          "unite": "rejets de palmiers",
+          "description": "Nombre de rejets de palmiers de variétés locales plantés"
+        },
+        {
+          "valeur": 100,
+          "unite": "plants mâles polinisateurs",
+          "description": "Nombre de plants mâles polinisateurs plantés"
+        },
+        {
+          "valeur": 9,
+          "unite": "variétés de palmiers dattiers",
+          "description": "Nombre de variétés des palmiers dattiers disparues ou en voie de distinction réintroduites dans les oasis"
+        },
+        {
+          "valeur": 28.5,
+          "unite": "km de drains",
+          "description": "Longueur de drains entretenus"
+        },
+        {
+          "valeur": 1000,
+          "unite": "m de réseau d’irrigation",
+          "description": "Distance de réseau d’irrigation améliorée"
+        },
+        {
+          "valeur": 11,
+          "unite": "ha de parcelles abandonnées",
+          "description": "Superficie de parcelles abandonnées réhabilitées et exploitées"
+        },
+        {
+          "valeur": 20,
+          "unite": "parcelles de producteurs de produits agro-écologiques",
+          "description": "Nombre de parcelles de producteurs de produits agro-écologiques certifiées"
+        },
+        {
+          "valeur": 27,
+          "unite": "artisans formés",
+          "description": "Nombre d’artisans formés en emballage dégradable"
+        },
+        {
+          "valeur": 31,
+          "unite": "oasiens formés",
+          "description": "Nombre d’oasiens formés en distillation de plantes médicinales et aromatiques"
+        },
+        {
+          "valeur": 6,
+          "unite": "kwc (PV solaire)",
+          "description": "Nombre de kwc (PV solaire) introduits pour exploiter la plateforme de conditionnement des produits"
+        },
+        {
+          "valeur": 9,
+          "unite": "journées de sensibilisation scolaire",
+          "description": "Nombre de journées de sensibilisation scolaire organisées"
+        },
+        {
+          "valeur": 3,
+          "unite": "clubs d’environnement",
+          "description": "Nombre de clubs d’environnement créés au niveau des établissements scolaires"
+        }
+      ],
+      "zones_geographiques": [
+        "Gouvernorat de Gabès",
+        "Chenini",
+        "Metouia",
+        "Bouchemma",
+        "Délégation de Gabés Ouest",
+        "El Metouia"
+      ],
+      "themes": [
+        "agriculture_oasienne",
+        "société_civile",
+        "environnement",
+        "énergie",
+        "artisanat"
+      ],
+      "mots_cles": [
+        "agro-écologie",
+        "oasis",
+        "Gabès",
+        "Tunisie",
+        "développement local",
+        "protection environnementale",
+        "société civile",
+        "énergie solaire",
+        "artisanat"
+      ]
+    },
+    {
+      "titre": "PARCOM",
+      "sous_titre": "Projet d’appui au renforcement des capacités des oasiens de Métouia",
+      "periode": {
+        "debut": "30/09/2016",
+        "fin": "31/12/2018"
+      },
+      "finances": {
+        "budget_total_eur": 315983.92,
+        "subvention_eur": 300000.0
+      },
+      "acteurs": {
+        "coordinateur": "Union Locale de l’Agriculture et de la Pêche de Métouia (ULAP Métouia)",
+        "autres_beneficiaires": [
+          "Forum d’Initiative et de Développement Local (FIDEL)",
+          "Association Oasis des Sciences (AOS)",
+          "Association Parc de Métouia (APM)",
+          "Groupement de Développement Agricole de Métouia – Waha (GDAM)",
+          "Association NAKHWA pour la femme et la famille"
+        ],
+        "associes": [],
+        "contact": {
+          "nom": "Mr Hadi Ammari",
+          "email": "ulap.parcom@gmail.com"
+        }
+      },
+      "objectif": "PARCOM est l'un des projets de la composante d’appui à la société civile (C4) du PGE-Gabès. Il s’inscrit dans l’initiative de coordination et de la synergie entre les acteurs locaux de la délégation de Métouia. En contribuant pour développer de manière durable le secteur agro- alimentaire et artisanal dans la région de Gabès et à en faire un pôle mondial d’excellence spécialisé dans les produits oasiens ; tout l’enjeu consiste à transmettre le savoir-faire traditionnel aux jeunes et à garder les meilleurs pratiques existantes actuellement tout en les améliorant en utilisant des nouvelles techniques de production.",
+      "contexte": "L’industrialisation du gouvernorat de Gabes a contribué à la dégradation de son environnement sans pour autant offrir suffisamment d’emplois pour sa population. La région est ainsi touchée par un chômage élevé, spécialement des jeunes et des femmes. De même un abondant catastrophique de l’oasis par les agriculteurs. Or, le développement durable c’est aussi permettre à tous de participer à la vie de la communauté et protéger les personnes en situation de vulnérabilité. Dans le cadre du PGE, une subvention a été octroyée pour favoriser un développement durable inclusif. Le public cible du projet PARCOM est varié. Il s’adresse aux agriculteurs suivi par le groupement de développement agricole Métouia (GDA), mais aussi aux femmes groupées au sein de l'association NAKHWA pour la femme et la famille, aux jeunes et aux personnes à mobilité réduite pris en charge par AGIM.",
+      "realisations": [
+        "Le projet PARCOM a touché toutes les catégories de la population locale de la délégation de Métouia et a démontré l’importance et l’efficacité de l’appui et l’encadrement des personnes vulnérables pour améliorer d’une façon durable leur niveau de vie.",
+        "235 agriculteurs ont été formés aux techniques de l’agriculture biologique et la production agricole de remplacement, parmi eux 132 ont visité des projets similaires, au même temps la surface cultivée dans l’oasis de Métouia a été augmentée du 105 ha au 275 ha dont 379 agriculteurs ont bénéficié du labour, semences (corète potagère et luzerne), plant du piment et plante (fruitière et palmier).",
+        "60 femmes, 6 personnes à mobilité réduite et 3 accompagnatrices ont été formées aux techniques de valorisation des fibres (jonc, régime de palmier, mixage fibre et cuir, désigne produit).",
+        "Des visites d’échange ont été réalisées pour permettre aux 99 artisanes de se calibrer par rapport au marché et pour s’inspirer des créations des concurrents.",
+        "20 acteurs associatifs, représentant 9 associations de Métouia, ont assisté au cycle de formation « approche de la gestion axée sur les résultats basée sur les droits humains (GAR ou HRBA RBM) »",
+        "Une participation au salon international de restauration, hôtellerie et l’aliment SIRHA LYON 2017 a été réalisée dont les produits agro-alimentaires et artisanaux ont été promus sur le stand de la Région avec l’appui de l’ANETE et du cluster ARAG.",
+        "Une autre participation a été faite au salon international de l’agriculture, du machinisme agricole et de la pêche SIAMAP ELKRAM 2017 par l’appui de l’UTAP dont les artisanes et les jeunes producteurs de l’agro-alimentaire ont été sur place pour présenter et promouvoir leurs productions.",
+        "Une Station de compostage a été mise en place d’une capacité de production mensuelle minimum de 40 tonnes et qui offre 4 postes d’emplois permanents directs et 4 indirects.",
+        "Un laboratoire agro-alimentaire a été installé qui offre la possibilité de faire des analyses agro-alimentaires et des essaies de création des nouveaux produits agro-alimentaires oasiens.",
+        "Une société mutuelle des services agricoles et artisanaux nommé SMSA-PARCOM a été créée qui groupe 279 adhérents avec une capitale supérieure à 30000 TND."
+      ],
+      "resultats_chiffres": [
+        "235 agriculteurs ont été formés aux techniques de l’agriculture biologique et la production agricole de remplacement",
+        "132 ont visité des projets similaires",
+        "la surface cultivée dans l’oasis de Métouia a été augmentée du 105 ha au 275 ha",
+        "379 agriculteurs ont bénéficié du labour, semences (corète potagère et luzerne), plant du piment et plante (fruitière et palmier)",
+        "60 femmes, 6 personnes à mobilité réduite et 3 accompagnatrices ont été formées aux techniques de valorisation des fibres",
+        "99 artisanes ont participé à des visites d’échange",
+        "20 acteurs associatifs ont assisté au cycle de formation « approche de la gestion axée sur les résultats basée sur les droits humains (GAR ou HRBA RBM) »",
+        "5 associations ont participé à l’appel à proposition de CEFA avec trois projets et finalement les trois ont été retenus",
+        "15 participants de 8 ONG ont assisté à un cycle de formation « Gestion Administrative et Financière » et « GESTION DE CYCLE DE PROJET »",
+        "une participation au salon international de restauration, hôtellerie et l’aliment SIRHA LYON 2017 a été réalisée",
+        "une autre participation a été faite au salon international de l’agriculture, du machinisme agricole et de la pêche SIAMAP ELKRAM 2017",
+        "une Station de compostage a été mise en place d’une capacité de production mensuelle minimum de 40 tonnes",
+        "4 postes d’emplois permanents directs et 4 indirects ont été créés",
+        "un laboratoire agro-alimentaire a été installé",
+        "une société mutuelle des services agricoles et artisanaux nommé SMSA-PARCOM a été créée qui groupe 279 adhérents avec une capitale supérieure à 30000 TND"
+      ],
+      "infrastructure_disponible": [
+        {
+          "nom": "Station de compostage",
+          "type": "Infrastructure de production",
+          "statut": "En fonctionnement",
+          "localisation": "Métouia",
+          "description": "Station de compostage d’une capacité de production mensuelle minimum de 40 tonnes"
+        },
+        {
+          "nom": "Laboratoire agro-alimentaire",
+          "type": "Infrastructure de recherche et développement",
+          "statut": "En fonctionnement",
+          "localisation": "Métouia",
+          "description": "Laboratoire agro-alimentaire qui offre la possibilité de faire des analyses agro-alimentaires et des essaies de création des nouveaux produits agro-alimentaires oasiens"
+        }
+      ],
+      "metriques": [
+        {
+          "valeur": 14000,
+          "unite": "TND",
+          "description": "Revenu net minimum par an pour une parcelle de 2500m²"
+        },
+        {
+          "valeur": 38,
+          "unite": "TND",
+          "description": "Revenu net minimum par jour pour une parcelle de 2500m²"
+        }
+      ],
+      "zones_geographiques": [
+        "Métouia",
+        "Gabès"
+      ],
+      "themes": [
+        "agriculture_oasienne",
+        "artisanat",
+        "société_civile",
+        "emploi"
+      ],
+      "mots_cles": [
+        "PARCOM",
+        "Métouia",
+        "Gabès",
+        "agriculture_oasienne",
+        "artisanat",
+        "société_civile",
+        "emploi",
+        "développement_durable",
+        "Union_européenne",
+        "Expertise_France"
+      ]
+    },
+    {
+      "titre": "OASIS AQUATIQUE",
+      "sous_titre": "Pour une Gouvernance Environnementale de la zone côtière de Gabès",
+      "periode": {
+        "debut": "29/9/2016",
+        "fin": "31/12/2018"
+      },
+      "finances": {
+        "budget_total_eur": 423248.0,
+        "subvention_eur": 270000.0
+      },
+      "acteurs": {
+        "coordinateur": "Association Citoyenneté et Développement durable (ACDD) Gabès",
+        "autres_beneficiaires": [
+          "Maison de la citoyenneté mondiale - Alliance Rhin Supérieur Obernein (MCM-ARSO)",
+          "Association OXYGEN pour l’environnement et la santé de Ghannouche, GABES"
+        ],
+        "associes": [
+          "ONAS",
+          "CRDA",
+          "DREDD",
+          "DREHAT",
+          "Municipalité de Gabès",
+          "Municipalité de Ghannouche",
+          "CCISE",
+          "Université de Gabès"
+        ],
+        "contact": {
+          "nom": "Mr Abdelbacet HAMROUNI",
+          "email": "Acdd2014@gnet.tn ; Bacet0863@gnet.tn"
+        }
+      },
+      "objectif": "Contribuer à la réhabilitation écologique, économique et sociale du système Golfe-littoral de Gabès par le renforcement de mécanismes de gouvernance locale d’environnement» à travers : - La réhabilitation écologique de la partie avale du canal de l’Oued Kriaa de Gabès et sa connexion à la mer, sa dépollution et la création d’un site écologique pilote. - La protection et régénération de la faune marine de Gabès dans au moins deux sites. - L’implication de la population dans la protection de la zone côtière par des mécanismes de gouvernance environnementale. - Le lancement d’une dynamique d’échange d’expériences et des leçons apprises en Tunisie et dans le monde.",
+      "contexte": null,
+      "realisations": [
+        "- Ecoulement des eaux du canal vers la mer lors des basses marées",
+        "- Ecoulement des eaux de la mer vers le canal lors des hautes marées",
+        "- Amélioration de la qualité de l’eau du canal",
+        "- Présence plus importante des oiseaux dans le canal",
+        "- Régression de la végétation aquatique (roseau) dans le canal",
+        "- Absence d’insectes nuisibles",
+        "- En aval du canal, 80% du volume d’eau usée sont conformes aux normes tunisiennes",
+        "- Aménagement d’une station de traitement écologique des eaux usées de débordement",
+        "- Réhabilitation d’une superficie de 6h pour restaurer la biodiversité et créer un site écologique pilote, irrigué par un système économe en eau, éclairé par une énergie renouvelable. Ce site offre 3000 m de sentiers écologiques aménagés, un espace en plein air de 200 m2 dédié pour l’accueil, la sensibilisation et l’animation de groupes",
+        "- Plantation de 50 palmiers et 300 arbustes",
+        "- Réintégration de 5 espèces d’oiseaux migrateurs qui hibernent dans le site",
+        "- 3 d’espèces adaptées aux changements climatiques (Caroubiers, Murier et palmiers endogènes) ont été introduites",
+        "- Deux sites de protection et de régénération de la faune marine sont créés par l’installation de 110 récifs sur une superficie de 960 ha",
+        "- 25 OSC ont été formées aux mécanismes de la gouvernance environnementale locale",
+        "- 17 événements de sensibilisation et d’information dans le même cadre ont eu lieu et ont concerné 4000 participants",
+        "- 98 écoliers et étudiants ont été sensibilisés à la valorisation des eaux usées",
+        "- Une dynamique d’échange d’expériences et des leçons apprises autour du projet et du thème traité a été lancée, à cet effet, 2 déplacement à l’international ont eu lieu, France (Mulhouse) et Allemagne (Fribourg)"
+      ],
+      "resultats_chiffres": [
+        "80% du volume d’eau usée sont conformes aux normes tunisiennes",
+        "3000 m de sentiers écologiques aménagés",
+        "200 m2 dédié pour l’accueil, la sensibilisation et l’animation de groupes",
+        "50 palmiers",
+        "300 arbustes",
+        "5 espèces d’oiseaux migrateurs",
+        "3 d’espèces adaptées aux changements climatiques",
+        "110 récifs",
+        "960 ha",
+        "25 OSC",
+        "17 événements",
+        "4000 participants",
+        "98 écoliers et étudiants",
+        "2 déplacement à l’international"
+      ],
+      "infrastructure_disponible": [
+        {
+          "nom": "Station de traitement écologique des eaux usées de débordement",
+          "type": "Station de traitement",
+          "statut": "Aménagée",
+          "localisation": null,
+          "description": "Aménagement d’une station de traitement écologique des eaux usées de débordement"
+        },
+        {
+          "nom": "Site écologique pilote",
+          "type": "Site écologique",
+          "statut": "Créé",
+          "localisation": null,
+          "description": "Réhabilitation d’une superficie de 6h pour restaurer la biodiversité et créer un site écologique pilote, irrigué par un système économe en eau, éclairé par une énergie renouvelable"
+        }
+      ],
+      "metriques": [
+        {
+          "valeur": 80,
+          "unite": "%",
+          "description": "Volume d’eau usée conforme aux normes tunisiennes"
+        },
+        {
+          "valeur": 3000,
+          "unite": "m",
+          "description": "Longueur de sentiers écologiques aménagés"
+        },
+        {
+          "valeur": 200,
+          "unite": "m2",
+          "description": "Superficie dédiée pour l’accueil, la sensibilisation et l’animation de groupes"
+        },
+        {
+          "valeur": 50,
+          "unite": "palmiers",
+          "description": "Nombre de palmiers plantés"
+        },
+        {
+          "valeur": 300,
+          "unite": "arbustes",
+          "description": "Nombre d’arbustes plantés"
+        },
+        {
+          "valeur": 5,
+          "unite": "espèces",
+          "description": "Nombre d’espèces d’oiseaux migrateurs réintégrées"
+        },
+        {
+          "valeur": 3,
+          "unite": "espèces",
+          "description": "Nombre d’espèces adaptées aux changements climatiques introduites"
+        },
+        {
+          "valeur": 110,
+          "unite": "récifs",
+          "description": "Nombre de récifs installés"
+        },
+        {
+          "valeur": 960,
+          "unite": "ha",
+          "description": "Superficie de protection et de régénération de la faune marine"
+        },
+        {
+          "valeur": 25,
+          "unite": "OSC",
+          "description": "Nombre d’OSC formées aux mécanismes de la gouvernance environnementale locale"
+        },
+        {
+          "valeur": 17,
+          "unite": "événements",
+          "description": "Nombre d’événements de sensibilisation et d’information"
+        },
+        {
+          "valeur": 4000,
+          "unite": "participants",
+          "description": "Nombre de participants aux événements de sensibilisation et d’information"
+        },
+        {
+          "valeur": 98,
+          "unite": "écoliers et étudiants",
+          "description": "Nombre d’écoliers et étudiants sensibilisés à la valorisation des eaux usées"
+        },
+        {
+          "valeur": 2,
+          "unite": "déplacements",
+          "description": "Nombre de déplacements à l’international"
+        }
+      ],
+      "zones_geographiques": [
+        "Gabès",
+        "Ghannouche",
+        "Tunisie",
+        "France",
+        "Allemagne"
+      ],
+      "themes": [
+        "eau",
+        "biodiversité",
+        "écotourisme",
+        "société_civile"
+      ],
+      "mots_cles": [
+        "OASIS AQUATIQUE",
+        "Gouvernance Environnementale",
+        "zone côtière",
+        "Gabès",
+        "Tunisie",
+        "Union européenne",
+        "Expertise France",
+        "environnement",
+        "écologie",
+        "biodiversité"
+      ]
+    },
+    {
+      "titre": "Gouv'Airnance",
+      "sous_titre": "Transposition du projet méditerranéen GOUV’AIRNANCE sur le territoire du Gouvernorat de Gabès",
+      "periode": {
+        "debut": "1/10/2016",
+        "fin": "31/12/2018"
+      },
+      "finances": {
+        "budget_total_eur": 444915.75,
+        "subvention_eur": 300000.0
+      },
+      "acteurs": {
+        "coordinateur": "Air PACA",
+        "autres_beneficiaires": [
+          "ANPE"
+        ],
+        "associes": [],
+        "contact": {
+          "nom": "Mr Alexandre Armengaud",
+          "email": "alexandre.armengaud@airpaca.org"
+        }
+      },
+      "objectif": "Améliorer la qualité des politiques publiques et des processus de prise de décision en matière de qualité de l’air par la mise en place d’un dispositif de gouvernance territoriale impliquant la collaboration étroite entre la société civile, les autorités locales et les services de l’Etat par : - La «Création d’un comité de suivi territorial (CST)» - L’ «Etablissement d’un diagnostic territorial de la qualité de l’air» - Le «Renforcement du réseau de surveillance de la qualité de l’air piloté par l’ANPE» - La «Mise en place d’une plateforme d’information et d’aide à la décision»",
+      "contexte": null,
+      "realisations": [
+        "La création d’une instance de concertation et de gestion intégrée de la qualité de l’air dans le gouvernorat",
+        "Constitution d’un comité de suivi territorial qui pilotera la question de la gouvernance de la qualité de l’air dans le gouvernorat de Gabès composé de 20 membres",
+        "La mise en place d’outils de modélisation de la qualité de l’air à l’échelle régionale et urbaine haute résolution conformes aux plus hauts standards internationaux",
+        "Le déploiement opérationnel des outils de modélisation à l’horizon 2018",
+        "Déploiement d’un système de modélisation prédictive de la qualité de l’air à l’échelle régionale pour alimenter le système prédictif urbain haute résolution et pour évaluer les transferts transfrontaliers de polluants atmosphériques nord-sud et sud-nord notamment pour la matière particulaire en suspension",
+        "Déploiement d’un système urbain de modélisation prédictive haute résolution (à l’échelle de la rue) de la qualité de l’air sur l’agglomération de Gabès, principal point noir en termes de qualité de l’air dans le gouvernorat comprenant le couplage avec le modèle prédictif régional CHIMERE de la qualité de l’air",
+        "La réalisation d’un diagnostic partagé de la qualité de l’air et de ses déterminants sur le gouvernorat",
+        "Une évaluation, mise à jour et adaptation de l’ inventaire des émissions atmosphériques industrielles et autres existant du gouvernorat de Gabès aux fins de la modélisation diagnostic et pronostic de la qualité de l’air a été réalisée",
+        "6 campagnes de mesure ont été réalisées afin de caractériser l’état initial de la qualité de l’air",
+        "La mise en place d’outils d’information et d’alerte des populations et notamment des populations sensibles à la pollution atmosphérique",
+        "Mise à disposition des citoyens d’une plateforme internet de sensibilisation et d’information sur la qualité de l’air : il s’agit de renseigner le citoyen sur son impact individuel du point de vue sanitaire et les bons gestes à accomplir au quotidien pour participer à l’amélioration de la qualité de l’air. www.anpe-tunair.tn"
+      ],
+      "resultats_chiffres": [
+        "20 membres",
+        "6 campagnes de mesure",
+        "444915.75 €",
+        "300000.00 €"
+      ],
+      "infrastructure_disponible": [
+        {
+          "nom": "Plateforme internet de sensibilisation et d’information sur la qualité de l’air",
+          "type": "Plateforme internet",
+          "statut": "En ligne",
+          "localisation": null,
+          "description": "Renseigner le citoyen sur son impact individuel du point de vue sanitaire et les bons gestes à accomplir au quotidien pour participer à l’amélioration de la qualité de l’air."
+        }
+      ],
+      "metriques": [
+        {
+          "valeur": 444915.75,
+          "unite": "€",
+          "description": "Budget total"
+        },
+        {
+          "valeur": 300000.0,
+          "unite": "€",
+          "description": "Subvention"
+        }
+      ],
+      "zones_geographiques": [
+        "Gouvernorat de Gabès"
+      ],
+      "themes": [
+        "qualité_air"
+      ],
+      "mots_cles": [
+        "qualité de l’air",
+        "gouvernance territoriale",
+        "société civile",
+        "autorités locales",
+        "services de l’Etat",
+        "pollution atmosphérique",
+        "modélisation de la qualité de l’air",
+        "plateforme d’information"
+      ]
+    },
+    {
+      "titre": "Emplois Verts",
+      "sous_titre": "une nouvelle opportunité d’inclusion sociale des populations vulnérables et de promotion du développement durable dans le gouvernorat de Gabès",
+      "periode": {
+        "debut": "28/09/2016",
+        "fin": "30/11/2018"
+      },
+      "finances": {
+        "budget_total_eur": 315783.75,
+        "subvention_eur": 299994.56
+      },
+      "acteurs": {
+        "coordinateur": "Fédération Handicap International",
+        "autres_beneficiaires": [
+          "Union Tunisienne d’Aide aux Insuffisants Mentaux (UTAIM) de Gabès"
+        ],
+        "associes": [
+          "Agence Tunisienne de l’Emploi et du Travail Indépendant (ANETI)"
+        ],
+        "contact": {
+          "nom": "Mme Iréne Monterolla",
+          "email": "imanterola@hi-maghreb.org"
+        }
+      },
+      "objectif": "Les « Emplois Verts » est l'un des projets de la composante d’appui à la société civile (C4) du PGE-Gabès. Il s’inscrit dans la continuité d’initiatives menées depuis plusieurs années par les acteurs locaux avec pour l’insertion socioéconomique des personnes vulnérables : jeunes, les femmes et les personnes handicapées. En favorisant la création d’emplois durables dans l’économie sociale et solidaire (ESS), notamment l’agriculture durable, l’agrotourisme et l’artisanat, le projet vise à créer les conditions d’un développement durable alliant préservation de l’environnement et amélioration du niveau de vie.",
+      "contexte": "L’industrialisation du gouvernorat de Gabès a contribué à la dégradation de son environnement sans pour autant offrir suffisamment d’emplois pour sa population. La région est ainsi touchée par un chômage élevé, notamment chez les personnes en situation de handicap ou de vulnérabilité. Or, le développement durable c’est aussi permettre à tous de participer à la vie de la communauté et protéger les personnes en situation de vulnérabilité. Dans le cadre du PGE, une subvention a été octroyée pour favoriser un développement durable inclusif.",
+      "realisations": [
+        "Emplois verts est porté par l’UTAIM avec le soutien de HI, en partenariat avec l’ANETI à travers les cinq Bureaux de l’emploi et du travail indépendant (BETI) du gouvernorat de Gabès.",
+        "À partir de l’expérience acquise en matière d’accompagnement des personnes vulnérables, le projet a sensiblement amélioré l’approche des bénéficiaires et surtout la prise en compte de leurs choix individuels.",
+        "S’agissant des femmes et des jeunes, les BETI ont procédé à une sélection de porteurs de projets, puis à leur appui vers la création de micro-entreprises d’ESS.",
+        "C’est ainsi que Malek, 28 ans, a monté sa menuiserie spécialisée dans la conception et la fabrication de meubles faits en bois de récupération.",
+        "Il fournit par exemple le gîte de l’UTAIM à Teboulbou.",
+        "Emna, 27 ans, a quant à elle lancé sa pâtisserie.",
+        "Souhaitant que tous puissent profiter des plaisirs gustatifs, elle produit notamment des gâteaux pour les personnes diabétiques et les intolérants au gluten.",
+        "Parallèlement, l’UTAIM a lancé son projet de ferme et de gîte écologique où elle forme et emploie ses bénéficiaires à la fois au potager, dans les cuisines et pour le service en salle.",
+        "Pour ces travailleurs handicapés, la « ferme d’insertion socioéconomique » constitue un tremplin vers le marché de l’emploi."
+      ],
+      "resultats_chiffres": [
+        "27 personnes ont été formées à l’entrepreneuriat social et solidaire pour servir de relais au sein des structures locales.",
+        "444 personnes vulnérables, dont une majorité de femmes, et 340 acteurs publics associatifs et privés ont été initiés à l’ESS et à l’entrepreneuriat au cours d’une dizaine de sessions d’information.",
+        "28 porteurs de projet ont été accompagnés et 12 ont obtenu un soutien financier allant jusqu’à 17 000 dinars.",
+        "71 autres personnes ont trouvé un emploi ou un stage grâce à l’accompagnement dont ils ont bénéficié, dont certains dans l’un des trois chantiers d’insertion lancés par des ONG locales pour réhabiliter et protéger l’environnement dans des zones écologiquement dégradées."
+      ],
+      "infrastructure_disponible": [
+        {
+          "nom": "Ferme et gîte écologique",
+          "type": "Ferme",
+          "statut": "En activité",
+          "localisation": "Teboulbou",
+          "description": "Ferme et gîte écologique où l’UTAIM forme et emploie ses bénéficiaires à la fois au potager, dans les cuisines et pour le service en salle."
+        },
+        {
+          "nom": "Menuiserie",
+          "type": "Atelier",
+          "statut": "En activité",
+          "localisation": null,
+          "description": "Menuiserie spécialisée dans la conception et la fabrication de meubles faits en bois de récupération."
+        },
+        {
+          "nom": "Pâtisserie",
+          "type": "Atelier",
+          "statut": "En activité",
+          "localisation": null,
+          "description": "Pâtisserie qui produit notamment des gâteaux pour les personnes diabétiques et les intolérants au gluten."
+        }
+      ],
+      "metriques": [
+        {
+          "valeur": 27,
+          "unite": "personnes",
+          "description": "Nombre de personnes formées à l’entrepreneuriat social et solidaire"
+        },
+        {
+          "valeur": 444,
+          "unite": "personnes",
+          "description": "Nombre de personnes vulnérables initiées à l’ESS et à l’entrepreneuriat"
+        },
+        {
+          "valeur": 340,
+          "unite": "acteurs",
+          "description": "Nombre d’acteurs publics associatifs et privés initiés à l’ESS et à l’entrepreneuriat"
+        },
+        {
+          "valeur": 28,
+          "unite": "porteurs de projet",
+          "description": "Nombre de porteurs de projet accompagnés"
+        },
+        {
+          "valeur": 12,
+          "unite": "porteurs de projet",
+          "description": "Nombre de porteurs de projet ayant obtenu un soutien financier"
+        },
+        {
+          "valeur": 17,
+          "unite": "mille dinars",
+          "description": "Montant maximum du soutien financier alloué aux porteurs de projet"
+        },
+        {
+          "valeur": 71,
+          "unite": "personnes",
+          "description": "Nombre de personnes ayant trouvé un emploi ou un stage grâce à l’accompagnement"
+        }
+      ],
+      "zones_geographiques": [
+        "Gouvernorat de Gabès"
+      ],
+      "themes": [
+        "société_civile",
+        "emploi",
+        "agriculture_oasienne",
+        "artisanat",
+        "écotourisme"
+      ],
+      "mots_cles": [
+        "Emplois Verts",
+        "inclusion sociale",
+        "développement durable",
+        "Gabès",
+        "Tunisie",
+        "Union européenne",
+        "Expertise France"
+      ]
+    },
+    {
+      "titre": "CIGEN",
+      "sous_titre": "Citoyenneté pour une Gouvernance Environnementale à Gabès",
+      "periode": {
+        "debut": "24/9/2016",
+        "fin": "31/12/2018"
+      },
+      "finances": {
+        "budget_total_eur": 303163.3,
+        "subvention_eur": 272846.97
+      },
+      "acteurs": {
+        "coordinateur": "CEFA (Comité Européen pour la Formation et l’Agriculture)",
+        "autres_beneficiaires": [
+          "Association Gabès Action",
+          "ACDD (Association citoyenneté et développement durable)",
+          "Ecole Nationale des Ingénieurs de Gabès",
+          "Délégation de l’Education de Gabès"
+        ],
+        "associes": [],
+        "contact": {
+          "nom": "Mr Andrea Tolomelli",
+          "email": "a.tolomelli@cefaonlus.it"
+        }
+      },
+      "objectif": "Le projet vise à contribuer à la création d’un contexte favorable à la réduction de la pollution et au respect de l'environnement à Gabès. Il œuvrera à renforcer les capacités de la société civile de Gabès dans l’élaboration et la mise en place de stratégies communes et concertées de plaidoyer et des démarches décisionnelles participatives de gouvernance environnementale.",
+      "contexte": null,
+      "realisations": [
+        "- Cartographie des OSC opérant sur les délégations de Ghannouch, Gabès ville, Gabès ouest, Gabès sud, Métouia, Nouvelle Matmata, et Matmata. 74 OSC identifiées (31 Gab Ville, 8 Gab Ouest, 8 Gab Sud, 9 Ghan, 12 Metouia, 3 Matmata Nouv.lle, 3 Matmata .. 37 OSC ont été retenues, dont 13 Gab Ville, 5 Gab Ouest, 6 Gab Sud, 3 Ghan, 8 Metouia, 2 Matmata, opérant dans les domaines de l’environnement, la citoyenneté, le développement et la culture",
+        "- 10 modules de formation sur 30 jours (Ingénierie de la formation, Gestion cycle projet, Gestion conflits, Réglementation OSC, GAF, Plaidoyer…) ont permis de former 8 formateurs dont 5 femmes, et un pool de 5 accompagnateurs/facilitateurs au profit des OSC locales",
+        "- Formation de 32 associations (10 Gab Ville, 3 Gab Ouest, 4 Gab Sud, 3 Ghan, 8 Metouia, 2 Matm n.lle ) aux modules : Réglementation et gestion interne, Communication, Gestion cycle projet, Plaidoyer, Droit et environnement, GAF",
+        "- Mise en réseau R.A.G.G.E. (Réseau des Associations de Gabès pour la Gouvernance Environnementale) de 26 associations locales pour réaliser une veille environnementale et créer une dynamique de concertation locale",
+        "- Formation des OSC du réseau à la gestion conflits, au plaidoyer et à la communication",
+        "- Financement de 16 microprojets touchant 21 OSC pour un montant global de 285.889,900 TND et portant sur le développement socio-économique local et la protection de l’environnement et la valorisation du patrimoine, et se répartissant sur le gouvernorat comme suit : Gabès Ville 4, Gabès Ouest 6, Gabès Sud 4, Ghannouch 6, Metouia 8, Matmata 2, Matmata Nouv.lle 2",
+        "- Production d’un manuel de vulgarisation des données scientifiques sur la situation environnementale de l’eau à Gabès destiné à un public non spécialisé",
+        "- Production d’un documentaire de 34 mn sur la situation environnementale de Gabès (Tout va bien Lella ?!) Documentaire déjà sélectionné au BBC Arabic Festival (Londres, mars 2019) au Festival International Pêcheurs du monde (Lorient, France, mars 2019)",
+        "- Organisation de 22 initiatives directes de sensibilisation et information sur les dangers de la pollution et l'importance de la préservation des écosystèmes (9 Gabès Sud 5 Gabès Ville 4 Metouia 2 Ghannouch 1 Matmata N. 1 Gabès Ouest) et ont touché 980 bénéficiaires directs dont 90 femmes et 890 élèves. Grace à la synergie entre les activités du projet et à la capitalisation des actions de sensibilisation réalisées dans le cadre du financement en cascade (microprojets), le projet a en fait réalisé 82 initiatives/événements qui ont touché 4 337 personnes dont 3.083 élèves et 407 femmes",
+        "- Formation de 17 acteurs (fonction publique, entreprises) en gouvernance participative environnementale",
+        "- Organisation de 8 ateliers de réflexion entre les autorités locales, les universitaires, les entreprises locales et les OSC qui a donné lieu à la rédaction d’un mémorandum d'entente pour le lancement de la Plateforme de Gouvernance de l'eau à Gabès (PFGE), afin d'améliorer la gestion des ressources hydriques sur le territoire et de favoriser une dynamique d'échange entre les différentes parties prenantes"
+      ],
+      "resultats_chiffres": [
+        "30 OSC seront mises en réseau et renforcées dans leurs capacités de mobilisation pour la protection de l'environnement",
+        "La population de la zone d'intervention est informée et sensibilisée sur les dangers de la pollution et l'importance de la préservation des écosystèmes",
+        "Une plateforme de concertation entre les OSC, les Autorités Locales et les entreprises universités est mise en place et renforcée pour développer des efforts communs de de gouvernance environnementale",
+        "74 OSC identifiées (31 Gab Ville, 8 Gab Ouest, 8 Gab Sud, 9 Ghan, 12 Metouia, 3 Matmata Nouv.lle, 3 Matmata .. 37 OSC ont été retenues, dont 13 Gab Ville, 5 Gab Ouest, 6 Gab Sud, 3 Ghan, 8 Metouia, 2 Matmata, opérant dans les domaines de l’environnement, la citoyenneté, le développement et la culture",
+        "8 formateurs dont 5 femmes, et un pool de 5 accompagnateurs/facilitateurs au profit des OSC locales",
+        "32 associations (10 Gab Ville, 3 Gab Ouest, 4 Gab Sud, 3 Ghan, 8 Metouia, 2 Matm n.lle )",
+        "26 associations locales pour réaliser une veille environnementale et créer une dynamique de concertation locale",
+        "16 microprojets touchant 21 OSC pour un montant global de 285.889,900 TND",
+        "980 bénéficiaires directs dont 90 femmes et 890 élèves",
+        "82 initiatives/événements qui ont touché 4 337 personnes dont 3.083 élèves et 407 femmes",
+        "17 acteurs (fonction publique, entreprises) en gouvernance participative environnementale",
+        "8 ateliers de réflexion entre les autorités locales, les universitaires, les entreprises locales et les OSC"
+      ],
+      "infrastructure_disponible": [],
+      "metriques": [
+        {
+          "valeur": 303163.3,
+          "unite": "EUR",
+          "description": "Budget total"
+        },
+        {
+          "valeur": 272846.97,
+          "unite": "EUR",
+          "description": "Subvention"
+        },
+        {
+          "valeur": 285889.9,
+          "unite": "TND",
+          "description": "Financement des microprojets"
+        },
+        {
+          "valeur": 980,
+          "unite": "personnes",
+          "description": "Bénéficiaires directs des initiatives de sensibilisation"
+        },
+        {
+          "valeur": 4337,
+          "unite": "personnes",
+          "description": "Personnes touchées par les initiatives/événements"
+        }
+      ],
+      "zones_geographiques": [
+        "Gabès",
+        "Ghannouch",
+        "Gabès ville",
+        "Gabès ouest",
+        "Gabès sud",
+        "Métouia",
+        "Matmata",
+        "Matmata Nouvelle"
+      ],
+      "themes": [
+        "société_civile",
+        "environnement",
+        "eau",
+        "gouvernance"
+      ],
+      "mots_cles": [
+        "gouvernance environnementale",
+        "société civile",
+        "Gabès",
+        "Tunisie",
+        "Union européenne",
+        "projet de développement",
+        "environnement",
+        "eau",
+        "pollution"
+      ]
+    },
+    {
+      "titre": "ADMIRE GABES",
+      "sous_titre": "Agir face à la dégradation du milieu et des ressources dans le gouvernorat de Gabès",
+      "periode": {
+        "debut": "30/09/2016",
+        "fin": "31/12/2018"
+      },
+      "finances": {
+        "budget_total_eur": 270346.16,
+        "subvention_eur": 245346.16
+      },
+      "acteurs": {
+        "coordinateur": "WWF / Living Planet Tunisia",
+        "autres_beneficiaires": [
+          "Groupement de développement de pêche à Ghannouch",
+          "Association Chott Essalem pour le développement durable",
+          "Unité de Recherche Ecosystèmes et Ressources Aquatiques de l’Institut National Agronomique de Tunisie"
+        ],
+        "associes": [],
+        "contact": {
+          "nom": "Mr Faouzi Maamouri",
+          "email": "fmaamouri@wwfna.org"
+        }
+      },
+      "objectif": "Le projet vise à appuyer le rôle des acteurs de la société civile, des organisations professionnelles des pêcheurs artisans et femmes collectrices de palourdes et des acteurs publics dans la gouvernance et la cogestion des ressources naturelles marines et côtières du Gouvernorat de Gabes Il se déploiera en favorisant l’augmentation et la diversification des revenus des groupes vulnérables par la facilitation de l’accès aux marchés et aux services locaux et par l’implication du secteur privé, et en améliorant les méthodes d’intervention des autorités publiques et des organisations de la société civile actives sur les zones clés du projet, impliquée dans la pêche artisanale et dans le développement durable local.",
+      "contexte": null,
+      "realisations": [
+        "Les pêcheurs artisans et les femmes collectrices de palourde sont bien représentés dans les groupements de pêche et groupements de collecte de palourde avec des capacités techniques et institutionnelles renforcées",
+        "4 ateliers d’intégration des femmes collectrices de palourde au sein des Groupements de collecte de palourde de zarat, El Hicha, Akarit et chott El Awamer ont été réalisés et ont touché 120 femmes collectrices de palourde",
+        "Organisation des journées de sensibilisation et de formation pour les femmes collectrices dans la négociation des prix de vente de leurs produits de palourde",
+        "l’organisation des sessions de formation mettant à la disposition des jeunes pêcheurs et des femmes les techniques de ramendage des filets de pêche pour : 40 femmes à Zarat, Chott Essalem et Ghannouch",
+        "La conscientisation des différents acteurs de la société civile et des populations locales sur l’importance d’une utilisation durable des richesses naturelles marines et côtières et des pratiques culturelles a été effectuée",
+        "Evaluation des potentialités naturelles de la palmeraie de chott Essalem",
+        "25 jeunes femmes ont été initiées à l’optimisation de la qualité en matière de production de « mdhalla »",
+        "Redynamisation de la région de chott Essalem fortement impactée par la pollution chimique, par l’organisation de la quatrième et cinquième session du festival de Mdhallah (6000 visiteurs)",
+        "Un programme de labellisation et de branding des chapeaux de palme (Madhalah) a été élaboré avec enregistrement de la Mthallah de Chott Essalem Gabes à l’INNORPI",
+        "Renforcement de capacité des artisans sur la valorisation des produits issus de palmier, des techniques de marketing et de promotion commerciale",
+        "Implication des universités d’arts et de technologies afin d’augmenter le domaine de recherche et développement dans la fabrication de Mdhala",
+        "Edition d’un document recensant les outils de fabrications et les bonnes pratiques concernant la Mdhala de Chott Essalam",
+        "Création d’un « Cluster Artisanat » à Chott Essalam regroupant les associations de développement qui travaillent sur l’artisanat, les artisans, et les Sociétés privées et publiques",
+        "Création d’un centre de tri et de stockage des palmes (Gloub) pour les artisans de la région afin de minimiser les couts de transport",
+        "les pêcheurs de Ghannouch ont été formés sur les techniques de fabrication des types de nasses adaptées à la capture du crabe bleu et 20 pêcheurs ont bénéficié de 80 nasses adaptées (4 nasses par pêcheur)",
+        "Les groupements de pêche artisanale dans les zones de Ghanouch, Zarat, El Hicha et chott Sidi Abdesslam, participent effectivement à la mise en place d’actions génératrices de revenus et d’initiatives innovantes de développement local",
+        "100 rouleaux de halage ont été fournis aux pêcheurs pour la mise à sec et la mise à l’eau de leurs embarcations en l’absence de port et d’appontement",
+        "120 GPS ont été fournis aux pêcheurs",
+        "Aménagement d’un local pour le groupement de pêcheurs composé d’un local administratif et technique, d’une salle de réunion, d’une petite unité de valorisation de crabe bleu et du « WZAF » et d’une chambre frigorifique",
+        "Organisation d’une session de formation participative sur la gestion des conflits regroupant 24 participants (OSC …)",
+        "Les acteurs de la société civile et les groupements de pêche et les groupements de collecte de palourde du Gouvernorat de Gabès adhèrent à la bonne gouvernance et à la cogestion des ressources naturelles marines",
+        "Organisation d’un colloque national sur la nouvelle législation de la pêche et de l’aquaculture en Tunisie et la cogestion de la pêche",
+        "Lobbying et plaidoyer auprès de l’Administration centrale de la pêche (DGPA), des Organisations Intergouvernementales (FAO), UTAP et la société civile tunisienne (GDA Pêche, pour la cogestion de la pêche ; la création de réserve de pêche artisanale et la désignation des structures professionnelles, l’Administration de la pêche à travers un cahier de charge de cogestion de la pêche",
+        "Proposition d’un Draft de projet de loi sur la cogestion de la pêche",
+        "Organisation d’un atelier de formation pour les OSC en matière de « Mobilisation, bénévolat et élaboration d’une stratégie de communication pour les acteurs de la société civile »"
+      ],
+      "resultats_chiffres": [
+        "120 femmes collectrices de palourde ont été touchées par les ateliers d’intégration",
+        "40 femmes ont bénéficié de la formation sur les techniques de ramendage des filets de pêche",
+        "25 jeunes femmes ont été initiées à l’optimisation de la qualité en matière de production de « mdhalla »",
+        "6000 visiteurs ont participé au festival de Mdhallah",
+        "20 pêcheurs ont bénéficié de 80 nasses adaptées (4 nasses par pêcheur)",
+        "100 rouleaux de halage ont été fournis aux pêcheurs",
+        "120 GPS ont été fournis aux pêcheurs",
+        "24 participants ont pris part à la session de formation participative sur la gestion des conflits"
+      ],
+      "infrastructure_disponible": [
+        {
+          "nom": "Centre de tri et de stockage des palmes (Gloub)",
+          "type": "Centre de stockage",
+          "statut": "Créé",
+          "localisation": "Chott Essalam",
+          "description": "Centre de tri et de stockage des palmes pour les artisans de la région"
+        },
+        {
+          "nom": "Local pour le groupement de pêcheurs",
+          "type": "Local administratif et technique",
+          "statut": "Aménagé",
+          "localisation": "Ghannouch",
+          "description": "Local composé d’un local administratif et technique, d’une salle de réunion, d’une petite unité de valorisation de crabe bleu et du « WZAF » et d’une chambre frigorifique"
+        }
+      ],
+      "metriques": [
+        {
+          "valeur": 120,
+          "unite": "femmes",
+          "description": "Nombre de femmes collectrices de palourde touchées par les ateliers d’intégration"
+        },
+        {
+          "valeur": 40,
+          "unite": "femmes",
+          "description": "Nombre de femmes bénéficiant de la formation sur les techniques de ramendage des filets de pêche"
+        },
+        {
+          "valeur": 25,
+          "unite": "jeunes femmes",
+          "description": "Nombre de jeunes femmes initiées à l’optimisation de la qualité en matière de production de « mdhalla »"
+        },
+        {
+          "valeur": 6000,
+          "unite": "visiteurs",
+          "description": "Nombre de visiteurs ayant participé au festival de Mdhallah"
+        },
+        {
+          "valeur": 20,
+          "unite": "pêcheurs",
+          "description": "Nombre de pêcheurs ayant bénéficié de 80 nasses adaptées"
+        },
+        {
+          "valeur": 100,
+          "unite": "rouleaux de halage",
+          "description": "Nombre de rouleaux de halage fournis aux pêcheurs"
+        },
+        {
+          "valeur": 120,
+          "unite": "GPS",
+          "description": "Nombre de GPS fournis aux pêcheurs"
+        },
+        {
+          "valeur": 24,
+          "unite": "participants",
+          "description": "Nombre de participants à la session de formation participative sur la gestion des conflits"
+        }
+      ],
+      "zones_geographiques": [
+        "Gouvernorat de Gabès",
+        "Ghannouch",
+        "Zarat",
+        "El Hicha",
+        "Chott Essalem",
+        "Chott Sidi Abdesslam"
+      ],
+      "themes": [
+        "pêche",
+        "artisanat",
+        "société_civile",
+        "emploi",
+        "biodiversité",
+        "écotourisme"
+      ],
+      "mots_cles": [
+        "Gabès",
+        "pêche artisanale",
+        "palourde",
+        "artisanat",
+        "société civile",
+        "développement durable",
+        "gestion des ressources naturelles",
+        "cogestion",
+        "formation",
+        "sensibilisation"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1032 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OasisAI — Parcours Personnalisé</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;500;600&family=Cinzel+Decorative:wght@400;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <style>
+    :root{
+      /* Gold palette — unchanged */
+      --gold:#c9a84c;--gb:#e8c97a;--gp:#f5e9b8;
+      --b1:rgba(200,165,60,0.25);--b2:rgba(200,165,60,0.45);--b3:rgba(200,165,60,0.7);
+      --gl:rgba(8,6,2,0.72);
+      --gr:rgba(80,180,100,0.9);--grb:rgba(40,100,50,0.15);--grbd:rgba(80,180,100,0.35);
+
+      /* TEXT COLORS — flipped to WHITE/LIGHT for dark-panel readability */
+      --gd: #f0e6cc;   /* was dark brown #7a5c1e → now warm white: eyebrows, labels, muted */
+      --gx: rgba(200,165,60,0.5); /* was near-black → gold-tinted for scrollbars */
+      --sand: #f5ead4; /* was mid-tan → bright warm white: body text */
+      --sm:   #e8d8b0; /* was dim tan → readable light gold: secondary text */
+      --sf:   #d4bf90; /* was near-invisible → soft gold: faint text */
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html,body{width:100%;height:100%;overflow:hidden;font-family:'Cormorant Garamond',Georgia,serif;color:var(--gp)}
+
+    .bg{position:fixed;inset:0;z-index:0;background:url("{% static 'predictor/images/gabes-tunisie.png' %}") center/cover no-repeat}
+    .bg::after{content:'';position:absolute;inset:0;z-index:1;
+      background:linear-gradient(180deg,rgba(4,2,1,0.85) 0%,rgba(4,2,1,0.55) 30%,rgba(4,2,1,0.60) 65%,rgba(4,2,1,0.92) 100%),
+      radial-gradient(ellipse 100% 80% at 50% 50%,rgba(4,2,1,0.3) 0%,rgba(4,2,1,0.65) 100%)}
+    .grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.055;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px 200px}
+    .orb{position:fixed;border-radius:50%;pointer-events:none;z-index:1;filter:blur(70px)}
+    .o1{width:500px;height:280px;top:-80px;left:10%;background:rgba(180,130,15,0.12);animation:da 16s ease-in-out infinite}
+    .o2{width:350px;height:350px;bottom:5%;right:-5%;background:rgba(40,90,20,0.1);animation:db 22s ease-in-out infinite}
+    .o3{width:280px;height:200px;top:40%;left:-6%;background:rgba(130,90,10,0.09);animation:dc 18s ease-in-out infinite}
+    @keyframes da{0%,100%{transform:translate(0,0)}50%{transform:translate(35px,20px)}}
+    @keyframes db{0%,100%{transform:translate(0,0)}50%{transform:translate(-25px,-30px)}}
+    @keyframes dc{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,28px)}}
+
+    /* SHARED HEADER */
+    header{position:sticky;top:0;z-index:200;height:68px;width:100%;
+      display:flex;align-items:center;justify-content:space-between;padding:0 4vw;
+      background:linear-gradient(180deg,rgba(5,3,1,0.97),rgba(5,3,1,0.88));
+      border-bottom:1px solid var(--b1);backdrop-filter:blur(18px)}
+    header::after{content:'';position:absolute;bottom:-1px;left:6%;right:6%;height:1px;
+      background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+    .brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+    .b-logo{width:42px;height:42px;border-radius:50%;border:1px solid var(--b2);
+      background:radial-gradient(circle at 40% 40%,rgba(200,165,60,0.15),rgba(100,60,5,0.1));
+      display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+    .b-logo::before{content:'';position:absolute;inset:0;border-radius:50%;
+      background:conic-gradient(from 0deg,transparent 65%,rgba(200,165,60,0.4) 100%);
+      animation:spin 9s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .b-logo img,.b-logo svg{position:relative;z-index:1}
+    .b-logo img{width:100%;height:100%;object-fit:cover}
+    .b-name{font-family:'Cinzel Decorative',serif;font-size:18px;font-weight:700;display:flex;align-items:baseline}
+    .bo{color:var(--gp);text-shadow:0 0 20px rgba(200,160,50,0.5)}.br2{color:var(--gb)}.bai{color:var(--gold);font-size:13px;margin-left:3px;font-weight:600}
+    .b-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;color:var(--sand);letter-spacing:0.15em;display:block;margin-top:1px}
+    nav{display:flex;align-items:center;gap:4px}
+    nav a{font-family:'Cinzel',serif;font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;
+      color:#b89850;text-decoration:none;padding:6px 14px;border:1px solid transparent;border-radius:2px;transition:all 0.3s;font-weight:600}
+    nav a:hover{color:var(--gb);border-color:var(--b1);background:rgba(180,130,30,0.06)}
+    nav a.active{color:var(--gold);border-color:var(--b2);background:rgba(180,130,30,0.09)}
+    .nsep{width:1px;height:18px;background:var(--b1);margin:0 5px}
+    .h-actions{display:flex;align-items:center;gap:8px}
+    .btn-guides-open{font-family:'Cinzel',serif;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;
+      color:var(--gold);background:rgba(180,130,30,0.1);border:1px solid var(--b2);border-radius:2px;
+      padding:7px 16px;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;gap:7px}
+    .btn-guides-open:hover{color:var(--gp);border-color:var(--b3);background:rgba(180,130,30,0.18)}
+    .g-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:blip 2s ease-in-out infinite}
+    @keyframes blip{0%,100%{opacity:0.4;transform:scale(0.8)}50%{opacity:1;transform:scale(1.2)}}
+
+    /* SHARED FOOTER */
+    footer{position:relative;z-index:100;display:flex;align-items:center;justify-content:space-between;
+      padding:0 4vw;height:50px;flex-shrink:0;
+      background:linear-gradient(0deg,rgba(5,3,1,0.97),rgba(5,3,1,0.88));
+      border-top:1px solid var(--b1);backdrop-filter:blur(18px)}
+    footer::before{content:'';position:absolute;top:-1px;left:6%;right:6%;height:1px;
+      background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+    .f-brand{font-family:'Cinzel',serif;font-size:11px;font-weight:700;letter-spacing:0.25em;color:var(--gd);text-transform:uppercase}
+    .f-center{display:flex;align-items:center;gap:10px}
+    .f-dot{width:3px;height:3px;border-radius:50%;background:var(--gx)}
+    .f-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;font-weight:500;color:var(--sm);letter-spacing:0.08em}
+    .f-right{font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:0.2em;color:var(--gd)}
+
+    /* PAGE GRID */
+    .page{position:relative;z-index:10;width:100vw;height:100vh;
+      display:grid;grid-template-rows:68px 1fr 50px;overflow:hidden}
+
+    /* FORM LAYOUT: narrow form left, full map right */
+    .layout-form{display:grid;grid-template-columns:340px 1fr;min-height:0;overflow:hidden;height:100%}
+    .layout-form.hidden,.layout-result.hidden{display:none}
+
+    /* RESULT LAYOUT: itinerary left, AI+map right */
+    .layout-result{display:grid;grid-template-columns:44% 56%;min-height:0;overflow:hidden;height:100%}
+
+    /* GLASS PANEL */
+    .glass-panel{background:var(--gl);backdrop-filter:blur(22px);
+      border-right:1px solid var(--b2);display:flex;flex-direction:column;overflow:hidden;position:relative}
+    .phead{padding:16px 22px 12px;border-bottom:1px solid var(--b1);flex-shrink:0;
+      background:linear-gradient(180deg,rgba(5,3,1,0.5),transparent)}
+    .phead-eyebrow{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.45em;color:var(--gd);text-transform:uppercase;margin-bottom:5px;font-weight:700}
+    .phead-title{font-family:'Cinzel',serif;font-size:16px;color:var(--gb);letter-spacing:0.08em;font-weight:700}
+    .phead-sub{font-size:13px;font-style:italic;color:var(--sf);margin-top:3px;font-weight:500}
+    .pbody{flex:1;overflow-y:auto;padding:16px 22px;scrollbar-width:thin;scrollbar-color:var(--gx) transparent}
+    .pbody::-webkit-scrollbar{width:3px}
+    .pbody::-webkit-scrollbar-thumb{background:var(--gx);border-radius:2px}
+
+    /* FORM FIELDS */
+    .fsec{margin-bottom:13px}
+    .fsec-title{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.35em;color:var(--gd);
+      text-transform:uppercase;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--b1);font-weight:700}
+    .chips{display:flex;flex-wrap:wrap;gap:5px}
+    .chip{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;
+      padding:5px 11px;border:1px solid var(--b1);border-radius:20px;
+      color:var(--sf);background:rgba(20,15,5,0.6);cursor:pointer;transition:all 0.25s;font-weight:600}
+    .chip:hover{color:var(--gd);border-color:var(--b2)}
+    .chip.on{color:var(--gp);border-color:var(--gold);background:rgba(180,130,30,0.25);font-weight:700}
+    .itag{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;
+      padding:4px 11px;border:1px solid var(--b1);border-radius:20px;
+      color:var(--sf);background:rgba(20,15,5,0.6);cursor:pointer;transition:all 0.25s;font-weight:600}
+    .itag:hover{color:var(--gd);border-color:var(--b2)}
+    .itag.on{color:var(--gp);border-color:var(--gold);background:rgba(180,130,30,0.22);font-weight:700}
+    .frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .ff{display:flex;flex-direction:column;gap:4px}
+    .fl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.28em;color:var(--gd);text-transform:uppercase;font-weight:700}
+    .fi{background:rgba(5,3,1,0.8);border:1px solid var(--b2);border-radius:3px;
+      color:var(--gp);font-family:'Cormorant Garamond',serif;font-size:14px;
+      padding:7px 10px;outline:none;transition:border-color 0.3s;width:100%;-webkit-appearance:none;font-weight:500}
+    .fi:focus{border-color:var(--gold)}
+    .fi option{background:#0e0a04}
+    .btn-gen{width:100%;padding:13px;margin-top:14px;
+      font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.35em;text-transform:uppercase;
+      color:var(--gb);background:linear-gradient(135deg,rgba(180,130,30,0.22),rgba(120,85,15,0.14));
+      border:1px solid var(--gold);border-radius:3px;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden}
+    .btn-gen::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+    .btn-gen:hover{background:rgba(180,130,30,0.3)}
+
+    /* THINKING OVERLAY */
+    #vt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+      background:rgba(5,3,1,0.92);backdrop-filter:blur(18px);opacity:0;pointer-events:none;transition:opacity 0.4s;z-index:30}
+    #vt.on{opacity:1;pointer-events:auto}
+    .t-orb{width:72px;height:72px;border-radius:50%;border:1px solid var(--gd);position:relative;animation:pulse 2s ease-in-out infinite}
+    .t-orb::before,.t-orb::after{content:'';position:absolute;border-radius:50%;border:1px solid var(--gold);animation:ring 2.2s ease-out infinite}
+    .t-orb::before{inset:-14px}.t-orb::after{inset:-28px;animation-delay:0.65s}
+    .t-inner{position:absolute;inset:6px;border-radius:50%;background:radial-gradient(circle,rgba(200,160,50,0.3),transparent);animation:oglow 2s ease-in-out infinite}
+    @keyframes pulse{0%,100%{border-color:var(--gd)}50%{border-color:var(--gb)}}
+    @keyframes ring{0%{opacity:0.8;transform:scale(0.9)}100%{opacity:0;transform:scale(1.5)}}
+    @keyframes oglow{0%,100%{opacity:0.3}50%{opacity:1}}
+    .t-label{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.35em;color:var(--gd);text-transform:uppercase}
+    .t-dots span{display:inline-block;animation:bd 1.2s infinite}
+    .t-dots span:nth-child(2){animation-delay:0.2s}.t-dots span:nth-child(3){animation-delay:0.4s}
+    @keyframes bd{0%,80%,100%{opacity:0.2}40%{opacity:1}}
+
+    /* HOME MAP PANEL */
+    .rpanel{display:flex;flex-direction:column;overflow:hidden;background:rgba(5,4,1,0.5);backdrop-filter:blur(12px);height:100%}
+    .rhead{padding:14px 22px 10px;border-bottom:1px solid var(--b1);flex-shrink:0;background:linear-gradient(180deg,rgba(5,3,1,0.5),transparent)}
+    .rhead-eyebrow{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.42em;color:var(--gd);text-transform:uppercase;margin-bottom:4px;font-weight:700}
+    .rhead-title{font-family:'Cinzel',serif;font-size:15px;color:var(--gp);font-weight:700}
+    .rhead-sub{font-size:12px;font-style:italic;color:var(--sf);margin-top:2px;font-weight:400}
+    .home-map-wrap{flex:1;position:relative;min-height:0}
+    #home-map{position:absolute;inset:0}
+    .map-strip{border-top:1px solid var(--b1);padding:10px 20px;background:rgba(5,3,1,0.75);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+    .map-strip-t{font-size:12px;color:var(--sf);font-style:italic}
+    .map-strip-n{font-family:'Cinzel',serif;font-size:9px;color:var(--gd);letter-spacing:0.12em}
+
+    /* RESULT PANELS */
+    .result-left{display:flex;flex-direction:column;overflow:hidden;background:var(--gl);backdrop-filter:blur(22px);border-right:1px solid var(--b1);height:100%}
+    .result-right{display:flex;flex-direction:column;overflow:hidden;background:rgba(4,3,1,0.72);backdrop-filter:blur(18px);height:100%}
+    .r-panel-head{padding:14px 22px 12px;border-bottom:1px solid var(--b1);flex-shrink:0;
+      background:linear-gradient(180deg,rgba(5,3,1,0.55),transparent);
+      display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .r-panel-eyebrow{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.42em;color:var(--gd);text-transform:uppercase;margin-bottom:4px;font-weight:700}
+    .r-panel-title{font-family:'Cinzel',serif;font-size:15px;color:var(--gp);letter-spacing:0.06em;font-weight:700}
+    .r-scroll{flex:1;overflow-y:auto;padding:16px 22px;scrollbar-width:thin;scrollbar-color:var(--gx) transparent}
+    .r-scroll::-webkit-scrollbar{width:3px}
+    .r-scroll::-webkit-scrollbar-thumb{background:var(--gx);border-radius:2px}
+    .ai-scroll{padding:18px 20px}
+
+    /* Back button */
+    .r-back{display:inline-flex;align-items:center;gap:6px;
+      font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;
+      color:var(--gd);background:rgba(200,165,60,0.08);border:1px solid var(--b2);border-radius:2px;
+      padding:5px 12px;cursor:pointer;transition:all 0.3s;white-space:nowrap;font-weight:600}
+    .r-back:hover{color:var(--gold);border-color:var(--b3);background:rgba(200,165,60,0.15)}
+
+    /* Profile tags */
+    .profile-card{border:1px solid var(--b2);border-radius:6px;background:rgba(6,4,1,0.78);
+      padding:14px 16px;margin-bottom:18px;backdrop-filter:blur(14px);
+      box-shadow:0 0 20px rgba(180,130,20,0.08),inset 0 1px 0 rgba(200,165,60,0.1)}
+    .profile-card-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.35em;color:var(--gd);text-transform:uppercase;margin-bottom:8px;font-weight:700}
+    .profile-tags{display:flex;flex-wrap:wrap;gap:5px}
+    .profile-tag{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;
+      padding:4px 10px;border:1px solid var(--b2);border-radius:20px;color:var(--gp);background:rgba(180,130,30,0.18);font-weight:700}
+
+    /* Section heading */
+    .sec-t{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.35em;color:var(--gd);text-transform:uppercase;font-weight:700;
+      margin-bottom:10px;margin-top:4px;display:flex;align-items:center;gap:10px}
+    .sec-t::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--b1),transparent)}
+
+    /* Day cards */
+    .day-card{border:1px solid var(--b2);border-radius:6px;background:rgba(6,4,1,0.85);
+      margin-bottom:12px;overflow:hidden;backdrop-filter:blur(14px);transition:border-color 0.3s;
+      box-shadow:0 4px 20px rgba(0,0,0,0.4)}
+    .day-card:hover{border-color:var(--b2)}
+    .day-head{padding:10px 14px 9px;background:rgba(180,130,30,0.1);border-bottom:1px solid rgba(200,165,60,0.15);display:flex;align-items:center;gap:10px}
+    .day-num{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.28em;text-transform:uppercase;
+      color:var(--gp);background:rgba(180,130,30,0.22);border:1px solid var(--b2);border-radius:20px;padding:3px 10px;white-space:nowrap;font-weight:700}
+    .day-theme{font-family:'Cinzel',serif;font-size:13px;color:var(--gp);letter-spacing:0.06em;font-weight:700}
+    .stop-list{list-style:none;padding:10px 14px;display:flex;flex-direction:column;gap:8px}
+    .stop-item{padding:10px 14px;border-left:2px solid var(--gold);background:rgba(180,130,30,0.07);border-radius:0 4px 4px 0;backdrop-filter:blur(4px)}
+    .stop-name{font-family:'Cinzel',serif;font-size:12px;color:var(--gp);letter-spacing:0.08em;margin-bottom:4px;font-weight:700}
+    .stop-desc{font-size:13px;color:var(--sm);font-style:italic;line-height:1.75;font-weight:400}
+
+    /* Action row */
+    .r-actions{display:flex;gap:7px;margin-top:10px}
+    .btn-action{flex:1;padding:10px 8px;font-family:'Cinzel',serif;font-size:9px;
+      letter-spacing:0.2em;text-transform:uppercase;color:var(--gd);
+      background:rgba(5,3,1,0.5);border:1px solid var(--b1);border-radius:3px;
+      cursor:pointer;text-decoration:none;text-align:center;transition:all 0.3s;display:block}
+    .btn-action:hover{color:var(--gold);border-color:var(--b2);background:rgba(180,130,30,0.08)}
+    .btn-action.accent{color:var(--gb);border-color:var(--gold);background:rgba(180,130,30,0.12)}
+    .btn-action.accent:hover{background:rgba(180,130,30,0.22)}
+
+    /* AI badge */
+    .ai-badge{display:inline-flex;align-items:center;gap:7px;
+      font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.22em;text-transform:uppercase;
+      padding:4px 12px;border:1px solid var(--grbd);border-radius:20px;color:var(--gr);background:var(--grb)}
+    .ai-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gr);animation:blip 2s ease-in-out infinite}
+
+    /* LLM output block */
+    .llm-block{border:1px solid var(--b2);border-radius:6px;
+      background:rgba(4,3,1,0.75);padding:18px 20px;margin-bottom:0;
+      box-shadow:0 0 30px rgba(180,130,20,0.08),inset 0 1px 0 rgba(200,165,60,0.1)}
+    .llm-block p{font-size:14px;line-height:1.95;color:var(--gp);font-style:normal;margin-bottom:12px;font-weight:400}
+    .llm-block p:last-child{margin-bottom:0}
+    .llm-block strong{font-style:normal;color:var(--gold);font-weight:700;letter-spacing:0.03em}
+    .llm-block ul,.llm-block ol{padding-left:18px;margin-bottom:10px}
+    .llm-block li{font-size:13px;line-height:1.8;color:var(--sm);font-style:normal;margin-bottom:5px;font-weight:400}
+    .llm-block li strong{font-style:normal;color:var(--gold);font-weight:600}
+
+    /* Result map */
+    .map-head{padding:11px 22px 9px;border-top:1px solid var(--b1);border-bottom:1px solid var(--b1);flex-shrink:0;
+      background:rgba(5,3,1,0.55);display:flex;align-items:center;justify-content:space-between}
+    .map-head-t{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.32em;color:var(--gd);text-transform:uppercase}
+    .map-count{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold)}
+    .result-map-wrap{flex:0 0 30%;position:relative;min-height:0;min-height:180px}
+    #result-map{position:absolute;inset:0}
+
+    /* GUIDES PANEL */
+    .guides-overlay{position:fixed;inset:0;z-index:150;background:rgba(4,2,1,0.6);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity 0.4s}
+    .guides-overlay.open{opacity:1;pointer-events:auto}
+    .guides-panel{position:fixed;right:0;top:0;bottom:0;z-index:160;width:min(520px,92vw);
+      background:rgba(8,5,1,0.97);backdrop-filter:blur(24px);border-left:1px solid var(--b2);
+      display:flex;flex-direction:column;transform:translateX(100%);transition:transform 0.45s cubic-bezier(.22,.68,0,1.1)}
+    .guides-panel.open{transform:translateX(0)}
+    .guides-panel::before{content:'';position:absolute;top:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+    .gp-head{padding:20px 26px 14px;border-bottom:1px solid var(--b1);flex-shrink:0;display:flex;align-items:flex-start;justify-content:space-between}
+    .gp-eyebrow{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.42em;color:var(--gd);text-transform:uppercase;margin-bottom:5px;font-weight:700}
+    .gp-title{font-family:'Cinzel',serif;font-size:17px;color:var(--gp);letter-spacing:0.08em;font-weight:700}
+    .gp-sub{font-size:13px;font-style:italic;color:var(--sf);margin-top:3px;font-weight:400}
+    .btn-gp-close{background:none;border:1px solid var(--b1);border-radius:2px;color:var(--gd);font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;padding:5px 12px;cursor:pointer;transition:all 0.3s;white-space:nowrap}
+    .btn-gp-close:hover{color:var(--gold);border-color:var(--b2)}
+    .gp-tabs{display:flex;border-bottom:1px solid var(--b1);flex-shrink:0}
+    .gp-tab{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--sf);padding:10px 20px;border-bottom:2px solid transparent;cursor:pointer;transition:all 0.3s;font-weight:600}
+    .gp-tab.on{color:var(--gold);border-bottom-color:var(--gold)}
+    .gp-body{flex:1;overflow:hidden;position:relative}
+    .gp-view{position:absolute;inset:0;overflow-y:auto;padding:18px 26px;scrollbar-width:thin;scrollbar-color:var(--gx) transparent;transition:opacity 0.4s,transform 0.4s}
+    .gp-view::-webkit-scrollbar{width:3px}
+    .gp-view::-webkit-scrollbar-thumb{background:var(--gx);border-radius:2px}
+    .gp-view.off{opacity:0;pointer-events:none;transform:translateX(8px)}
+    .g-card{border:1px solid var(--b1);border-radius:6px;background:rgba(10,7,2,0.6);margin-bottom:12px;overflow:hidden;backdrop-filter:blur(10px);transition:all 0.3s}
+    .g-card:hover{border-color:var(--b2);transform:translateX(-3px)}
+    .g-card-img{height:115px;overflow:hidden}
+    .g-card-img img{width:100%;height:100%;object-fit:cover;filter:brightness(0.75) saturate(0.8)}
+    .g-card-img-ph{width:100%;height:100%;background:linear-gradient(135deg,rgba(180,130,30,0.12),rgba(40,80,20,0.15));display:flex;align-items:center;justify-content:center;font-size:30px;opacity:0.5}
+    .g-card-body{padding:12px 15px 13px}
+    .g-card-name{font-family:'Cinzel',serif;font-size:12px;color:var(--gp);letter-spacing:0.08em;margin-bottom:3px;font-weight:700}
+    .g-card-meta{font-size:12px;color:var(--sm);font-style:italic;margin-bottom:8px;font-weight:400}
+    .g-card-info{font-size:12px;color:var(--sf);margin-bottom:3px;display:flex;align-items:baseline;gap:5px;font-weight:400}
+    .g-info-l{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.2em;color:var(--gd);text-transform:uppercase;min-width:55px;font-weight:700}
+    .g-card-actions{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap;align-items:center}
+    .btn-reserve{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:6px 14px;border:1px solid var(--gold);border-radius:2px;color:var(--gold);background:rgba(180,130,30,0.1);cursor:pointer;transition:all 0.3s}
+    .btn-reserve:hover{color:var(--gp);border-color:var(--b3);background:rgba(180,130,30,0.2)}
+    .btn-see-res{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;padding:6px 12px;border:1px solid var(--b1);border-radius:2px;color:var(--gd);background:transparent;cursor:pointer;transition:all 0.3s}
+    .btn-see-res:hover{color:var(--gold);border-color:var(--b2)}
+    .btn-del{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;padding:6px 10px;border:1px solid rgba(200,60,40,0.25);border-radius:2px;color:rgba(200,80,60,0.7);background:transparent;cursor:pointer;transition:all 0.3s;margin-left:auto}
+    .btn-del:hover{color:rgba(220,100,80,0.9);border-color:rgba(200,60,40,0.5)}
+    .add-form-wrap{border:1px dashed rgba(200,165,60,0.22);border-radius:6px;padding:16px 18px;background:rgba(5,3,1,0.5)}
+    .add-form-t{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.3em;color:var(--gd);text-transform:uppercase;margin-bottom:12px;font-weight:700}
+    .add-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+    .add-field{display:flex;flex-direction:column;gap:4px}
+    .add-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.25em;color:var(--gd);text-transform:uppercase;font-weight:700}
+    .add-input{background:rgba(5,3,1,0.7);border:1px solid var(--b2);border-radius:3px;color:var(--gp);font-family:'Cormorant Garamond',serif;font-size:14px;padding:7px 10px;outline:none;transition:border-color 0.3s;width:100%;font-weight:500}
+    .add-input:focus{border-color:var(--gold)}
+    .btn-add{width:100%;padding:11px;margin-top:4px;font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gb);background:linear-gradient(135deg,rgba(180,130,30,0.2),rgba(120,85,15,0.12));border:1px solid var(--gold);border-radius:3px;cursor:pointer;transition:all 0.3s}
+    .btn-add:hover{background:rgba(180,130,30,0.28)}
+
+    /* MODALS */
+    .modal-overlay{position:fixed;inset:0;z-index:250;background:rgba(4,2,1,0.78);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s}
+    .modal-overlay.open{opacity:1;pointer-events:auto}
+    .modal-box{width:min(420px,90vw);background:rgba(10,7,2,0.97);border:1px solid var(--b2);border-radius:8px;padding:26px 28px;position:relative;box-shadow:0 30px 80px rgba(0,0,0,0.7)}
+    .modal-box::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+    .modal-title{font-family:'Cinzel',serif;font-size:14px;color:var(--gp);letter-spacing:0.08em;margin-bottom:4px;font-weight:700}
+    .modal-sub{font-size:13px;font-style:italic;color:var(--sf);margin-bottom:18px;font-weight:400}
+    .modal-field{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+    .modal-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.28em;color:var(--gd);text-transform:uppercase;font-weight:700}
+    .modal-input{background:rgba(5,3,1,0.7);border:1px solid var(--b2);border-radius:3px;color:var(--gp);font-family:'Cormorant Garamond',serif;font-size:14px;padding:8px 11px;outline:none;transition:border-color 0.3s;width:100%;font-weight:500}
+    .modal-input:focus{border-color:var(--gold)}
+    textarea.modal-input{resize:vertical;min-height:70px}
+    .modal-actions{display:flex;gap:8px;margin-top:18px}
+    .btn-confirm{flex:1;padding:11px;font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gb);background:linear-gradient(135deg,rgba(180,130,30,0.22),rgba(120,85,15,0.14));border:1px solid var(--gold);border-radius:3px;cursor:pointer;transition:all 0.3s}
+    .btn-confirm:hover{background:rgba(180,130,30,0.3)}
+    .btn-cancel{padding:11px 18px;font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gd);background:transparent;border:1px solid var(--b1);border-radius:3px;cursor:pointer;transition:all 0.3s}
+    .btn-cancel:hover{color:var(--gold);border-color:var(--b2)}
+    .res-item{border:1px solid var(--b1);border-radius:4px;background:rgba(5,3,1,0.6);padding:10px 12px;margin-bottom:8px}
+    .res-item-name{font-family:'Cinzel',serif;font-size:12px;color:var(--gp);margin-bottom:3px;font-weight:700}
+    .res-item-meta{font-size:12px;color:var(--sm);font-style:italic;font-weight:400}
+
+    /* TOAST */
+    #toast-wrap{position:fixed;top:80px;right:20px;z-index:300;display:flex;flex-direction:column;gap:8px}
+    .toast{min-width:280px;padding:12px 16px;border-radius:4px;font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;display:flex;align-items:center;justify-content:space-between;gap:10px;backdrop-filter:blur(12px);border:1px solid;animation:tin 0.3s ease forwards}
+    .toast.success{color:rgba(80,180,100,0.9);background:rgba(40,100,50,0.15);border-color:rgba(80,180,100,0.3)}
+    .toast.error{color:rgba(220,80,60,0.9);background:rgba(150,40,20,0.15);border-color:rgba(220,80,60,0.3)}
+    .toast-close{background:none;border:none;cursor:pointer;color:inherit;font-size:12px}
+    @keyframes tin{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes tout{from{opacity:1}to{opacity:0;transform:translateY(-6px)}}
+
+    /* Leaflet overrides */
+    .leaflet-popup-content-wrapper{background:rgba(10,7,2,0.95)!important;border:1px solid var(--b2)!important;border-radius:6px!important;color:var(--sand)!important}
+    .leaflet-popup-tip{background:rgba(10,7,2,0.95)!important}
+    .leaflet-popup-content h3{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);margin-bottom:4px}
+    .leaflet-popup-content p{font-size:11px;color:var(--sm);font-style:italic;line-height:1.6}
+    .cmm{width:13px;height:13px;border-radius:50%;border:2px solid rgba(255,255,255,0.4)}
+
+    /* AI-REACTIVE COLOR SYSTEM */
+    :root{--ai-accent:#c9a84c;--ai-glow:rgba(201,168,76,0.22);--ai-border:rgba(201,168,76,0.32)}
+    [data-profile~="écotouriste"],[data-profile~="ecotourism"],[data-profile~="nature"]{--ai-accent:#4aaa6e;--ai-glow:rgba(74,170,110,0.2);--ai-border:rgba(74,170,110,0.32)}
+    [data-profile~="famille"],[data-profile~="slow"]{--ai-accent:#4a9aaa;--ai-glow:rgba(74,154,170,0.2);--ai-border:rgba(74,154,170,0.32)}
+    [data-profile~="photographe"],[data-profile~="photography"]{--ai-accent:#9a7ad4;--ai-glow:rgba(154,122,212,0.2);--ai-border:rgba(154,122,212,0.32)}
+    [data-profile~="premium"]{--ai-accent:#e8c97a;--ai-glow:rgba(232,201,122,0.26);--ai-border:rgba(232,201,122,0.38)}
+
+    /* SLIDE SYSTEM */
+    .result-left{display:flex;flex-direction:column;overflow:hidden;background:var(--gl);backdrop-filter:blur(22px);border-right:1px solid var(--b1);height:100%}
+    .slides-wrap{flex:1;overflow:hidden;position:relative;min-height:0;cursor:grab}
+    .slides-wrap:active{cursor:grabbing}
+    .slide-track{display:flex;height:100%;transition:transform 0.45s cubic-bezier(.4,0,.2,1);will-change:transform}
+    .slide{flex:0 0 100%;height:100%;overflow-y:auto;padding:16px 20px;scrollbar-width:thin;scrollbar-color:var(--gx) transparent}
+    .slide::-webkit-scrollbar{width:3px}
+    .slide::-webkit-scrollbar-thumb{background:var(--gx);border-radius:2px}
+    .slide-nav{flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:8px;padding:7px 0;border-top:1px solid var(--b1);background:rgba(5,3,1,0.65)}
+    .slide-dot{width:7px;height:7px;border-radius:50%;background:var(--sf);cursor:pointer;transition:all 0.3s;border:1px solid var(--b2)}
+    .slide-dot.on{background:var(--ai-accent);border-color:var(--ai-accent);transform:scale(1.35)}
+    .slide-arr{width:28px;height:28px;border-radius:50%;border:1px solid var(--b2);background:rgba(20,14,4,0.7);color:var(--gd);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;line-height:1;font-weight:700}
+    .slide-arr:hover{border-color:var(--ai-accent);color:var(--ai-accent)}
+    .slide-arr:disabled{opacity:0.25;cursor:default}
+    .slide-lbl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.32em;color:var(--gd);text-transform:uppercase;margin-top:2px;font-weight:600}
+
+    /* AI-REACTIVE day cards & profile */
+    .profile-card{border:1px solid var(--ai-border)!important;box-shadow:0 0 18px var(--ai-glow),inset 0 1px 0 var(--ai-border)!important;transition:border-color 0.7s,box-shadow 0.7s}
+    .profile-tag{border-color:var(--ai-border)!important;color:var(--ai-accent)!important;transition:border-color 0.7s,color 0.7s}
+    .day-card{border:1px solid var(--ai-border)!important;transition:border-color 0.3s,box-shadow 0.3s}
+    .day-card:hover{box-shadow:0 4px 22px var(--ai-glow)!important;border-color:var(--ai-accent)!important}
+    .day-num{color:var(--ai-accent)!important;border-color:var(--ai-border)!important}
+    .stop-item{border-left-color:var(--ai-accent)!important;transition:border-color 0.7s}
+    .llm-block{border-color:var(--ai-border)!important;box-shadow:0 0 28px var(--ai-glow),inset 0 1px 0 var(--ai-border)!important;transition:border-color 0.7s,box-shadow 0.7s}
+    .llm-block strong{color:var(--ai-accent)!important;transition:color 0.7s}
+    .ai-badge{border-color:var(--ai-border)!important;color:var(--ai-accent)!important;background:var(--ai-glow)!important}
+    .ai-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--ai-accent);animation:blip 2s ease-in-out infinite;transition:background 0.7s}
+    .btn-action.accent{color:var(--ai-accent)!important;border-color:var(--ai-border)!important;background:var(--ai-glow)!important}
+    .btn-action:hover{color:var(--ai-accent)!important;border-color:var(--ai-border)!important}
+
+    /* PLACE CARDS (slide 2) */
+    .places-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .place-card{border:1px solid var(--b2);border-radius:6px;background:rgba(6,4,1,0.88);overflow:hidden;backdrop-filter:blur(12px);transition:all 0.32s;position:relative}
+    .place-card:hover{border-color:var(--ai-accent);transform:translateY(-3px);box-shadow:0 8px 28px var(--ai-glow)}
+    .place-top{height:2px;background:linear-gradient(90deg,transparent,var(--ai-accent),transparent);opacity:0;transition:opacity 0.3s}
+    .place-card:hover .place-top{opacity:1}
+    .place-body{padding:11px 13px}
+    .place-cat{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.35em;color:var(--ai-accent);text-transform:uppercase;margin-bottom:4px;font-weight:700}
+    .place-name{font-family:'Cinzel',serif;font-size:12px;color:var(--gp);letter-spacing:0.06em;margin-bottom:5px;line-height:1.3;font-weight:700}
+    .place-desc{font-size:12px;color:var(--sm);font-style:italic;line-height:1.65;font-weight:400}
+    .place-coord{margin-top:7px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--sf);display:flex;align-items:center;gap:5px}
+    .place-dot{width:5px;height:5px;border-radius:50%;background:var(--ai-accent);flex-shrink:0;animation:blip 2s ease-in-out infinite}
+
+    /* TYPING CURSOR */
+    .type-cursor{display:inline-block;width:2px;height:1em;background:var(--ai-accent);vertical-align:middle;animation:blink 0.85s step-end infinite;margin-left:2px;transition:background 0.7s}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+    /* AI SECTION LABEL */
+    .ai-section-t{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.4em;color:var(--ai-accent);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;transition:color 0.7s;font-weight:700}
+    .ai-section-t::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--ai-border),transparent)}
+
+    /* ACTION BUTTONS 3-col */
+    .r-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:14px}
+    .btn-action{display:flex;align-items:center;justify-content:center;gap:5px;padding:10px 6px;
+      font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;
+      color:var(--gd);background:rgba(20,14,4,0.7);border:1px solid var(--b2);border-radius:3px;
+      cursor:pointer;text-decoration:none;text-align:center;transition:all 0.3s;font-weight:700}
+  </style>
+</head>
+<body>
+
+  {% if itinerary_days %}
+  <script>(function(){var t=["{{ profile.tourist_type }}","{{ profile.travel_style }}"{% if profile.interests %}{% for i in profile.interests %},"{{ i }}"{% endfor %}{% endif %}].join(" ");document.documentElement.setAttribute("data-profile",t);})();</script>
+  {% endif %}
+
+<div class="bg"></div>
+<div class="grain"></div>
+<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+
+<!-- TOASTS -->
+<div id="toast-wrap">
+  {% for message in messages %}
+  <div class="toast {% if message.tags == 'error' %}error{% else %}success{% endif %}">
+    <span>{{ message }}</span>
+    <button class="toast-close" onclick="this.parentElement.remove()">✕</button>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="page">
+
+  <!-- ═══ SHARED HEADER ═══ -->
+  <header>
+    <a class="brand" href="{% url 'landing_page' %}">
+      <div class="b-logo">
+        <img src="{% static 'predictor/images/logo.png' %}" alt="OasisAI"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <svg style="display:none" width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="6.5" stroke="#c9a84c" stroke-width="0.8"/>
+          <circle cx="9" cy="9" r="2.5" fill="rgba(201,168,76,0.2)" stroke="#c9a84c" stroke-width="0.8"/>
+          <path d="M9 2.5V15.5M2.5 9H15.5" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/>
+        </svg>
+      </div>
+      <div>
+        <div class="b-name"><span class="bo">O</span><span class="br2">asis</span><span class="bai">AI</span></div>
+        <span class="b-sub">Gabès · Territoire Vivant</span>
+      </div>
+    </a>
+    <nav>
+      <a href="{% url 'landing_page' %}">Accueil</a>
+      <div class="nsep"></div>
+      <a href="{% url 'tourism_home' %}" class="active">Parcours</a>
+      <div class="nsep"></div>
+      <a href="{% url 'home' %}">Environnement</a>
+    </nav>
+    <div class="h-actions">
+      <button class="btn-guides-open" onclick="openGuides()">
+        <div class="g-dot"></div>Guides locaux
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══ FORM LAYOUT ═══ -->
+  <div class="layout-form {% if itinerary_days %}hidden{% endif %}" id="layout-form">
+
+    <div class="glass-panel">
+      <div class="phead">
+        <div class="phead-eyebrow">— Service 02 · OasisAI</div>
+        <div class="phead-title">Préparez votre parcours</div>
+        <div class="phead-sub">Personnalisez vos préférences pour un itinéraire sur mesure</div>
+      </div>
+      <div id="vt">
+        <div class="t-orb"><div class="t-inner"></div></div>
+        <div class="t-label">Composition en cours<span class="t-dots"><span>.</span><span>.</span><span>.</span></span></div>
+      </div>
+      <div class="pbody">
+        <form method="post" action="{% url 'tourism_analyze' %}" id="tf">
+          {% csrf_token %}
+
+          <div class="fsec">
+            <div class="fsec-title">Type de touriste</div>
+            <div class="chips">
+              {% with val=form.tourist_type.value|default:"étranger" %}
+              <div class="chip {% if val == 'général' %}on{% endif %}"     data-field="tourist_type" data-val="général">Général</div>
+              <div class="chip {% if val == 'étranger' %}on{% endif %}"    data-field="tourist_type" data-val="étranger">Étranger</div>
+              <div class="chip {% if val == 'famille' %}on{% endif %}"     data-field="tourist_type" data-val="famille">Famille</div>
+              <div class="chip {% if val == 'couple' %}on{% endif %}"      data-field="tourist_type" data-val="couple">Couple</div>
+              <div class="chip {% if val == 'photographe' %}on{% endif %}" data-field="tourist_type" data-val="photographe">Photographe</div>
+              <div class="chip {% if val == 'écotouriste' %}on{% endif %}" data-field="tourist_type" data-val="écotouriste">Écotouriste</div>
+              {% endwith %}
+            </div>
+            <input type="hidden" name="tourist_type" id="f-tourist_type" value="{{ form.tourist_type.value|default:'étranger' }}">
+          </div>
+
+          <div class="fsec">
+            <div class="frow">
+              <div class="ff">
+                <label class="fl">Durée (jours)</label>
+                <input type="number" name="duration_days" value="{{ form.duration_days.value|default:2 }}" min="1" max="14" class="fi">
+              </div>
+              <div class="ff">
+                <label class="fl">Budget</label>
+                <div class="chips" style="margin-top:5px">
+                  {% with val=form.budget.value|default:"medium" %}
+                  <div class="chip {% if val == 'low' %}on{% endif %}"    data-field="budget" data-val="low">Faible</div>
+                  <div class="chip {% if val == 'medium' %}on{% endif %}" data-field="budget" data-val="medium">Moyen</div>
+                  <div class="chip {% if val == 'high' %}on{% endif %}"   data-field="budget" data-val="high">Élevé</div>
+                  {% endwith %}
+                </div>
+                <input type="hidden" name="budget" id="f-budget" value="{{ form.budget.value|default:'medium' }}">
+              </div>
+            </div>
+          </div>
+
+          <div class="fsec">
+            <div class="fsec-title">Style de voyage</div>
+            <div class="chips">
+              {% with val=form.travel_style.value|default:"immersive" %}
+              <div class="chip {% if val == 'balanced' %}on{% endif %}"  data-field="travel_style" data-val="balanced">Équilibré</div>
+              <div class="chip {% if val == 'immersive' %}on{% endif %}" data-field="travel_style" data-val="immersive">Immersif</div>
+              <div class="chip {% if val == 'slow' %}on{% endif %}"      data-field="travel_style" data-val="slow">Slow tourism</div>
+              <div class="chip {% if val == 'premium' %}on{% endif %}"   data-field="travel_style" data-val="premium">Premium</div>
+              {% endwith %}
+            </div>
+            <input type="hidden" name="travel_style" id="f-travel_style" value="{{ form.travel_style.value|default:'immersive' }}">
+          </div>
+
+          <div class="fsec">
+            <div class="frow">
+              <div class="ff">
+                <label class="fl">Moment préféré</label>
+                <select name="preferred_time" class="fi">
+                  {% with val=form.preferred_time.value|default:"morning" %}
+                  <option value="morning"        {% if val == "morning" %}selected{% endif %}>Matin</option>
+                  <option value="afternoon"      {% if val == "afternoon" %}selected{% endif %}>Après-midi</option>
+                  <option value="late_afternoon" {% if val == "late_afternoon" %}selected{% endif %}>Fin d'après-midi</option>
+                  <option value="full_day"       {% if val == "full_day" %}selected{% endif %}>Journée</option>
+                  {% endwith %}
+                </select>
+              </div>
+              <div class="ff">
+                <label class="fl">Saison</label>
+                <select name="season" class="fi">
+                  {% with val=form.season.value|default:"autumn" %}
+                  <option value="spring" {% if val == "spring" %}selected{% endif %}>Printemps</option>
+                  <option value="summer" {% if val == "summer" %}selected{% endif %}>Été</option>
+                  <option value="autumn" {% if val == "autumn" %}selected{% endif %}>Automne</option>
+                  <option value="winter" {% if val == "winter" %}selected{% endif %}>Hiver</option>
+                  {% endwith %}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="fsec">
+            <div class="frow">
+              <div class="ff">
+                <label class="fl">Mobilité</label>
+                <select name="mobility" class="fi">
+                  {% with val=form.mobility.value|default:"normal" %}
+                  <option value="normal"  {% if val == "normal" %}selected{% endif %}>Normale</option>
+                  <option value="reduced" {% if val == "reduced" %}selected{% endif %}>Mobilité réduite</option>
+                  {% endwith %}
+                </select>
+              </div>
+              <div class="ff">
+                <label class="fl">Langue</label>
+                <select name="language" class="fi">
+                  {% with val=form.language.value|default:"fr" %}
+                  <option value="fr" {% if val == "fr" %}selected{% endif %}>Français</option>
+                  <option value="en" {% if val == "en" %}selected{% endif %}>Anglais</option>
+                  {% endwith %}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="fsec">
+            <div class="fsec-title">Centres d'intérêt</div>
+            <div class="chips" id="interest-chips" style="gap:6px">
+              {% with vals=form.interests.value|default:"" %}
+              <div class="itag {% if 'culture' in vals %}on{% endif %}"      data-val="culture">Culture</div>
+              <div class="itag {% if 'nature' in vals %}on{% endif %}"       data-val="nature">Nature</div>
+              <div class="itag {% if 'photography' in vals %}on{% endif %}"  data-val="photography">Photographie</div>
+              <div class="itag {% if 'family' in vals %}on{% endif %}"       data-val="family">Famille</div>
+              <div class="itag {% if 'ecotourism' in vals %}on{% endif %}"   data-val="ecotourism">Écotourisme</div>
+              <div class="itag {% if 'slow_tourism' in vals %}on{% endif %}" data-val="slow_tourism">Slow tourism</div>
+              <div class="itag {% if 'road_trip' in vals %}on{% endif %}"    data-val="road_trip">Road trip</div>
+              <div class="itag {% if 'crafts' in vals %}on{% endif %}"       data-val="crafts">Artisanat</div>
+              <div class="itag {% if 'gastronomy' in vals %}on{% endif %}"   data-val="gastronomy">Gastronomie</div>
+              {% endwith %}
+            </div>
+            <div id="interest-hidden"></div>
+          </div>
+
+          <button type="button" class="btn-gen" onclick="submitForm()">✦ Générer mon parcours →</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Home map right -->
+    <div class="rpanel">
+      <div class="rhead">
+        <div class="rhead-eyebrow">— Explorer · Gabès</div>
+        <div class="rhead-title">Repères emblématiques</div>
+        <div class="rhead-sub">{{ home_map_places|length }} lieu{% if home_map_places|length != 1 %}x{% endif %} géolocalisé{% if home_map_places|length != 1 %}s{% endif %}</div>
+      </div>
+      <div class="home-map-wrap"><div id="home-map"></div></div>
+      <div class="map-strip">
+        <span class="map-strip-t">Carte du territoire gabésien</span>
+        <span class="map-strip-n">33°53′N · 10°06′E</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ RESULT LAYOUT ═══ -->
+  {% if itinerary_days %}
+  <div class="layout-result" id="layout-result">
+
+    <!-- Left: 3-slide panel -->
+    <div class="result-left">
+
+      <!-- Header with slide nav -->
+      <div class="r-panel-head">
+        <div>
+          <div class="r-panel-eyebrow">— Parcours généré</div>
+          <div class="r-panel-title" id="slide-title">Votre itinéraire</div>
+          <div class="slide-lbl" id="slide-lbl">1 / 3 — Programme</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:7px">
+          <button class="slide-arr" id="arr-prev" onclick="slideTo(-1)" disabled>‹</button>
+          <button class="slide-arr" id="arr-next" onclick="slideTo(1)">›</button>
+          <button class="r-back" onclick="window.location.href='{% url 'tourism_home' %}'">↺</button>
+        </div>
+      </div>
+
+      <!-- Slide track -->
+      <div class="slides-wrap" id="slides-wrap">
+        <div class="slide-track" id="slide-track">
+
+          <!-- SLIDE 1 — Profile + Itinerary -->
+          <div class="slide" id="slide-0">
+            <div class="profile-card">
+              <div class="profile-card-label">Votre profil voyageur</div>
+              <div class="profile-tags">
+                <span class="profile-tag">{{ profile.tourist_type }}</span>
+                <span class="profile-tag">{{ profile.duration_days }} jour{% if profile.duration_days != 1 %}s{% endif %}</span>
+                <span class="profile-tag">{{ profile.budget }}</span>
+                <span class="profile-tag">{{ profile.travel_style }}</span>
+                {% if profile.interests %}{% for i in profile.interests %}<span class="profile-tag">{{ i }}</span>{% endfor %}{% endif %}
+              </div>
+            </div>
+            <div class="sec-t">Programme jour par jour</div>
+            {% for day in itinerary_days %}
+            <div class="day-card">
+              <div class="day-head">
+                <span class="day-num">Jour {{ day.day }}</span>
+                <span class="day-theme">{{ day.theme }}</span>
+              </div>
+              <ul class="stop-list">
+                {% for stop in day.stops %}
+                <li class="stop-item">
+                  <div class="stop-name">{{ stop.name }}</div>
+                  <div class="stop-desc">{{ stop.description }}</div>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endfor %}
+            <div class="r-actions">
+              <a href="{% url 'tourism_home' %}" class="btn-action">↺ Nouveau</a>
+              <a href="{% url 'landing_page' %}" class="btn-action">⌂ Accueil</a>
+              <button class="btn-action accent" onclick="openGuides()">🧭 Guides</button>
+            </div>
+          </div>
+
+          <!-- SLIDE 2 — Place cards -->
+          <div class="slide" id="slide-1">
+            <div class="ai-section-t">Lieux retenus dans votre parcours</div>
+            {% if rag_map_places %}
+            <div class="places-grid">
+              {% for place in rag_map_places %}
+              <div class="place-card">
+                <div class="place-top"></div>
+                <div class="place-body">
+                  <div class="place-cat">{{ place.category|default:"Lieu" }}</div>
+                  <div class="place-name">{{ place.name }}</div>
+                  {% if place.text %}<div class="place-desc">{{ place.text|truncatechars:85 }}</div>{% endif %}
+                  <div class="place-coord"><div class="place-dot"></div>{{ place.lat|floatformat:4 }}°N · {{ place.lon|floatformat:4 }}°E</div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            {% else %}
+            <div style="text-align:center;padding:50px 20px">
+              <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.3em;color:var(--gd);text-transform:uppercase">Aucun lieu géolocalisé</div>
+            </div>
+            {% endif %}
+          </div>
+
+          <!-- SLIDE 3 — Map (lazy loaded) -->
+          <div class="slide" id="slide-2" style="padding:0;overflow:hidden;position:relative">
+            <div style="position:absolute;top:0;left:0;right:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(5,3,1,0.72),transparent);padding:12px 18px 24px">
+              <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.4em;color:var(--ai-accent);text-transform:uppercase">— Carte · Territoire</div>
+              <div style="font-family:'Cinzel',serif;font-size:13px;color:var(--gb);margin-top:2px">Lieux géolocalisés</div>
+            </div>
+            <div id="result-map" style="position:absolute;inset:0;z-index:1"></div>
+            <div style="position:absolute;bottom:0;left:0;right:0;z-index:2;pointer-events:none;background:linear-gradient(0deg,rgba(5,3,1,0.72),transparent);padding:10px 18px;display:flex;justify-content:space-between;align-items:center">
+              <span style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.28em;color:var(--gd);text-transform:uppercase">33°53′N · 10°06′E</span>
+              <span id="map-badge" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ai-accent)"></span>
+            </div>
+            {{ rag_map_places|json_script:"rag-map-data" }}
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 3 dots -->
+      <div class="slide-nav">
+        <div class="slide-dot on" onclick="goSlide(0)" title="Programme"></div>
+        <div class="slide-dot" onclick="goSlide(1)" title="Lieux"></div>
+        <div class="slide-dot" onclick="goSlide(2)" title="Carte"></div>
+      </div>
+    </div>
+
+    <!-- Right: AI synthesis — full height, typing effect -->
+    <div class="result-right">
+      <div class="r-panel-head">
+        <div>
+          <div class="r-panel-eyebrow">— Intelligence artificielle</div>
+          <div class="r-panel-title">Analyse &amp; recommandations</div>
+        </div>
+        <div class="ai-badge">Synthèse IA<span class="type-cursor" id="ai-cursor"></span></div>
+      </div>
+      <div class="r-scroll" style="flex:1;min-height:0;padding:18px 22px">
+        <div class="ai-section-t">Lecture territoriale</div>
+        <div class="llm-block" id="llm-output">
+          <div id="llm-raw" style="display:none">{{ generated_recommendation }}</div>
+          <div id="llm-typed"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  {% else %}
+  <div class="layout-result hidden" id="layout-result"></div>
+  {% endif %}
+
+  <!-- ═══ SHARED FOOTER ═══ -->
+  <footer>
+    <span class="f-brand">OasisAI · Gabès Cultural &amp; Environmental Platform</span>
+    <div class="f-center"><div class="f-dot"></div><span class="f-text">Territoire vivant, mémoire dorée</span><div class="f-dot"></div></div>
+    <span class="f-right">© 2025 — Tous droits réservés</span>
+  </footer>
+
+</div>
+
+<!-- GUIDES PANEL -->
+<div class="guides-overlay" id="guides-overlay" onclick="closeGuides()"></div>
+<div class="guides-panel" id="guides-panel">
+  <div class="gp-head">
+    <div><div class="gp-eyebrow">— Guides locaux · Gabès</div><div class="gp-title">Guides disponibles</div><div class="gp-sub">Accompagnement certifié · Réservation directe</div></div>
+    <button class="btn-gp-close" onclick="closeGuides()">✕ Fermer</button>
+  </div>
+  <div class="gp-tabs">
+    <div class="gp-tab on" onclick="gpTab('list')">Liste des guides</div>
+    <div class="gp-tab" onclick="gpTab('add')">+ Ajouter</div>
+  </div>
+  <div class="gp-body">
+    <div class="gp-view" id="gp-list">
+      {% for guide in guides %}
+      <div class="g-card">
+        <div class="g-card-img">{% if guide.photo %}<img src="{{ guide.photo.url }}" alt="{{ guide.name }}">{% else %}<div class="g-card-img-ph">🧭</div>{% endif %}</div>
+        <div class="g-card-body">
+          <div class="g-card-name">{{ guide.name }}</div>
+          <div class="g-card-meta">{% if guide.speciality %}{{ guide.speciality }}{% endif %}{% if guide.languages %} · {{ guide.languages }}{% endif %}</div>
+          {% if guide.bio %}<div class="g-card-info"><span class="g-info-l">Bio</span><span>{{ guide.bio|truncatechars:70 }}</span></div>{% endif %}
+          {% if guide.phone %}<div class="g-card-info"><span class="g-info-l">Contact</span><span>{{ guide.phone }}</span></div>{% endif %}
+          {% if guide.price_per_day %}<div class="g-card-info"><span class="g-info-l">Tarif/jour</span><span>{{ guide.price_per_day }} TND</span></div>{% endif %}
+          <div class="g-card-actions">
+            <button class="btn-reserve" onclick="openReserve({{ guide.id }},'{{ guide.name|escapejs }}')">Réserver</button>
+            <button class="btn-see-res" onclick="openRes({{ guide.id }},'{{ guide.name|escapejs }}')">Réservations</button>
+            <form method="post" action="{% url 'delete_guide' guide.id %}" style="margin-left:auto" onsubmit="return confirm('Supprimer ?')">
+              {% csrf_token %}<button type="submit" class="btn-del">Supprimer</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div style="text-align:center;padding:40px 20px;color:var(--sf)">
+        <div style="font-size:32px;margin-bottom:12px;opacity:0.4">🧭</div>
+        <div style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.2em;color:var(--gd)">Aucun guide disponible</div>
+        <div style="font-size:12px;font-style:italic;margin-top:6px">Ajoutez le premier guide local</div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="gp-view off" id="gp-add">
+      <div class="add-form-wrap">
+        <div class="add-form-t">Nouveau guide local</div>
+        <form method="post" action="{% url 'add_guide' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="add-row">
+            <div class="add-field"><label class="add-label">Nom complet *</label><input class="add-input" type="text" name="name" required placeholder="Ahmed Ben Salah"></div>
+            <div class="add-field"><label class="add-label">Téléphone</label><input class="add-input" type="text" name="phone" placeholder="+216 xx xxx xxx"></div>
+          </div>
+          <div class="add-row">
+            <div class="add-field"><label class="add-label">Spécialité</label><input class="add-input" type="text" name="speciality" placeholder="Médina · Oasis · Nature"></div>
+            <div class="add-field"><label class="add-label">Langues</label><input class="add-input" type="text" name="languages" placeholder="FR · EN · AR"></div>
+          </div>
+          <div class="add-row">
+            <div class="add-field"><label class="add-label">Tarif / jour (TND)</label><input class="add-input" type="number" name="price_per_day" placeholder="150"></div>
+            <div class="add-field"><label class="add-label">Photo</label><input class="add-input" type="file" name="photo" accept="image/*" style="padding:5px 8px;font-size:11px"></div>
+          </div>
+          <div class="add-field" style="margin-bottom:10px"><label class="add-label">Bio courte</label><input class="add-input" type="text" name="bio" placeholder="Guide certifié..."></div>
+          <button type="submit" class="btn-add">✦ Ajouter ce guide →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESERVE MODAL -->
+<div class="modal-overlay" id="reserve-modal">
+  <div class="modal-box">
+    <div class="modal-title" id="res-guide-name">Réserver un guide</div>
+    <div class="modal-sub">Renseignez vos coordonnées pour confirmer</div>
+    <form method="post" action="{% url 'reserve_guide' %}">
+      {% csrf_token %}
+      <input type="hidden" name="guide_id" id="res-guide-id">
+      <div class="modal-field"><label class="modal-label">Votre nom *</label><input class="modal-input" type="text" name="tourist_name" required placeholder="Votre nom complet"></div>
+      <div class="modal-field"><label class="modal-label">Téléphone *</label><input class="modal-input" type="text" name="tourist_phone_number" required placeholder="+216 xx xxx xxx"></div>
+      <div class="modal-field"><label class="modal-label">Date souhaitée *</label><input class="modal-input" type="date" name="tour_date" required></div>
+      <div class="modal-field"><label class="modal-label">Message (optionnel)</label><textarea class="modal-input" name="message" placeholder="Précisez vos attentes..."></textarea></div>
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" onclick="closeModal('reserve-modal')">Annuler</button>
+        <button type="submit" class="btn-confirm">✦ Confirmer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- RESERVATIONS MODAL -->
+<div class="modal-overlay" id="res-list-modal">
+  <div class="modal-box">
+    <div class="modal-title" id="rl-title">Réservations</div>
+    <div class="modal-sub">Liste des réservations enregistrées</div>
+    <div id="rl-body" style="max-height:300px;overflow-y:auto;margin-bottom:16px"></div>
+    <button class="btn-cancel" style="width:100%" onclick="closeModal('res-list-modal')">Fermer</button>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+{{ home_map_places|json_script:"home-map-data" }}
+
+<script>
+/* ── SLIDE ENGINE ── */
+var cur = 0, total = 3, mapDone = false;
+var titles = ["Votre itinéraire","Lieux du parcours","Carte interactive"];
+var lbls   = ["Programme · Jours","Destinations · Lieux","Carte · Gabès"];
+var _sx=0,_sy=0,_sd=false;
+
+function goSlide(n){
+  cur=n;
+  var t=document.getElementById('slide-track');
+  if(t) t.style.transform='translateX(-'+(n*100)+'%)';
+  document.querySelectorAll('.slide-dot').forEach(function(d,i){d.classList.toggle('on',i===n);});
+  var p=document.getElementById('arr-prev'),nx=document.getElementById('arr-next');
+  if(p)p.disabled=(n===0); if(nx)nx.disabled=(n===total-1);
+  var ti=document.getElementById('slide-title'),lb=document.getElementById('slide-lbl');
+  if(ti)ti.textContent=titles[n]; if(lb)lb.textContent=(n+1)+' / '+total+' — '+lbls[n];
+  if(n===2&&!mapDone){mapDone=true;initMap();}
+}
+function slideTo(d){var n=cur+d;if(n>=0&&n<total)goSlide(n);}
+
+function initMap(){
+  var raw=document.getElementById('rag-map-data');
+  if(!raw)return;
+  try{
+    var pl=JSON.parse(raw.textContent);
+    var b=document.getElementById('map-badge');
+    if(b)b.textContent=pl.length+' lieu'+(pl.length!==1?'x':'');
+    if(!pl.length)return;
+    var map=L.map('result-map',{zoomControl:true}).setView([33.8815,10.0982],10);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:18}).addTo(map);
+    var bounds=[];
+    pl.forEach(function(p){L.marker([p.lat,p.lon],{icon:mIcon(mColor(p.category))}).addTo(map).bindPopup(mPop(p));bounds.push([p.lat,p.lon]);});
+    if(bounds.length>1)map.fitBounds(bounds,{padding:[40,40]});
+    else if(bounds.length===1)map.setView(bounds[0],13);
+    setTimeout(function(){map.invalidateSize();},200);
+  }catch(e){}
+}
+
+/* ── MARKDOWN → HTML ── */
+function renderMd(text){
+  var h=text;
+  h=h.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+  h=h.replace(/\*\*([^*<\n]+)\*\*/g,'<strong>$1</strong>');
+  h=h.replace(/\n\* ([^\n]+)/g,'\n<li>$1</li>');
+  h=h.replace(/(<li>[\s\S]+?<\/li>)/g,'<ul>$1</ul>');
+  h=h.replace(/<\/ul>\s*<ul>/g,'');
+  h=h.replace(/\n{2,}/g,'</p><p>');
+  if(!h.startsWith('<'))h='<p>'+h+'</p>';
+  return h;
+}
+
+/* ── TYPING EFFECT ── */
+function typeText(el,html){
+  var tmp=document.createElement('div');tmp.innerHTML=html;
+  var plain=tmp.textContent||'';
+  var cursor=document.getElementById('ai-cursor');
+  var i=0,chunk=4,delay=14;
+  function tick(){
+    if(i<plain.length){
+      i=Math.min(i+chunk,plain.length);
+      var prog=i/plain.length;
+      var parts=html.split(/(<[^>]+>)/);
+      var shown=0,out='';
+      for(var k=0;k<parts.length;k++){
+        var pt=parts[k];
+        if(pt.startsWith('<')){out+=pt;continue;}
+        if(shown/plain.length<prog){out+=pt;shown+=pt.length;}
+      }
+      el.innerHTML=out;
+      setTimeout(tick,delay);
+    }else{
+      el.innerHTML=html;
+      if(cursor)cursor.style.display='none';
+    }
+  }
+  tick();
+}
+
+/* ── MAP HELPERS ── */
+function mColor(cat){return{oasis:'#2f7a4a',troglodyte_village:'#8a5cf6',berber_village:'#8a5cf6',eco_experience:'#2f80ed',route_experience:'#d38b2d'}[cat]||'#c9a84c';}
+function mIcon(c){return L.divIcon({className:'',html:'<div class="cmm" style="background:'+c+'"></div>',iconSize:[13,13],iconAnchor:[6,6]});}
+function mPop(p){return'<h3>'+(p.name||'Lieu')+'</h3><p>'+(p.text||'')+'</p>';}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded',function(){
+  goSlide(0);
+
+  /* Typing init */
+  var rawEl=document.getElementById('llm-raw'),typedEl=document.getElementById('llm-typed');
+  if(rawEl&&typedEl){
+    setTimeout(function(){typeText(typedEl,renderMd(rawEl.textContent||''));},500);
+  }
+
+  /* Touch/drag swipe on slide panel */
+  var wrap=document.getElementById('slides-wrap');
+  if(wrap){
+    wrap.addEventListener('touchstart',function(e){_sx=e.touches[0].clientX;_sy=e.touches[0].clientY;},{passive:true});
+    wrap.addEventListener('touchend',function(e){
+      var dx=e.changedTouches[0].clientX-_sx,dy=e.changedTouches[0].clientY-_sy;
+      if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>40)slideTo(dx<0?1:-1);
+    },{passive:true});
+    wrap.addEventListener('mousedown',function(e){_sx=e.clientX;_sd=true;});
+    wrap.addEventListener('mouseup',function(e){if(!_sd)return;_sd=false;if(Math.abs(e.clientX-_sx)>50)slideTo(e.clientX<_sx?1:-1);});
+    wrap.addEventListener('mouseleave',function(){_sd=false;});
+  }
+
+  /* Home map */
+  var rawMap=document.getElementById('home-map-data');
+  if(rawMap){
+    try{
+      var pl=JSON.parse(rawMap.textContent);
+      if(pl.length){
+        var map=L.map('home-map').setView([33.8815,10.0982],10);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
+        var bounds=[],grps={};
+        pl.forEach(function(p){var k=Number(p.lat).toFixed(3)+'_'+Number(p.lon).toFixed(3);if(!grps[k])grps[k]=[];grps[k].push(p);});
+        Object.values(grps).forEach(function(g){g.forEach(function(p,i){
+          var lat=p.lat+(g.length>1?(i-(g.length-1)/2)*0.003:0);
+          var lon=p.lon+(g.length>1?(i-(g.length-1)/2)*0.003:0);
+          L.marker([lat,lon],{icon:mIcon(mColor(p.category))}).addTo(map).bindPopup(mPop(p));
+          bounds.push([lat,lon]);
+        });});
+        if(bounds.length>1)map.fitBounds(bounds,{padding:[30,30]});
+        setTimeout(function(){map.invalidateSize();},200);
+      }
+    }catch(e){}
+  }
+});
+
+/* ── TOASTS ── */
+document.querySelectorAll('.toast').forEach(function(t){
+  setTimeout(function(){t.style.animation='tout 0.4s ease forwards';setTimeout(function(){t.remove();},400);},5000);
+});
+
+/* ── FORM ── */
+document.querySelectorAll('.chip[data-field]').forEach(function(chip){
+  chip.addEventListener('click',function(){
+    document.querySelectorAll('.chip[data-field="'+this.dataset.field+'"]').forEach(function(c){c.classList.remove('on');});
+    this.classList.add('on');
+    var h=document.getElementById('f-'+this.dataset.field);if(h)h.value=this.dataset.val;
+  });
+});
+function syncInterests(){
+  var c=document.getElementById('interest-hidden');if(!c)return;c.innerHTML='';
+  document.querySelectorAll('#interest-chips .itag.on').forEach(function(t){
+    var i=document.createElement('input');i.type='hidden';i.name='interests';i.value=t.dataset.val;c.appendChild(i);
+  });
+}
+document.querySelectorAll('#interest-chips .itag').forEach(function(t){
+  t.addEventListener('click',function(){this.classList.toggle('on');syncInterests();});
+});
+syncInterests();
+function submitForm(){document.getElementById('vt').classList.add('on');document.getElementById('tf').submit();}
+
+/* ── GUIDES ── */
+function openGuides(){document.getElementById('guides-overlay').classList.add('open');document.getElementById('guides-panel').classList.add('open');}
+function closeGuides(){document.getElementById('guides-overlay').classList.remove('open');document.getElementById('guides-panel').classList.remove('open');}
+function gpTab(tab){
+  document.querySelectorAll('.gp-tab').forEach(function(t,i){t.classList.toggle('on',(i===0&&tab==='list')||(i===1&&tab==='add'));});
+  document.getElementById('gp-list').classList.toggle('off',tab!=='list');
+  document.getElementById('gp-add').classList.toggle('off',tab!=='add');
+}
+
+/* ── MODALS ── */
+function openReserve(id,name){document.getElementById('res-guide-id').value=id;document.getElementById('res-guide-name').textContent='Réserver — '+name;document.getElementById('reserve-modal').classList.add('open');}
+function openRes(id,name){
+  document.getElementById('rl-title').textContent=name;
+  var body=document.getElementById('rl-body');
+  body.innerHTML='<div style="text-align:center;padding:20px;font-style:italic;color:var(--sf)">Chargement…</div>';
+  document.getElementById('res-list-modal').classList.add('open');
+  fetch('{% url "guide_reservations" 0 %}'.replace('/0/','/'+id+'/'))
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(!d.reservations.length){body.innerHTML='<div style="text-align:center;padding:20px;font-style:italic;color:var(--sf)">Aucune réservation.</div>';return;}
+      body.innerHTML=d.reservations.map(function(r){return'<div class="res-item"><div class="res-item-name">'+r.tourist_name+'</div><div class="res-item-meta">'+r.tour_date+' · '+r.tourist_phone_number+'</div>'+(r.message?'<div class="res-item-meta" style="margin-top:3px">'+r.message+'</div>':'')+'</div>';}).join('');
+    }).catch(function(){body.innerHTML='<div style="color:rgba(220,80,60,0.8);padding:16px">Erreur de chargement.</div>';});
+}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+</script>
+</body>
+</html>

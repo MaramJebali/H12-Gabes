@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}OASIS AI{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/static/predictor/style.css">
+
+    <!-- Leaflet -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""
+    />
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""
+    ></script>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="container nav-container">
+        <a href="{% url 'landing_page' %}" class="brand">OASIS AI</a>
+
+        <nav class="main-nav">
+            <a href="{% url 'landing_page' %}">Accueil</a>
+            <a href="{% url 'home' %}">Environnement</a>
+            <a href="{% url 'tourism_home' %}">Tourisme</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container main-content">
+    {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>

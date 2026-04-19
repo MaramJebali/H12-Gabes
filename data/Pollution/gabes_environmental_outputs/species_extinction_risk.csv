@@ -1,0 +1,5 @@
+,Species,Sensitivity,Max_Cd_μg_per_g,Max_Pb_μg_per_g,Extinction_Risk_Score,Status,Observed_in_Gabes
+0,Gibbula_ardens,5,3.005,2.543,10.0,HIGH EXTINCTION RISK,Present
+3,Pinna_nobilis,10,1.79,1.682,10.0,HIGH EXTINCTION RISK,ABSENT - Locally extinct
+2,Pinctada_radiata,7,1.295,2.288,8.4,HIGH EXTINCTION RISK,Present but reduced
+1,Patella_caerulea,4,4.3,2.123,8.0,HIGH EXTINCTION RISK,Present (most tolerant)

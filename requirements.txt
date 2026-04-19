@@ -1,0 +1,17 @@
+Django>=5.0,<6.0
+pandas>=2.0
+numpy>=1.23
+scikit-learn>=1.4
+matplotlib>=3.8
+openai>=1.30
+python-dotenv>=1.0
+gunicorn>=22.0
+whitenoise>=6.7
+sentence-transformers
+faiss-cpu
+rank-bm25
+transformers
+torch
+
+langdetect 
+googletrans==4.0.0-rc1
